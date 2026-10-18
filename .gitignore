@@ -1,0 +1,26 @@
+# ================= Cocos Creator 生成物（可再生，绝不入库） =================
+/build/*
+!/build/.gitkeep
+/library/*
+!/library/.gitkeep
+/temp/*
+!/temp/.gitkeep
+/local/*
+!/local/.gitkeep
+/profiles/*
+!/profiles/.gitkeep
+/settings/*.tmp
+node_modules/
+*.tsbuildinfo
+*.log
+
+# ================= Office / 系统垃圾 =================
+~$*
+*.tmp
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ================= 注意 =================
+# 不要忽略 .meta：Cocos 的 .meta 记录资源 uuid 与引用，删掉会导致场景/预制体丢引用。
+# build/ library/ temp/ local/ profiles/ 由编辑器生成，换机重导即可。
