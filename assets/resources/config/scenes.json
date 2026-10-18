@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "generatedBy": "美术 · task-3（D-077）",
+  "source": "01_策划文档/20261018_v0.2_双模式与场景规格.md §2 / §5；D-077 复算见 04_项目管理/美术_轮廓规格.md §3.5",
+  "note": "程序只读。场景只换背景与氛围层：不许改绿框位置、不许改物体颜色、不许改判定。自动规则：07:00–18:59 → noon_window，19:00–06:59 → night_station；minimal 只能手动选；手动选择存 localStorage.dista.scene 且优先级最高；切换只发生在关卡之间。D-077 起 minimal 多 1 层静态具名剪影（k=silhouette / deskLamp，α0.045，周期 24s 里可见 4s），worstAddPct 5.1 → 7.4；silhouette 是**新增 k，需程序支持**，几何与契约见 美术_轮廓规格 §3.5，未实现前本层按未知 k 跳过（不崩、不画）。",
+  "schema": {
+    "bg": "[顶色, 底色]，线性渐变，gradAngleDeg=180 表示从上到下",
+    "layers[].k": "cloud | carLight | star | windowSpot | curtain | dust | silhouette（七种，程序按 k 分支绘制；silhouette 为 D-077 新增，需程序支持）",
+    "layers[].n": "数量（元素个数；cloud 的 n=2 表示两层）",
+    "layers[].alpha": "单个数字或按层递增的数组；**这是该层的峰值不透明度，不是平均值**",
+    "layers[].periodMs": "一个完整循环的毫秒数；硬下限 8000，本文件全部 ≥ 14000",
+    "layers[].color": "该层颜色（叠在 bg 上，source-over，禁止 additive）",
+    "layers[].yPct": "垂直位置（0=顶部，1=底部）；数组表示逐层不同位置；silhouette 取**包围盒中心的 y**",
+    "layers[].xPct": "水平位置（0=左，1=右），silhouette 取**包围盒中心的 x**；其它层缺省按各自的固定布局",
+    "layers[].wPx / hPx": "包围盒尺寸（px，720×1280 设计坐标 = Layout.ts DESIGN_W/DESIGN_H）",
+    "layers[].driftPx": "一个周期内的水平位移总幅度（往返，非循环滚动）",
+    "layers[].blurPx": "高斯模糊半径（软边靠模糊，不靠描边）；silhouette=0（硬边，剪影不许糊）",
+    "layers[].rPx": "星点/尘点半径",
+    "layers[].twinklePct": "星点明暗起伏幅度（相对 alpha 的百分比）",
+    "layers[].amplitudePct": "正弦类元素的最大位移（相对屏高百分比）；本文件最大 1.2%",
+    "layers[].shape": "具名剪影 id（silhouette 专用；当前只有 deskLamp）",
+    "layers[].strokePx": "描边宽度（silhouette 专用）；0 = 纯剪影只填充，不加描边",
+    "layers[].parts": "剪影几何（silhouette 专用）：归一化到包围盒的原始图元，t=poly|rect|ellipse，role 仅供美术识别、程序不读",
+    "layers[].visibleMs": "可见时长（silhouette 专用，含淡入淡出）；必须 ≤8000，且 visibleMs + hiddenMs = periodMs",
+    "layers[].hiddenMs": "完全不可见时长（α=0，silhouette 专用）",
+    "layers[].fadeInMs / fadeOutMs": "淡入/淡出时长（easeInOutSine，无回弹）；fadeInMs + 保持 + fadeOutMs = visibleMs",
+    "layers[].phaseBase": "相位原点：\"levelStart\" = 关卡开始（sceneApply 时刻），保证截图可复现；缺省 = 绝对时刻（既有六种 k 的现行为）",
+    "frameStyle": "glow（暗底：三层外发光）| shadow（亮底：改深色外环 + 柔影，否则绿框会失锚）",
+    "worstAddPct": "最坏叠加点相对背景的亮度增量（百分点；公式见 02_美术源文件/风格圣经.md §7.2，本版 minimal 复算见 04_项目管理/美术_轮廓规格.md §3.5），上限 18",
+    "autoRule": "自动切换的时间窗；null = 不进自动轮换"
+  },
+  "budget": {
+    "worstAddPctMax": 18,
+    "minLayerPeriodMs": 8000,
+    "rules": [
+      "任何装饰循环周期 ≥ 14000ms（硬下限 8000，本版不用到下限）",
+      "任何叠加层不得比绿框更亮：单层叠加后局部亮度必须 < 绿框描边 L=80%",
+      "禁止 additive/lighter 混合（会与绿框外发光叠加爆亮）",
+      "禁止改变绿框位置/旋转/轮廓几何、禁止改变物体 fill/stroke"
+    ]
+  },
+  "auto": true,
+  "scenes": [
+    {
+      "id": "night_station",
+      "name": "深夜候车",
+      "bg": ["#0B1424", "#111E33"],
+      "gradAngleDeg": 180,
+      "frameStyle": "glow",
+      "worstAddPct": 13.4,
+      "layers": [
+        { "k": "cloud", "n": 2, "alpha": [0.10, 0.06], "color": "#7FA8D8", "periodMs": 22000,
+          "yPct": [0.20, 0.44], "driftPx": 140, "blurPx": 48, "scalePct": [120, 90] },
+        { "k": "carLight", "n": 1, "alpha": 0.12, "color": "#FFD9A0", "periodMs": 22000,
+          "yPct": 0.78, "wPx": 200, "hPx": 3, "blurPx": 6, "driftPx": 720 },
+        { "k": "star", "n": 12, "alpha": 0.05, "color": "#E8F1FF", "periodMs": 30000,
+          "rPx": 1.5, "twinklePct": 40 }
+      ],
+      "allowed": ["relax", "challenge"],
+      "autoRule": { "from": "19:00", "to": "06:59" }
+    },
+    {
+      "id": "noon_window",
+      "name": "午休窗边",
+      "bg": ["#EDE6D8", "#DFE6EE"],
+      "gradAngleDeg": 180,
+      "frameStyle": "shadow",
+      "frameStyleParams": {
+        "ringWidthPx": 1.0,
+        "ringAlpha": 0.50,
+        "ringColor": "#0E1626",
+        "ringBlurPx": 0,
+        "shadowBlurPx": 10,
+        "shadowAlpha": 0.10,
+        "shadowOffsetYPx": 2,
+        "innerFillAlpha": 0.06,
+        "innerFillColor": "#0B1424",
+        "note": "亮底渲染变体：细硬边（1px、无模糊）+ 底部柔影；暗能量 = 宽×α = 0.50，比原 2px×0.35=0.70 更轻，边缘对比度反而更高（1.24→1.89:1）。禁止把 ringAlpha 提到 0.7 以上或宽度提到 2px 以上，否则会变成'贴纸黑边'"
+      },
+      "worstAddPct": 1.3,
+      "layers": [
+        { "k": "windowSpot", "n": 3, "alpha": 0.14, "color": "#FFFFFF", "periodMs": 26000,
+          "rxPx": [150, 110, 130], "ryPx": [90, 70, 80], "yPct": [0.28, 0.52, 0.40],
+          "driftPx": 36, "blurPx": 60 },
+        { "k": "curtain", "n": 1, "alpha": 0.10, "color": "#FFFFFF", "periodMs": 14000,
+          "amplitudePct": 1.2, "edgePct": 0.16, "blurPx": 24 }
+      ],
+      "allowed": ["relax", "challenge"],
+      "autoRule": { "from": "07:00", "to": "18:59" }
+    },
+    {
+      "id": "minimal",
+      "name": "极简纯净",
+      "bg": ["#141A24", "#0E1420"],
+      "gradAngleDeg": 180,
+      "frameStyle": "glow",
+      "worstAddPct": 7.4,
+      "layers": [
+        { "k": "silhouette", "n": 1, "shape": "deskLamp",
+          "alpha": 0.045, "color": "#8FA6C4", "strokePx": 0,
+          "periodMs": 24000, "visibleMs": 4000, "hiddenMs": 20000,
+          "fadeInMs": 700, "fadeOutMs": 700, "phaseBase": "levelStart",
+          "xPct": 0.865, "yPct": 0.845, "wPx": 210, "hPx": 400,
+          "blurPx": 0, "driftPx": 0,
+          "parts": [
+            { "t": "poly", "role": "shade", "pts": [[0.30, 0.00], [0.70, 0.00], [0.925, 0.32], [0.075, 0.32]] },
+            { "t": "rect", "role": "stem", "x": 0.465, "y": 0.32, "w": 0.07, "h": 0.61 },
+            { "t": "ellipse", "role": "base", "cx": 0.50, "cy": 0.945, "rx": 0.30, "ry": 0.055 }
+          ],
+          "note": "静态具名剪影（台灯）：只给 minimal，是「一张暗的静物」的地方感符号。周期 24000 = 可见 4000（淡入 700 + 保持 2600 + 淡出 700）+ 完全不可见 20000；相位原点 = 关卡开始，保证截图可复现。与 night_station 的界线：不发光、不暖色、不移动——night 是会动的室外夜景（云 + 车灯 + 星点）。与 noon_window 的界线：无日光、无帘、无暖白。禁止改成 additive / 加 glow / 加描边（会顶破 7.4pp 预算）。" },
+        { "k": "dust", "n": 16, "alpha": 0.06, "color": "#E8F1FF", "periodMs": 30000,
+          "rPx": 1.2, "risePx": 80, "driftPx": 24 }
+      ],
+      "allowed": ["relax", "challenge"],
+      "autoRule": null
+    }
+  ]
+}

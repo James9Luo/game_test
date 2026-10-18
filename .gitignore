@@ -21,6 +21,13 @@ Thumbs.db
 desktop.ini
 .DS_Store
 
+# ================= 本工程工具产出的临时物（2026-10-19 加） =================
+# Python 字节码：03_交付素材 里的校验脚本会生成，可再生
+__pycache__/
+*.pyc
+# 会话/记忆目录（agent 本地状态，不是项目内容）
+.workbuddy/
+
 # ================= 注意 =================
 # 不要忽略 .meta：Cocos 的 .meta 记录资源 uuid 与引用，删掉会导致场景/预制体丢引用。
 # build/ library/ temp/ local/ profiles/ 由编辑器生成，换机重导即可。

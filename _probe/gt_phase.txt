@@ -1,0 +1,949 @@
+﻿
+=== geometry_test：判定几何回归 ===
+[36m
+[1] 精确解 vs 解析解（单位正方形，同心旋转）[0m
+角度   精确解    解析解    偏差    
+-----  --------  --------  --------
+   0°  1.000000  1.000000   0.00e+0
+   5°  0.959992  0.959992   0.00e+0
+  10°  0.926588  0.926588   0.00e+0
+  15°  0.898979  0.898979   0.00e+0
+22.5°  0.867091  0.867091   0.00e+0
+  30°  0.845299  0.845299  1.11e-16
+37.5°  0.832600  0.832600   0.00e+0
+  45°  0.828427  0.828427  2.22e-16
+  [32mPASS[0m 8 个角度全部命中解析解（最大偏差 < 1e-3）
+  [32mPASS[0m 黄金点 旋转 5° → 0.96000[2m  实测 0.959992[0m
+  [32mPASS[0m 黄金点 旋转 15° → 0.89896[2m  实测 0.898979[0m
+  [32mPASS[0m 黄金点 旋转 30° → 0.84530[2m  实测 0.845299[0m
+  [32mPASS[0m 黄金点 旋转 45° = 2√2−2 → 0.82843[2m  实测 0.828427[0m
+  [32mPASS[0m 平移 dx=0.25, dy=0 → 0.75000[2m  实测 0.750000[0m
+  [32mPASS[0m 平移 dx=0.5, dy=0.25 → 0.37500[2m  实测 0.375000[0m
+  [32mPASS[0m 平移 dx=0.3, dy=0.2 → 0.56000[2m  实测 0.560000[0m
+  [32mPASS[0m 平移 dx=1, dy=0 → 0.00000[2m  实测 0.000000[0m
+[36m
+[1b] A/B 对照：优化后 overlapAreaExact vs 优化前基线（逐位相同才算过）[0m
+用例数  逐位不同  最大差   两边都 0
+------  --------  -------  --------
+   400         0  0.00e+0         0
+  [32mPASS[0m 400 组随机位姿：优化后与优化前**逐位相同**（===）
+  [32mPASS[0m overlapPercent 链路对照一致[2m  87.842274570%[0m
+[36m
+[2] 性质测试（不依赖闭式公式）[0m
+  [32mPASS[0m pct(0°) = 100（同形完全重合）[2m  100.000000000%[0m
+  [32mPASS[0m pct(θ) 在 [0°,45°] 单调递减（2.5° 步长）
+  [32mPASS[0m 对称性 pct(θ) = pct(90°−θ)（5 组）
+  [32mPASS[0m pct(90°) ≈ 100（正方形转 90° 等价于自身）[2m  100.0000%[0m
+  [32mPASS[0m pct15 = 交集面积 / 较大者面积（口径自洽）
+[36m
+[3] 栅格解 vs 精确解（偏差 < 0.3%）[0m
+  [32mPASS[0m 正方形 15° 精确 0.89898 vs 栅格 0.89898[2m  偏差 0.000%[0m
+  [32mPASS[0m 正方形 22.5° 精确 0.86709 vs 栅格 0.86709[2m  偏差 0.000%[0m
+  [32mPASS[0m 正方形 30° 精确 0.84530 vs 栅格 0.84530[2m  偏差 0.000%[0m
+  [32mPASS[0m 正方形 15°+偏移 精确 0.89331 vs 栅格 0.89331[2m  偏差 0.000%[0m
+  [32mPASS[0m L 形自检：面积 0.75、凹点 (0,0)
+  [32mPASS[0m L 形 20° 精确 0.61332 vs 栅格 0.61347[2m  偏差 0.021%[0m
+  [32mPASS[0m L 形 vs 正方形 精确 0.69234 vs 栅格 0.69234[2m  偏差 0.000%[0m
+[36m
+[3] 判定闭环（完美时机 / 早 / 晚 / 双物体）[0m
+  [2m·[0m 形状来源：assets/config/shapes.json（美术真数据）（36 个轮廓）
+  [2m·[0m 关卡配置：60 关（assets\resources\config\levels.json）
+  [32mPASS[0m levels.json 的 60 关形状全部就位
+  [32mPASS[0m L1 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L1 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L1 完美时机位移 ≈ 0[2m  |Δ|max=1.09e-2px[0m
+  [32mPASS[0m L1 完美时机判为 onTime
+  [32mPASS[0m L1 early 200ms → pct 43.31%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L1 early 100ms → pct 71.42%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L1 late 100ms → pct 71.41%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L1 late 200ms → pct 43.30%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L1 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L1 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L2 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L2 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L2 完美时机位移 ≈ 0[2m  |Δ|max=1.09e-2px[0m
+  [32mPASS[0m L2 完美时机判为 onTime
+  [32mPASS[0m L2 early 200ms → pct 38.16%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L2 early 100ms → pct 68.78%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L2 late 100ms → pct 68.77%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L2 late 200ms → pct 38.15%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L2 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L2 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L3 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L3 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L3 完美时机位移 ≈ 0[2m  |Δ|max=6.63e-3px[0m
+  [32mPASS[0m L3 完美时机判为 onTime
+  [32mPASS[0m L3 early 200ms → pct 37.81%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L3 early 100ms → pct 65.45%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L3 late 100ms → pct 63.50%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L3 late 200ms → pct 35.90%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L3 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L3 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L4 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L4 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L4 完美时机位移 ≈ 0[2m  |Δ|max=6.63e-3px[0m
+  [32mPASS[0m L4 完美时机判为 onTime
+  [32mPASS[0m L4 early 200ms → pct 35.82%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L4 early 100ms → pct 64.76%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L4 late 100ms → pct 62.65%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L4 late 200ms → pct 34.24%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L4 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L4 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L5 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L5 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L5 完美时机位移 ≈ 0[2m  |Δ|max=4.26e-3px[0m
+  [32mPASS[0m L5 完美时机判为 onTime
+  [32mPASS[0m L5 early 200ms → pct 31.47%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L5 early 100ms → pct 58.97%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L5 late 100ms → pct 59.07%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L5 late 200ms → pct 31.77%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L5 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L5 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L6 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L6 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L6 完美时机位移 ≈ 0[2m  |Δ|max=1.59e-2px[0m
+  [32mPASS[0m L6 完美时机判为 onTime
+  [32mPASS[0m L6 early 200ms → pct 29.02%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L6 early 100ms → pct 58.22%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L6 late 100ms → pct 60.91%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L6 late 200ms → pct 39.25%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L6 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L6 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L6 jitter 只在 ±4% 内改周期[2m  [2744.2, 2971.9] 目标 [2743.7, 2972.3][0m
+  [32mPASS[0m L7 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L7 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L7 完美时机位移 ≈ 0[2m  |Δ|max=1.17e-2px[0m
+  [32mPASS[0m L7 完美时机判为 onTime
+  [32mPASS[0m L7 early 200ms → pct 39.08%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L7 early 100ms → pct 57.45%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L7 late 100ms → pct 57.46%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L7 late 200ms → pct 39.08%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L7 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L7 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L7 jitter 只在 ±4% 内改周期[2m  [3754.4, 4063.5] 目标 [3752.6, 4065.4][0m
+  [32mPASS[0m L8 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L8 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L8 完美时机位移 ≈ 0[2m  |Δ|max=8.74e-3px[0m
+  [32mPASS[0m L8 完美时机判为 onTime
+  [32mPASS[0m L8 early 200ms → pct 28.85%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L8 early 100ms → pct 54.72%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L8 late 100ms → pct 51.45%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L8 late 200ms → pct 29.56%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L8 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L8 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L8 jitter 只在 ±5% 内改周期[2m  [3105.6, 3431.1] 目标 [3104.6, 3431.4][0m
+  [32mPASS[0m L9 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L9 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L9 完美时机位移 ≈ 0[2m  |Δ|max=1.26e-2px[0m
+  [32mPASS[0m L9 完美时机判为 onTime
+  [32mPASS[0m L9 early 200ms → pct 22.86%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L9 early 100ms → pct 49.82%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L9 late 100ms → pct 53.52%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L9 late 200ms → pct 33.90%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L9 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L9 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L9 jitter 只在 ±6% 内改周期[2m  [4801.9, 5411.3] 目标 [4800.6, 5413.4][0m
+  [32mPASS[0m L10 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L10 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L10 完美时机位移 ≈ 0[2m  |Δ|max=6.19e-3px[0m
+  [32mPASS[0m L10 完美时机判为 onTime
+  [32mPASS[0m L10 early 200ms → pct 0.81%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L10 early 100ms → pct 29.51%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L10 late 100ms → pct 35.96%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L10 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L10 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L10 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L10 jitter 只在 ±3% 内改周期[2m  [1587.0, 1685.1] 目标 [1586.9, 1685.1][0m
+  [32mPASS[0m L11 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L11 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L11 完美时机位移 ≈ 0[2m  |Δ|max=1.38e-2px[0m
+  [32mPASS[0m L11 完美时机判为 onTime
+  [32mPASS[0m L11 early 200ms → pct 31.26%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L11 early 100ms → pct 46.84%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L11 late 100ms → pct 47.55%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L11 late 200ms → pct 17.23%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L11 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L11 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L11 jitter 只在 ±8% 内改周期[2m  [3836.6, 4479.9] 目标 [3820.8, 4485.2][0m
+  [32mPASS[0m L12 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L12 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L12 完美时机位移 ≈ 0[2m  |Δ|max=1.17e-2px[0m
+  [32mPASS[0m L12 完美时机判为 onTime
+  [32mPASS[0m L12 early 200ms → pct 40.01%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L12 early 100ms → pct 56.22%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L12 late 100ms → pct 58.09%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L12 late 200ms → pct 46.21%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L12 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L12 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L12 jitter 只在 ±8% 内改周期[2m  [2889.6, 3387.0] 目标 [2887.0, 3389.0][0m
+  [32mPASS[0m L13 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L13 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L13 完美时机位移 ≈ 0[2m  |Δ|max=9.98e-3px[0m
+  [32mPASS[0m L13 完美时机判为 onTime
+  [32mPASS[0m L13 early 200ms → pct 37.20%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L13 early 100ms → pct 53.55%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L13 late 100ms → pct 47.94%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L13 late 200ms → pct 39.96%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L13 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L13 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L13 jitter 只在 ±10% 内改周期[2m  [2596.7, 3166.2] 目标 [2592.9, 3169.1][0m
+  [32mPASS[0m L14 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L14 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L14 完美时机位移 ≈ 0[2m  |Δ|max=1.26e-2px[0m
+  [32mPASS[0m L14 完美时机判为 onTime
+  [32mPASS[0m L14 early 200ms → pct 30.10%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L14 early 100ms → pct 46.75%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L14 late 100ms → pct 51.42%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L14 late 200ms → pct 33.45%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L14 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L14 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L14 jitter 只在 ±12% 内改周期[2m  [3641.7, 4631.0] 目标 [3638.8, 4631.2][0m
+  [32mPASS[0m L15 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L15 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L15 完美时机位移 ≈ 0[2m  |Δ|max=7.81e-3px[0m
+  [32mPASS[0m L15 完美时机判为 onTime
+  [32mPASS[0m L15 early 200ms → pct 18.42%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L15 early 100ms → pct 33.68%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L15 late 100ms → pct 33.32%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L15 late 200ms → pct 19.69%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L15 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L15 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L15 jitter 只在 ±10% 内改周期[2m  [3246.0, 3942.1] 目标 [3227.4, 3944.6][0m
+  [32mPASS[0m L16 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L16 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L16 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L16 完美时机判为 onTime
+  [32mPASS[0m L16 early 200ms → pct 50.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L16 early 100ms → pct 71.80%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L16 late 100ms → pct 71.18%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L16 late 200ms → pct 48.56%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L16 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L16 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L16 jitter 只在 ±5% 内改周期[2m  [2090.3, 2309.1] 目标 [2090.0, 2310.0][0m
+  [32mPASS[0m L17 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L17 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L17 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L17 完美时机判为 onTime
+  [32mPASS[0m L17 early 200ms → pct 46.60%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L17 early 100ms → pct 70.43%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L17 late 100ms → pct 69.75%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L17 late 200ms → pct 44.97%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L17 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L17 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L17 jitter 只在 ±5% 内改周期[2m  [1948.2, 2152.2] 目标 [1947.5, 2152.5][0m
+  [32mPASS[0m L18 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L18 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L18 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L18 完美时机判为 onTime
+  [32mPASS[0m L18 early 200ms → pct 47.75%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L18 early 100ms → pct 70.88%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L18 late 100ms → pct 70.22%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L18 late 200ms → pct 46.20%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L18 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L18 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L18 jitter 只在 ±5% 内改周期[2m  [1948.7, 2152.4] 目标 [1947.5, 2152.5][0m
+  [32mPASS[0m L19 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L19 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L19 完美时机位移 ≈ 0[2m  |Δ|max=2.62e-3px[0m
+  [32mPASS[0m L19 完美时机判为 onTime
+  [32mPASS[0m L19 early 200ms → pct 36.26%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L19 early 100ms → pct 63.83%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L19 late 100ms → pct 61.40%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L19 late 200ms → pct 31.18%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L19 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L19 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L19 jitter 只在 ±5% 内改周期[2m  [1996.1, 2204.4] 目标 [1995.0, 2205.0][0m
+  [32mPASS[0m L20 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L20 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L20 完美时机位移 ≈ 0[2m  |Δ|max=7.89e-3px[0m
+  [32mPASS[0m L20 完美时机判为 onTime
+  [32mPASS[0m L20 early 200ms → pct 3.86%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L20 early 100ms → pct 31.89%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L20 late 100ms → pct 29.19%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L20 late 200ms → pct 4.33%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L20 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L20 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L20 jitter 只在 ±5% 内改周期[2m  [1900.2, 2099.1] 目标 [1900.0, 2100.0][0m
+  [32mPASS[0m L21 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L21 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L21 完美时机位移 ≈ 0[2m  |Δ|max=6.47e-3px[0m
+  [32mPASS[0m L21 完美时机判为 onTime
+  [32mPASS[0m L21 early 200ms → pct 36.64%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L21 early 100ms → pct 63.11%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L21 late 100ms → pct 61.05%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L21 late 200ms → pct 32.91%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L21 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L21 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L21 jitter 只在 ±5% 内改周期[2m  [1949.8, 2152.0] 目标 [1947.5, 2152.5][0m
+  [32mPASS[0m L22 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L22 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L22 完美时机位移 ≈ 0[2m  |Δ|max=1.38e-2px[0m
+  [32mPASS[0m L22 完美时机判为 onTime
+  [32mPASS[0m L22 early 200ms → pct 34.52%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L22 early 100ms → pct 62.64%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L22 late 100ms → pct 61.32%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L22 late 200ms → pct 26.67%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L22 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L22 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L22 jitter 只在 ±5% 内改周期[2m  [1948.1, 2151.4] 目标 [1947.5, 2152.5][0m
+  [32mPASS[0m L23 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L23 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L23 完美时机位移 ≈ 0[2m  |Δ|max=2.62e-3px[0m
+  [32mPASS[0m L23 完美时机判为 onTime
+  [32mPASS[0m L23 early 200ms → pct 32.33%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L23 early 100ms → pct 61.45%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L23 late 100ms → pct 58.44%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L23 late 200ms → pct 25.13%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L23 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L23 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L23 jitter 只在 ±5% 内改周期[2m  [1762.6, 1941.7] 目标 [1757.5, 1942.5][0m
+  [32mPASS[0m L24 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L24 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L24 完美时机位移 ≈ 0[2m  |Δ|max=6.63e-3px[0m
+  [32mPASS[0m L24 完美时机判为 onTime
+  [32mPASS[0m L24 early 200ms → pct 38.97%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L24 early 100ms → pct 55.63%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L24 late 100ms → pct 60.54%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L24 late 200ms → pct 35.82%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L24 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L24 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L24 jitter 只在 ±5% 内改周期[2m  [1710.3, 1889.4] 目标 [1710.0, 1890.0][0m
+  [32mPASS[0m L25 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L25 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L25 完美时机位移 ≈ 0[2m  |Δ|max=6.19e-3px[0m
+  [32mPASS[0m L25 完美时机判为 onTime
+  [32mPASS[0m L25 early 200ms → pct 2.43%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L25 early 100ms → pct 32.72%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L25 late 100ms → pct 34.60%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L25 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L25 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L25 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L25 jitter 只在 ±5% 内改周期[2m  [1711.5, 1889.5] 目标 [1710.0, 1890.0][0m
+  [32mPASS[0m L26 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L26 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L26 完美时机位移 ≈ 0[2m  |Δ|max=1.09e-2px[0m
+  [32mPASS[0m L26 完美时机判为 onTime
+  [32mPASS[0m L26 early 200ms → pct 38.53%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L26 early 100ms → pct 52.85%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L26 late 100ms → pct 48.14%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L26 late 200ms → pct 32.50%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L26 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L26 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L26 jitter 只在 ±5% 内改周期[2m  [1615.2, 1784.1] 目标 [1615.0, 1785.0][0m
+  [32mPASS[0m L27 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L27 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L27 完美时机位移 ≈ 0[2m  |Δ|max=4.30e-3px[0m
+  [32mPASS[0m L27 完美时机判为 onTime
+  [32mPASS[0m L27 early 200ms → pct 24.97%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L27 early 100ms → pct 50.32%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L27 late 100ms → pct 58.02%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L27 late 200ms → pct 20.97%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L27 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L27 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L27 jitter 只在 ±5% 内改周期[2m  [1568.3, 1732.1] 目标 [1567.5, 1732.5][0m
+  [32mPASS[0m L28 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L28 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L28 完美时机位移 ≈ 0[2m  |Δ|max=4.28e-3px[0m
+  [32mPASS[0m L28 完美时机判为 onTime
+  [32mPASS[0m L28 early 200ms → pct 28.50%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L28 early 100ms → pct 49.43%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L28 late 100ms → pct 39.07%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L28 late 200ms → pct 8.17%[2m  Δ=200.0ms[0m
+  [33mWARN[0m L28 pct 非严格单调（凹形或多峰导致，人工看一眼）
+  [32mPASS[0m L28 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L28 jitter 只在 ±5% 内改周期[2m  [1567.8, 1732.2] 目标 [1567.5, 1732.5][0m
+  [32mPASS[0m L29 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L29 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L29 完美时机位移 ≈ 0[2m  |Δ|max=1.59e-2px[0m
+  [32mPASS[0m L29 完美时机判为 onTime
+  [32mPASS[0m L29 early 200ms → pct 21.55%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L29 early 100ms → pct 34.41%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L29 late 100ms → pct 41.85%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L29 late 200ms → pct 20.16%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L29 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L29 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L29 jitter 只在 ±5% 内改周期[2m  [1474.2, 1627.4] 目标 [1472.5, 1627.5][0m
+  [32mPASS[0m L30 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L30 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L30 完美时机位移 ≈ 0[2m  |Δ|max=6.30e-4px[0m
+  [32mPASS[0m L30 完美时机判为 onTime
+  [32mPASS[0m L30 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L30 early 100ms → pct 14.05%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L30 late 100ms → pct 8.95%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L30 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L30 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L30 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L30 jitter 只在 ±5% 内改周期[2m  [1425.3, 1574.0] 目标 [1425.0, 1575.0][0m
+  [32mPASS[0m L31 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L31 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L31 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L31 完美时机判为 onTime
+  [32mPASS[0m L31 early 200ms → pct 44.43%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L31 early 100ms → pct 69.40%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L31 late 100ms → pct 68.51%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L31 late 200ms → pct 41.91%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L31 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L31 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L31 jitter 只在 ±8% 内改周期[2m  [1749.5, 2050.9] 目标 [1748.0, 2052.0][0m
+  [32mPASS[0m L32 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L32 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L32 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L32 完美时机判为 onTime
+  [32mPASS[0m L32 early 200ms → pct 43.49%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L32 early 100ms → pct 68.98%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L32 late 100ms → pct 68.08%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L32 late 200ms → pct 40.93%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L32 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L32 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L32 jitter 只在 ±8% 内改周期[2m  [1713.1, 2009.4] 目标 [1712.1, 2009.9][0m
+  [32mPASS[0m L33 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L33 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L33 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L33 完美时机判为 onTime
+  [32mPASS[0m L33 early 200ms → pct 40.99%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L33 early 100ms → pct 67.89%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L33 late 100ms → pct 66.91%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L33 late 200ms → pct 38.05%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L33 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L33 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L33 jitter 只在 ±8% 内改周期[2m  [1680.6, 1965.4] 目标 [1675.3, 1966.7][0m
+  [32mPASS[0m L34 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L34 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L34 完美时机位移 ≈ 0[2m  |Δ|max=2.62e-3px[0m
+  [32mPASS[0m L34 完美时机判为 onTime
+  [32mPASS[0m L34 early 200ms → pct 29.39%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L34 early 100ms → pct 59.88%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L34 late 100ms → pct 57.41%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L34 late 200ms → pct 23.73%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L34 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L34 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L34 jitter 只在 ±8% 内改周期[2m  [1675.3, 1965.8] 目标 [1675.3, 1966.7][0m
+  [32mPASS[0m L35 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L35 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L35 完美时机位移 ≈ 0[2m  |Δ|max=7.89e-3px[0m
+  [32mPASS[0m L35 完美时机判为 onTime
+  [32mPASS[0m L35 early 200ms → pct 1.67%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L35 early 100ms → pct 27.17%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L35 late 100ms → pct 24.10%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L35 late 200ms → pct 1.10%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L35 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L35 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L35 jitter 只在 ±8% 内改周期[2m  [1604.2, 1881.9] 目标 [1603.6, 1882.4][0m
+  [32mPASS[0m L36 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L36 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L36 完美时机位移 ≈ 0[2m  |Δ|max=6.47e-3px[0m
+  [32mPASS[0m L36 完美时机判为 onTime
+  [32mPASS[0m L36 early 200ms → pct 39.56%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L36 early 100ms → pct 56.68%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L36 late 100ms → pct 60.58%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L36 late 200ms → pct 36.47%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L36 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L36 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L36 jitter 只在 ±8% 内改周期[2m  [1568.1, 1838.4] 目标 [1567.7, 1840.3][0m
+  [32mPASS[0m L37 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L37 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L37 完美时机位移 ≈ 0[2m  |Δ|max=6.47e-3px[0m
+  [32mPASS[0m L37 完美时机判为 onTime
+  [32mPASS[0m L37 early 200ms → pct 38.79%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L37 early 100ms → pct 56.85%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L37 late 100ms → pct 60.73%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L37 late 200ms → pct 36.53%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L37 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L37 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L37 jitter 只在 ±8% 内改周期[2m  [1568.8, 1840.2] 目标 [1567.7, 1840.3][0m
+  [32mPASS[0m L38 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L38 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L38 完美时机位移 ≈ 0[2m  |Δ|max=4.26e-3px[0m
+  [32mPASS[0m L38 完美时机判为 onTime
+  [32mPASS[0m L38 early 200ms → pct 38.87%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L38 early 100ms → pct 56.62%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L38 late 100ms → pct 51.31%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L38 late 200ms → pct 34.19%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L38 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L38 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L38 jitter 只在 ±8% 内改周期[2m  [1496.0, 1754.4] 目标 [1495.0, 1755.0][0m
+  [32mPASS[0m L39 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L39 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L39 完美时机位移 ≈ 0[2m  |Δ|max=6.63e-3px[0m
+  [32mPASS[0m L39 完美时机判为 onTime
+  [32mPASS[0m L39 early 200ms → pct 35.76%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L39 early 100ms → pct 51.02%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L39 late 100ms → pct 57.21%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L39 late 200ms → pct 28.31%[2m  Δ=200.0ms[0m
+  [33mWARN[0m L39 pct 非严格单调（凹形或多峰导致，人工看一眼）
+  [32mPASS[0m L39 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L39 jitter 只在 ±8% 内改周期[2m  [1460.0, 1710.4] 目标 [1459.1, 1712.9][0m
+  [32mPASS[0m L40 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L40 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L40 完美时机位移 ≈ 0[2m  |Δ|max=2.64e-3px[0m
+  [32mPASS[0m L40 完美时机判为 onTime
+  [32mPASS[0m L40 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L40 early 100ms → pct 21.85%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L40 late 100ms → pct 23.19%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L40 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L40 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L40 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L40 jitter 只在 ±8% 内改周期[2m  [1459.1, 1712.6] 目标 [1459.1, 1712.9][0m
+  [32mPASS[0m L41 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L41 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L41 完美时机位移 ≈ 0[2m  |Δ|max=4.30e-3px[0m
+  [32mPASS[0m L41 完美时机判为 onTime
+  [32mPASS[0m L41 early 200ms → pct 8.61%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L41 early 100ms → pct 50.46%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L41 late 100ms → pct 47.12%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L41 late 200ms → pct 5.13%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L41 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L41 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L41 jitter 只在 ±8% 内改周期[2m  [1387.3, 1626.7] 目标 [1386.4, 1627.6][0m
+  [32mPASS[0m L42 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L42 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L42 完美时机位移 ≈ 0[2m  |Δ|max=1.09e-2px[0m
+  [32mPASS[0m L42 完美时机判为 onTime
+  [32mPASS[0m L42 early 200ms → pct 21.36%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L42 early 100ms → pct 36.77%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L42 late 100ms → pct 33.19%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L42 late 200ms → pct 15.37%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L42 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L42 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L42 jitter 只在 ±8% 内改周期[2m  [1354.7, 1583.7] 目标 [1350.6, 1585.4][0m
+  [32mPASS[0m L43 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L43 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L43 完美时机位移 ≈ 0[2m  |Δ|max=1.59e-2px[0m
+  [32mPASS[0m L43 完美时机判为 onTime
+  [32mPASS[0m L43 early 200ms → pct 15.56%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L43 early 100ms → pct 39.84%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L43 late 100ms → pct 39.42%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L43 late 200ms → pct 6.15%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L43 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L43 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L43 jitter 只在 ±8% 内改周期[2m  [1351.4, 1584.9] 目标 [1350.6, 1585.4][0m
+  [32mPASS[0m L44 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L44 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L44 完美时机位移 ≈ 0[2m  |Δ|max=1.38e-2px[0m
+  [32mPASS[0m L44 完美时机判为 onTime
+  [32mPASS[0m L44 early 200ms → pct 10.38%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L44 early 100ms → pct 49.39%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L44 late 100ms → pct 46.25%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L44 late 200ms → pct 3.64%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L44 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L44 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L44 jitter 只在 ±8% 内改周期[2m  [1278.8, 1499.5] 目标 [1277.9, 1500.1][0m
+  [32mPASS[0m L45 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L45 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L45 完美时机位移 ≈ 0[2m  |Δ|max=9.86e-3px[0m
+  [32mPASS[0m L45 完美时机判为 onTime
+  [32mPASS[0m L45 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L45 early 100ms → pct 18.71%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L45 late 100ms → pct 12.70%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L45 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L45 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L45 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L45 jitter 只在 ±8% 内改周期[2m  [1242.5, 1457.4] 目标 [1242.0, 1458.0][0m
+  [32mPASS[0m L46 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L46 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L46 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L46 完美时机判为 onTime
+  [32mPASS[0m L46 early 200ms → pct 42.45%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L46 early 100ms → pct 62.13%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L46 late 100ms → pct 60.67%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L46 late 200ms → pct 36.62%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L46 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L46 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L46 jitter 只在 ±10% 内改周期[2m  [1531.3, 1862.3] 目标 [1530.0, 1870.0][0m
+  [32mPASS[0m L47 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L47 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L47 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L47 完美时机判为 onTime
+  [32mPASS[0m L47 early 200ms → pct 41.93%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L47 early 100ms → pct 62.33%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L47 late 100ms → pct 60.87%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L47 late 200ms → pct 36.26%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L47 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L47 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L47 jitter 只在 ±10% 内改周期[2m  [1498.2, 1829.7] 目标 [1497.6, 1830.4][0m
+  [32mPASS[0m L48 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L48 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L48 完美时机位移 ≈ 0[2m  |Δ|max=5.37e-3px[0m
+  [32mPASS[0m L48 完美时机判为 onTime
+  [32mPASS[0m L48 early 200ms → pct 41.27%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L48 early 100ms → pct 60.81%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L48 late 100ms → pct 59.15%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L48 late 200ms → pct 34.96%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L48 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L48 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L48 jitter 只在 ±10% 内改周期[2m  [1466.6, 1791.2] 目标 [1466.1, 1791.9][0m
+  [32mPASS[0m L49 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L49 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L49 完美时机位移 ≈ 0[2m  |Δ|max=6.30e-3px[0m
+  [32mPASS[0m L49 完美时机判为 onTime
+  [32mPASS[0m L49 early 200ms → pct 24.37%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L49 early 100ms → pct 53.90%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L49 late 100ms → pct 51.51%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L49 late 200ms → pct 17.30%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L49 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L49 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L49 jitter 只在 ±10% 内改周期[2m  [1466.2, 1789.7] 目标 [1466.1, 1791.9][0m
+  [32mPASS[0m L50 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L50 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L50 完美时机位移 ≈ 0[2m  |Δ|max=7.89e-3px[0m
+  [32mPASS[0m L50 完美时机判为 onTime
+  [32mPASS[0m L50 early 200ms → pct 0.04%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L50 early 100ms → pct 27.96%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L50 late 100ms → pct 24.66%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L50 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L50 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L50 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L50 jitter 只在 ±10% 内改周期[2m  [1401.8, 1712.6] 目标 [1401.3, 1712.7][0m
+  [32mPASS[0m L51 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L51 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L51 完美时机位移 ≈ 0[2m  |Δ|max=2.62e-3px[0m
+  [32mPASS[0m L51 完美时机判为 onTime
+  [32mPASS[0m L51 early 200ms → pct 49.38%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L51 early 100ms → pct 52.45%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L51 late 100ms → pct 52.91%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L51 late 200ms → pct 21.01%[2m  Δ=200.0ms[0m
+  [33mWARN[0m L51 pct 非严格单调（凹形或多峰导致，人工看一眼）
+  [32mPASS[0m L51 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L51 jitter 只在 ±10% 内改周期[2m  [1368.9, 1670.3] 目标 [1368.9, 1673.1][0m
+  [32mPASS[0m L52 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L52 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L52 完美时机位移 ≈ 0[2m  |Δ|max=4.26e-3px[0m
+  [32mPASS[0m L52 完美时机判为 onTime
+  [32mPASS[0m L52 early 200ms → pct 25.78%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L52 early 100ms → pct 52.13%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L52 late 100ms → pct 51.34%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L52 late 200ms → pct 25.81%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L52 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L52 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L52 jitter 只在 ±10% 内改周期[2m  [1370.8, 1669.4] 目标 [1368.9, 1673.1][0m
+  [32mPASS[0m L53 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L53 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L53 完美时机位移 ≈ 0[2m  |Δ|max=6.47e-3px[0m
+  [32mPASS[0m L53 完美时机判为 onTime
+  [32mPASS[0m L53 early 200ms → pct 42.19%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L53 early 100ms → pct 50.07%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L53 late 100ms → pct 50.97%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L53 late 200ms → pct 16.21%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L53 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L53 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L53 jitter 只在 ±10% 内改周期[2m  [1305.6, 1594.8] 目标 [1305.0, 1595.0][0m
+  [32mPASS[0m L54 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L54 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L54 完美时机位移 ≈ 0[2m  |Δ|max=9.77e-3px[0m
+  [32mPASS[0m L54 完美时机判为 onTime
+  [32mPASS[0m L54 early 200ms → pct 7.36%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L54 early 100ms → pct 44.75%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L54 late 100ms → pct 39.48%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L54 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L54 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L54 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L54 jitter 只在 ±10% 内改周期[2m  [1274.0, 1555.0] 目标 [1272.6, 1555.4][0m
+  [32mPASS[0m L55 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L55 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L55 完美时机位移 ≈ 0[2m  |Δ|max=2.64e-3px[0m
+  [32mPASS[0m L55 完美时机判为 onTime
+  [32mPASS[0m L55 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L55 early 100ms → pct 19.81%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L55 late 100ms → pct 27.43%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L55 late 200ms → pct 0.30%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L55 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L55 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L55 jitter 只在 ±10% 内改周期[2m  [1274.3, 1555.3] 目标 [1272.6, 1555.4][0m
+  [32mPASS[0m L56 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L56 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L56 完美时机位移 ≈ 0[2m  |Δ|max=6.63e-3px[0m
+  [32mPASS[0m L56 完美时机判为 onTime
+  [32mPASS[0m L56 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L56 early 100ms → pct 34.29%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L56 late 100ms → pct 35.66%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L56 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [33mWARN[0m L56 pct 非严格单调（凹形或多峰导致，人工看一眼）
+  [32mPASS[0m L56 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L56 jitter 只在 ±10% 内改周期[2m  [1212.3, 1476.9] 目标 [1208.7, 1477.3][0m
+  [32mPASS[0m L57 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L57 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L57 完美时机位移 ≈ 0[2m  |Δ|max=1.31e-2px[0m
+  [32mPASS[0m L57 完美时机判为 onTime
+  [32mPASS[0m L57 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L57 early 100ms → pct 35.00%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L57 late 100ms → pct 36.24%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L57 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L57 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L57 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L57 jitter 只在 ±10% 内改周期[2m  [1176.5, 1437.5] 目标 [1176.3, 1437.7][0m
+  [32mPASS[0m L58 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L58 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L58 完美时机位移 ≈ 0[2m  |Δ|max=1.09e-2px[0m
+  [32mPASS[0m L58 完美时机判为 onTime
+  [32mPASS[0m L58 early 200ms → pct 0.29%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L58 early 100ms → pct 17.39%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L58 late 100ms → pct 24.68%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L58 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L58 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L58 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L58 jitter 只在 ±10% 内改周期[2m  [1176.8, 1436.9] 目标 [1176.3, 1437.7][0m
+  [32mPASS[0m L59 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L59 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L59 完美时机位移 ≈ 0[2m  |Δ|max=4.30e-3px[0m
+  [32mPASS[0m L59 完美时机判为 onTime
+  [32mPASS[0m L59 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L59 early 100ms → pct 6.23%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L59 late 100ms → pct 2.21%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L59 late 200ms → pct 0.00%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L59 pct 随 |Δ| 增大单调不增（0–400ms / 25ms 步）
+  [32mPASS[0m L59 同 seed 重建逐帧一致（perfectMs/cycleMs/startRot）
+  [32mPASS[0m L59 jitter 只在 ±10% 内改周期[2m  [1113.2, 1359.1] 目标 [1112.4, 1359.6][0m
+  [32mPASS[0m L60 完美时机 pct ≥ 99.9[2m  pct=100.000% rating=god[0m
+  [32mPASS[0m L60 完美时机角度偏差 ≈ 0[2m  |Δθ|max=0.00e+0°[0m
+  [32mPASS[0m L60 完美时机位移 ≈ 0[2m  |Δ|max=9.86e-3px[0m
+  [32mPASS[0m L60 完美时机判为 onTime
+  [32mPASS[0m L60 early 200ms → pct 0.00%[2m  Δ=-200.0ms[0m
+  [32mPASS[0m L60 early 100ms → pct 5.19%[2m  Δ=-100.0ms[0m
+  [32mPASS[0m L60 late 100ms → pct 8.41%[2m  Δ=100.0ms[0m
+  [32mPASS[0m L60 late 200ms → pct 0.14%[2m  Δ=200.0ms[0m
+  [32mPASS[0m L60 双物体同帧都 ≥99.9%[2m  两个 pct=100.00 / 100.00[0m
+  [32mPASS[0m L60 双车道同帧：两侧姿态都在各自车道中心 ≤0.05px[2m  path=h_line[0m
+  [32mPASS[0m L60 jitter 只在 ±10% 内改周期[2m  [1080.1, 1318.6] 目标 [1080.0, 1320.0][0m
+[36m
+[3b] 诊断：±200ms 的几何明细（角度 / 位移 / 交集面积）[0m
+Δt(ms)  pct%    角偏°   位移px  交集面积  物体面积  目标面积  评级     时机  
+-------  ------  ------  ------  --------  --------  --------  -------  ------
+   -200   43.31  -19.07    57.2   10688.4   24676.4   24676.4  ok       early 
+   -100   71.42   -9.53    28.6   17622.9   24676.4   24676.4  good     early 
+    -50   85.54   -4.77    14.3   21109.3   24676.4   24676.4  perfect  early 
+      0  100.00    0.00     0.0   24676.4   24676.4   24676.4  god      onTime
+    +50   85.54    4.77    14.3   21108.9   24676.4   24676.4  perfect  late  
+   +100   71.41    9.53    28.6   17620.9   24676.4   24676.4  good     late  
+   +200   43.30   19.07    57.2   10684.4   24676.4   24676.4  ok       late  
+  [2m·[0m L1 尺寸参考：物体 longSide=250px、目标 longSide=250.0px；±200ms 时同时偏 57.2px、转 19.1°
+  [2m·[0m 说明：位移与转角是「叠加惩罚」，200ms 早 = 同时错位 + 错角，pct 掉到个位数是这个机制的正常结果（这正是玩法要的因果）
+[36m
+[3c] 命中窗口（pct 掉到 passRate 的边界，纯函数 hitWindow/windowMetrics）[0m
+关   形状         周期ms  圈  早ms    晚ms   总窗口  角容错°  位移容错px  告警
+---  -----------  ------  --  ------  -----  ------  -------  ----------  ----
+L1   cup_tumbler    3776   1  -140.4  140.0   280.4     13.3        40.0      
+L2   cup_tumbler    3453   1  -128.4  128.0   256.4     13.3        40.0      
+L3   car_hatch      2398   2  -122.2  112.0   234.2     33.6        50.4      
+L4   car_hatch      2330   2  -110.8  102.0   212.8     31.5        47.3      
+L5   can_cola       2694   2   -92.0   92.3   184.3     24.6        43.9      
+L6   slipper        2858   2   -82.0   88.2   170.2     20.9        24.5      
+L7   guitar         3909   2   -74.0   74.0   148.0     13.8        21.9      
+L8   wrench         3268   2   -68.0   66.0   134.0     14.8        17.3      
+L9   rocket         5107   2   -60.3   62.4   122.8      8.6        24.4      
+L10  car_hatch      1636   2   -55.0   59.7   114.7     24.4        36.6      
+L11  hammer         4153   3   -50.0   51.5   101.5     13.3        13.3      
+L12  guitar         3138   3   -46.0   47.1    93.1     16.2        12.7      
+L13  toilet         2881   3   -44.7   42.0    86.7     16.2        17.2      
+L14  rocket         4135   3   -38.0   39.0    77.0     10.3        15.3      
+L15  wrench         3586   3   -34.0   34.0    68.0     10.5        10.5      
+L16  book           2200   2  -148.1  143.1   291.2     47.5        72.1      
+L17  book           2050   2  -138.0  133.1   271.1     47.4        72.0      
+L18  book           2050   2  -138.0  133.1   271.1     47.4        72.0      
+L19  handheld       2100   2  -108.1   99.7   207.8     34.7        52.9      
+L20  mug            2000   2   -39.0   38.0    76.9     13.9        20.9      
+L21  camera         2050   2  -102.5   95.6   198.2     34.1        51.9      
+L22  toaster        2050   2   -99.1   93.2   192.2     33.2        50.6      
+L23  handheld       1850   2   -96.1   87.6   183.7     34.6        53.2      
+L24  car_hatch      1800   2   -79.2   95.2   174.4     32.1        36.1      
+L25  can_cola       1800   2   -45.9   45.0    90.9     18.3        27.1      
+L26  cup_tumbler    1700   2   -73.6   68.7   142.3     29.5        35.3      
+L27  teapot         1650   2   -65.5   80.1   145.6     29.0        32.6      
+L28  icecream       1650   2   -61.5   58.7   120.2     26.0        30.7      
+L29  slipper        1550   2   -47.7   51.1    98.8     22.5        25.5      
+L30  dessert        1500   2   -29.6   27.8    57.3     13.5        20.3      
+L31  book           1900   2  -109.2  104.6   213.8     40.6        62.5      
+L32  book           1861   2  -106.5  102.0   208.5     40.4        62.4      
+L33  book           1821   2  -103.8   99.8   203.6     40.4        62.5      
+L34  handheld       1821   2   -81.6   75.5   157.1     30.6        46.4      
+L35  mug            1743   2   -30.3   29.9    60.2     12.6        18.7      
+L36  camera         1704   2   -70.7   78.8   149.5     30.6        35.2      
+L37  camera         1704   2   -70.3   78.8   149.1     30.4        35.4      
+L38  can_cola       1625   2   -70.9   66.2   137.1     30.0        37.0      
+L39  car_hatch      1586   2   -57.5   68.8   126.3     26.7        31.7      
+L40  can_cola       1586   2   -25.7   31.4    57.1     11.9        18.0      
+L41  teapot         1507   2   -52.8   51.0   103.8     24.9        40.8      
+L42  cup_tumbler    1468   2   -43.0   41.6    84.7     20.9        34.6      
+L43  slipper        1468   2   -39.9   39.5    79.4     19.8        30.5      
+L44  toaster        1389   2   -35.1   34.1    69.2     18.1        28.4      
+L45  slipper        1350   2   -23.8   23.2    47.0     12.6        18.9      
+L46  book           1700   3   -72.1   68.5   140.6     44.8        46.3      
+L47  book           1664   3   -70.2   66.7   136.9     44.5        46.3      
+L48  book           1629   3   -68.3   65.2   133.6     44.5        46.4      
+L49  mug            1629   3   -54.4   47.5   101.9     32.4        33.1      
+L50  mug            1557   3   -24.0   23.6    47.6     16.9        16.9      
+L51  handheld       1521   3   -46.1   45.4    91.6     33.2        26.5      
+L52  can_cola       1521   3   -45.1   44.3    89.4     32.4        25.4      
+L53  camera         1450   3   -38.8   40.9    79.7     29.8        23.3      
+L54  crab           1414   3   -36.2   35.5    71.7     27.9        30.2      
+L55  can_cola       1414   3   -14.7   16.1    30.8     11.6        12.0      
+L56  car_hatch      1343   3   -31.8   31.5    63.3     26.1        28.0      
+L57  sneaker        1307   3   -27.6   27.6    55.1     23.4        25.2      
+L58  cup_tumbler    1307   3   -24.2   26.0    50.2     20.5        33.1      
+L59  teapot         1236   3   -18.2   17.9    36.0     16.1        25.9      
+L60  slipper        1200   3   -13.4   13.7    27.0     12.4        13.4      
+  [2m·[0m 注意：此处用的是占位形状（tools/_placeholder_shapes.mjs）；真 shapes.json 到位后窗口会变，数值由主策划按窗口重调 cycle_ms/turns
+[36m
+[S8] 季 1 回归：sine_amp=0 & inertia=0 的三窗口 vs v0.3 基线（逐位相同）[0m
+关   通关        v0.3        神级        v0.3        三星        v0.3          
+---  ----------  ----------  ----------  ----------  ----------  ----------  --
+L1   -140.4/140  -140.4/140      -17/17      -17/17  -23.9/23.9  -23.9/23.9  ok
+L2   -128.4/128  -128.4/128  -15.6/15.6  -15.6/15.6  -21.9/21.9  -21.9/21.9  ok
+L3   -122.2/112  -122.2/112  -10.5/10.5  -10.5/10.5  -14.9/15.2  -14.9/15.2  ok
+L4   -110.8/102  -110.8/102  -10.2/10.2  -10.2/10.2  -12.5/12.5  -12.5/12.5  ok
+L5     -92/92.3    -92/92.3  -11.2/11.2  -11.2/11.2  -13.5/13.5  -13.5/13.5  ok
+L6     -82/88.2    -82/88.2  -10.3/10.3  -10.3/10.3  -12.4/12.4  -12.4/12.4  ok
+L7       -74/74      -74/74    -7.5/7.5    -7.5/7.5        -9/9        -9/9  ok
+L8       -68/66      -68/66    -7.1/7.1    -7.1/7.1    -8.6/8.3    -8.6/8.3  ok
+L9   -60.3/62.4  -60.3/62.4      -8.3/8      -8.3/8   -10.1/9.8   -10.1/9.8  ok
+L10    -55/59.7    -55/59.7    -5.9/5.9    -5.9/5.9    -7.1/7.1    -7.1/7.1  ok
+L11    -50/51.5    -50/51.5    -7.4/7.4    -7.4/7.4    -8.9/8.9    -8.9/8.9  ok
+L12    -46/47.1    -46/47.1        -6/6        -6/6    -7.1/7.1    -7.1/7.1  ok
+L13    -44.7/42    -44.7/42    -6.5/6.1    -6.5/6.1    -7.5/7.5    -7.5/7.5  ok
+L14      -38/39      -38/39    -5.8/5.8    -5.8/5.8    -7.3/7.3    -7.3/7.3  ok
+L15      -34/34      -34/34    -5.1/5.1    -5.1/5.1    -5.9/5.9    -5.9/5.9  ok
+  [32mPASS[0m S8 通过：15/15 关三窗口与 v0.3 **逐位相同**（零调制走兼容分支）
+[36m
+[S9] 正弦/惯性：同 seed 确定性、u(tStar) 仍落在 C、无双峰（单调超限只 WARN）[0m
+关   季   正弦  惯性px  周期ms  cycle/period  perfectMs  pct     pose偏   主峰Δt  状态
+---  ---  ----  ------  ------  ------------  ---------  ------  -------  -------  ----
+L16  季2  0.04       0    1100          2.03     1117.1  100.00  4.6e-10        0  ok  
+L17  季2  0.04       0    1025          1.97     1009.5  100.00  3.2e-10        0  ok  
+L18  季2  0.04       0    1025          2.01     1029.9  100.00  4.5e-10        0  ok  
+L19  季2  0.08       0    1050          2.03     1063.5  100.00  2.1e-10        0  ok  
+L20  季2  0.08       0    1000          2.06     1028.4  100.00  1.7e-10        0  ok  
+L21  季2  0.08       0    1025          2.07     1061.1  100.00  1.7e-10        0  ok  
+L22  季2  0.12       0    1025          1.94      995.8  100.00  3.7e-11        0  ok  
+L23  季2  0.12       0     925          2.04      944.1  100.00  1.3e-10        0  ok  
+L24  季2  0.12       0     900          2.08      936.6  100.00  3.5e-10        0  ok  
+L25  季2  0.12       0     900          2.00      901.9  100.00  1.8e-10        0  ok  
+L26  季2  0.12       0     850          2.05      870.6  100.00  2.0e-10        0  ok  
+L27  季2  0.12       0     825          1.99      821.8  100.00  5.7e-11        0  ok  
+L28  季2  0.12       0     825          2.01      827.5  100.00  2.3e-10        0  ok  
+L29  季2  0.12       0     775          1.97      762.3  100.00  2.4e-11        0  ok  
+L30  季2  0.12       0     750          1.91      718.3  100.00  3.8e-10        0  ok  
+L31  季3  0.06       2     950          2.04      971.4  100.00  9.1e-11        0  ok  
+L32  季3  0.06       2     931          2.10      978.7  100.00  3.9e-10        0  ok  
+L33  季3  0.06       2     911          2.12      966.0  100.00  1.4e-10        0  ok  
+L34  季3   0.1       3     911          1.92      877.2  100.00  1.8e-10        0  ok  
+L35  季3   0.1       3     872          2.08      908.4  100.00  2.0e-10        0  ok  
+L36  季3   0.1       3     852          1.94      824.7  100.00  1.9e-10        0  ok  
+L37  季3   0.1       4     852          1.97      839.6  100.00  2.2e-10        0  ok  
+L38  季3   0.1       4     813          1.88      766.8  100.00  2.3e-10        0  ok  
+L39  季3   0.1       4     793          2.09      829.7  100.00  2.1e-10        0  ok  
+L40  季3   0.1       5     793          1.87      741.4  100.00  2.9e-10        0  ok  
+L41  季3   0.1       5     754          1.91      722.4  100.00  1.1e-10        0  ok  
+L42  季3   0.1       5     734          2.00      735.4  100.00  5.0e-10        0  ok  
+L43  季3  0.12       5     734          1.97      722.2  100.00  1.0e-10        0  ok  
+L44  季3  0.12       5     695          2.08      724.8  100.00  1.2e-10        0  ok  
+L45  季3  0.12       5     675          2.10      710.5  100.00  4.2e-10        0  ok  
+L46  季4   0.1       4     850          1.92      816.5  100.00  3.1e-10        0  ok  
+L47  季4   0.1       4     832          2.17      902.3  100.00  2.7e-10        0  ok  
+L48  季4   0.1       4     815          2.02      821.6  100.00  4.5e-11        0  ok  
+L49  季4  0.14       5     815          2.19      893.3  100.00  3.0e-10        0  ok  
+L50  季4  0.14       5     779          2.05      798.6  100.00  4.1e-10        0  ok  
+L51  季4  0.14       5     761          2.12      808.0  100.00  6.8e-11        0  ok  
+L52  季4  0.14       6     761          1.83      698.4  100.00  2.8e-10        0  ok  
+L53  季4  0.14       6     725          1.98      716.2  100.00  6.2e-11        0  ok  
+L54  季4  0.14       6     707          2.07      732.4  100.00  2.7e-10        0  ok  
+L55  季4  0.14       6     707          1.90      669.6  100.00  2.7e-10        0  ok  
+L56  季4  0.14       6     672          1.99      667.6  100.00  1.1e-10        0  ok  
+L57  季4  0.14       6     654          1.90      621.8  100.00  2.6e-10        0  ok  
+L58  季4  0.14       6     654          2.05      892.1  100.00  8.0e-10        0  ok  
+L59  季4  0.14       6     618          2.15      880.4  100.00  1.0e-11        0  ok  
+L60  季4  0.14       6     600          1.95      585.8  100.00  2.7e-10        0  ok  
+  [32mPASS[0m S9 通过：45 个带调制关卡满足「同 seed 一致 / 完美时机 pct≥99.9 / 无双峰」（单调容差：惯性 5%、无惯性 3%，超限只 WARN）
+[36m
+[S9b] 正弦相位对照：同关 φ=0 / 0.25 / 0.5 / 0.75（宽度可不同，但都必须「唯一/无双峰/确定」）[0m
+关   季   正弦  周期ms  φ0 早/晚     φ0.5 早/晚   φ0 窗宽  φ0.5 窗宽  φ0.25 窗宽  φ0.75 窗宽  最宽/最窄  状态
+---  ---  ----  ------  ------------  ------------  --------  ----------  -----------  -----------  ---------  ----
+L16  季2  0.04    1100  -149.1/144.0  -144.8/146.9     146.5       145.9        142.1        150.4      1.06×  ok  
+L17  季2  0.04    1025  -141.5/136.7  -138.7/141.0     139.1       139.9        135.8        143.4      1.06×  ok  
+L18  季2  0.04    1025  -138.6/133.7  -134.6/136.6     136.1       135.6        131.9        139.8      1.06×  ok  
+L19  季2  0.08    1050   -107.9/99.8  -104.3/101.3     103.8       102.8         99.3        107.5      1.08×  ok  
+L20  季2  0.08    1000    -38.7/37.7    -37.2/37.7      38.2        37.5         34.9         41.1      1.18×  ok  
+L21  季2  0.08    1025   -101.5/94.2    -97.1/95.1      97.8        96.1         92.7        101.5      1.09×  ok  
+L22  季2  0.12    1025   -100.8/95.2    -98.5/98.3      98.0        98.4         93.6        102.6      1.10×  ok  
+L23  季2  0.12     925    -99.1/90.2    -97.7/95.8      94.6        96.8         90.4        101.0      1.12×  ok  
+L24  季2  0.12     900    -80.0/96.8    -77.8/99.0      88.4        88.4         83.9         91.7      1.09×  ok  
+L25  季2  0.12     900    -46.6/45.7    -46.6/49.3      46.1        47.9         42.3         52.9      1.25×  ok  
+L26  季2  0.12     850    -74.5/69.5    -72.4/72.0      72.0        72.2         67.8         76.2      1.12×  ok  
+L27  季2  0.12     825    -67.2/82.2    -66.8/90.2      74.7        78.5         71.2         82.7      1.16×  ok  
+L28  季2  0.12     825    -64.1/61.2    -64.5/64.1      62.6        64.3         60.7         66.4      1.09×  ok  
+L29  季2  0.12     775    -49.2/53.1    -48.9/53.5      51.2        51.2         50.0         52.0      1.04×  ok  
+L30  季2  0.12     750    -29.7/27.9    -27.9/28.3      28.8        28.1         24.6         32.8      1.33×  ok  
+L31  季3  0.06     950  -117.3/112.8  -118.1/120.6     115.1       119.3        113.3        121.2      1.07×  ok  
+L32  季3  0.06     931  -110.6/106.4  -109.2/111.5     108.5       110.4        105.2        113.9      1.08×  ok  
+L33  季3  0.06     911  -104.8/100.5  -100.9/103.1     102.7       102.0         98.0        106.6      1.09×  ok  
+L34  季3   0.1     911    -86.7/80.1    -87.2/85.3      83.4        86.3         81.5         88.6      1.09×  ok  
+L35  季3   0.1     872    -30.4/30.0    -29.6/30.4      30.2        30.0         27.5         33.6      1.22×  ok  
+L36  季3   0.1     852    -72.1/80.5    -70.5/83.9      76.3        77.2         72.8         80.7      1.11×  ok  
+L37  季3   0.1     852    -70.0/78.4    -66.4/78.8      74.2        72.6         69.4         77.4      1.12×  ok  
+L38  季3   0.1     813    -75.8/70.6    -77.0/76.6      73.2        76.8         71.5         78.5      1.10×  ok  
+L39  季3   0.1     793    -61.0/73.3    -61.8/76.6      67.1        69.2         65.7         70.6      1.08×  ok  
+L40  季3   0.1     793    -25.9/31.6    -25.1/31.6      28.7        28.3         27.6         29.3      1.06×  ok  
+L41  季3   0.1     754    -51.6/50.2    -48.1/49.5      50.9        48.8         46.7         53.3      1.14×  ok  
+L42  季3   0.1     734    -43.8/42.4    -43.8/45.3      43.1        44.6         40.1         47.7      1.19×  ok  
+L43  季3  0.12     734    -42.2/42.2    -42.5/42.9      42.2        42.7         41.8         43.5      1.04×  ok  
+L44  季3  0.12     695    -35.0/34.0    -33.6/34.3      34.5        34.0         31.8         37.0      1.16×  ok  
+L45  季3  0.12     675    -25.2/24.5    -25.6/24.9      24.9        25.2         24.4         25.8      1.06×  ok  
+L46  季4   0.1     850    -75.9/72.3    -77.2/78.1      74.1        77.6         72.1         80.0      1.11×  ok  
+L47  季4   0.1     832    -71.7/68.0    -70.1/70.9      69.9        70.5         66.2         74.6      1.13×  ok  
+L48  季4   0.1     815    -67.9/64.4    -63.3/64.1      66.1        63.7         61.0         69.0      1.13×  ok  
+L49  季4  0.14     815    -54.8/47.8    -51.3/48.2      51.3        49.7         46.4         54.8      1.18×  ok  
+L50  季4  0.14     779    -23.5/23.2    -20.1/20.8      23.4        20.4         19.7         24.4      1.24×  ok  
+L51  季4  0.14     761    -45.9/45.5    -44.8/45.5      45.7        45.2         44.1         46.8      1.06×  ok  
+L52  季4  0.14     761    -47.3/46.1    -47.3/48.4      46.7        47.9         45.0         49.6      1.10×  ok  
+L53  季4  0.14     725    -42.8/45.1    -43.9/47.4      43.9        45.7         43.7         46.3      1.06×  ok  
+L54  季4  0.14     707    -35.4/35.1    -33.8/34.4      35.2        34.1         32.8         36.6      1.11×  ok  
+L55  季4  0.14     707    -16.2/17.4    -17.8/19.3      16.8        18.5         16.4         19.1      1.16×  ok  
+L56  季4  0.14     672    -33.2/32.3    -33.2/32.6      32.8        32.9         32.3         33.4      1.04×  ok  
+L57  季4  0.14     654    -31.0/30.6    -31.3/31.3      30.8        31.3         30.6         31.5      1.03×  ok  
+L58  季4  0.14     654    -22.0/24.3    -25.6/26.9      23.1        26.3         26.1         23.4      1.14×  ok  
+L59  季4  0.14     618    -13.7/13.7    -18.6/18.0      13.7        18.3         16.5         14.8      1.33×  ok  
+L60  季4  0.14     600    -14.4/14.1    -14.7/14.7      14.3        14.7         13.1         15.9      1.22×  ok  
+  [2m·[0m 相位 0 vs 0.5：窗宽 62.7 vs 63.3ms（应几乎相同 —— 两者都只是「镜像早晚」）；0/45 关做到了「早/晚互换」
+  [2m·[0m 相位 0.25 vs 0.75：窗宽 60.1 vs 66.0ms（这才是「宽度旋钮」：0.25 让物体在完美点最慢通过 → 最宽；0.75 最快 → 最窄；平均最宽/最窄 = 1.12×）
+  [32mPASS[0m S9b 守卫：sineAmp=0 时 sinePhase 完全无效（季 1 三窗口不受影响）
+  [32mPASS[0m S9b 通过：45 个正弦关在 φ=0/0.25/0.5/0.75 下都满足「完美时机唯一 + 无双峰 + 同 seed 一致」
+[36m
+[4] 路径参数化：uStar 处必须精确等于目标中心 C[0m
+路径          目标 C   uStar     u* 处的点        误差px 
+------------  -------  --------  ---------------  -------
+h_line        360,596  0.500000  360.000,596.000  0.00e+0
+h_line_rl     360,596  0.500000  360.000,596.000  0.00e+0
+diag_dl       360,596  0.500000  360.000,596.000  0.00e+0
+diag_ur       360,596  0.500000  360.000,596.000  0.00e+0
+arc_up        360,596  0.500000  360.000,596.000  0.00e+0
+arc_down      360,596  0.500000  360.000,596.000  0.00e+0
+bounce_floor  360,596  0.646500  360.000,596.000  0.00e+0
+  [32mPASS[0m 7 条路径的 uStar 全部落在 C 上（误差 ≤ 0.05px）
+[36m
+[5] 口径自洽（面积口径，不是中心点）[0m
+  [32mPASS[0m 完全重合 → 100%
+  [32mPASS[0m 中心点重合但转 45° → 82.84%（证明判定不是中心点）[2m  实测 82.84%[0m
+  [32mPASS[0m 平移不变性：整体平移后面积不变
+  [32mPASS[0m 对称性：overlap(P,Q) = overlap(Q,P)
+  [32mPASS[0m 不相交 → 面积 0
+  [32mPASS[0m 退化输入（空/单点）不抛异常，返回 0
+[36m
+[5b] 热力图条带 overlapStrips / missStrips / heatBands[0m
+  [32mPASS[0m 完美重合：overlapStrips 非空（回归：曾因 minY/maxY 写反恒返回 []）[2m  42 条[0m
+  [32mPASS[0m overlapStrips 面积和 ≈ 物体面积[2m  条带 24673.4 vs 物体 24676.4（差 0.01%）[0m
+  [32mPASS[0m 完美重合：missStrips（红区）≈ 0[2m  0.0px²（0.00%）[0m
+  [32mPASS[0m 偏 200ms：绿区+红区 ≈ 并集面积（不重不漏）[2m  绿 10700 + 红 28182 vs 并集 38668（差 0.55%）[0m
+  [32mPASS[0m heatBands(…,24) 返回 24 条且区间合法[2m  有重合的条带 23 条[0m
+  [32mPASS[0m 完全错开：overlapStrips 返回空
+[36m
+[6] 性能：judge ≤0.5ms（48 顶点×2 物体）、每帧判定相关开销 ≤0.1ms[0m
+用例                    顶点×物体  单次(×1000)  总耗时    红线     
+----------------------  ---------  -----------  --------  ---------
+真实关卡                     20×2    0.0373 ms   37.3 ms  ≤ 0.5 ms
+48 顶点压力                  48×2    0.1654 ms  165.4 ms  ≤ 0.5 ms
+每帧开销（真实关）           20×2    0.0063 ms    6.3 ms  ≤ 0.1 ms
+每帧开销（48 顶点）          48×2    0.0083 ms    8.3 ms  ≤ 0.1 ms
+（校验和，防优化跳过）                    6951      8928           
+  [32mPASS[0m 20 顶点（2 物体）judge 单次 0.0373ms ≤ 0.5ms
+  [32mPASS[0m 48 顶点×2 物体 judge 单次 0.1654ms ≤ 0.5ms（上限规格）
+  [32mPASS[0m 每帧判定相关开销（48 顶点×2）0.0083ms ≤ 0.1ms
+
+--- 汇总：PASS 695 / FAIL 0 / WARN 4 ---

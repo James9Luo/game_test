@@ -1,0 +1,213 @@
+﻿root    : E:\game_design\dista
+html    : E:\game_design\dista\原型\dista_prototype.html
+shots   : E:\game_design\dista\04_项目管理\验收截图
+
+==== 1/7 build ====
+powershell : [build] WARN shapes 有 36 条非致命提醒：
+所在位置 行:2 字符: 1
++ powershell -NoProfile -ExecutionPolicy Bypass -File tools\verify_prot ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([build] WARN shapes 有 36 条非致命提醒：:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+    · shape[cup_tumbler]: 最长边 0.6701 未归一化到 1±2%
+
+    · shape[car_hatch]: 最长边 0.3564 未归一化到 1±2%
+
+    · shape[slipper]: 最长边 0.2801 未归一化到 1±2%
+
+    · shape[banana]: 最长边 0.1551 未归一化到 1±2%
+
+    · shape[wrench]: 最长边 0.5901 未归一化到 1±2%
+
+    · shape[guitar]: 最长边 0.1600 未归一化到 1±2%
+
+    · shape[duck]: 最长边 0.2470 未归一化到 1±2%
+
+    · shape[cat]: 最长边 0.1506 未归一化到 1±2%
+
+[build] shapes 门禁 OK：36 个轮廓（12–48 顶点 / 坐标有限 / 非退化）
+[build] 运行时 API 检查通过：77 个成员，必需 9 个齐全
+
+==== build_proto ====
+core 模式        : core (auto)
+levels 来源      : core (assets/resources/config/levels.json)
+shapes 来源      : core (assets/config/shapes.json)
+modes 来源       : core (assets/resources/config/modes.json)
+fx 来源          : core (assets/config/fx.json → 已同步 resources/)
+关数             : challenge=60 (core)  relax=60 (core)
+scenes 来源      : core (assets/config/scenes.json → 已同步 resources/)
+语法自检         : OK
+---------------------
+文件                                        字节        
+assets/scripts/core/Geometry.ts           10526     
+assets/scripts/core/Types.ts              6175      
+assets/scripts/core/Layout.ts             3902      
+assets/scripts/core/Shapes.ts             8435      
+assets/scripts/core/Paths.ts              20779     
+assets/scripts/core/Score.ts              3223      
+assets/scripts/core/Judge.ts              23652     
+assets/scripts/core/LevelStore.ts         22912     
+assets/scripts/core/index.ts              2393      
+原型/_src/audio.js                          70240     
+原型/_src/game.js                           126704    
+__CONFIG__ (levels+shapes+modes+scenes 内联)113181    
+---------------------
+产物 原型/dista_prototype.html                418880    
+总大小           : 409.1 KB（目标 < 200 KB）  [超出目标]
+
+(node:4644) ExperimentalWarning: stripTypeScriptTypes is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+html bytes: 418880
+
+==== 2/7 logic selfcheck ====
+
+==== selfcheck_proto ====
+bundle 字节: 416960
+core 模式   : core
+levels 来源 : core
+shapes 来源 : core
+断言通过    : 15
+断言失败    : 0
+RESULT: PASS (15/15 条逻辑断言)
+
+
+==== 3/7 modes check (M1-M8) ====
+
+==== modes_check (v0.3 双模式 + v0.4 四季60关/特效外置 + v0.5 机制节奏 + v0.6 错拍) ====
+断言通过: 24
+断言失败: 0
+RESULT: PASS (M5–M8 + M13–M20 + S1/S2/S3/S5/S6 + S10/S11/S12 + S17/S19/S20/S21，24 条绿)
+
+
+==== 4/7 audio check (A1-A10) ====
+
+==== audio_check ====
+bpm/beat/loop: 64 BPM / 0.9375s / 30s
+BGM 事件数    : 120
+BGM peak/RMS  : -2.00 / -18.80 dBFS
+sfx_god        peak -2.00 dBFS   notes D5,F#5,A5,D5
+sfx_perfect    peak -9.42 dBFS   notes A4,D5,F#5
+sfx_good       peak -9.07 dBFS   notes D5,A5
+sfx_ok         peak -18.91 dBFS   notes D5
+sfx_fail       peak -12.15 dBFS   notes D3,F#3
+断言通过      : 41
+断言失败      : 0
+RESULT: PASS (A1–A10 全绿，41 条断言)
+
+
+==== 5/7 render audio (WAV) ====
+
+==== render_audio ====
+输出目录: E:\game_design\dista\03_交付素材\audio
+采样率  : 44100 Hz / 16-bit / mono
+--------------------
+文件                  秒       峰值dBFS      RMS dBFS    KB
+bgm_loop.wav        30.00   -2.00       -18.80      2584.0
+bgm_v1_minimal_80bpm_preview.wav24.00   -5.72       -18.00      2067.2
+bgm_v1_minimal_80bpm.wav24.00   -26.89      -39.17      2067.2
+bgm_v2_lofi_75bpm_preview.wav25.60   -5.14       -18.00      2205.0
+bgm_v2_lofi_75bpm.wav25.60   -26.31      -39.17      2205.0
+bgm_v3_ambient_78bpm_preview.wav24.62   -6.62       -18.00      2120.2
+bgm_v3_ambient_78bpm.wav24.62   -27.79      -39.17      2120.2
+sfx_god.wav         1.65    -2.00       -19.04      142.2
+sfx_perfect.wav     1.30    -9.42       -24.17      112.0
+sfx_good.wav        1.05    -9.07       -23.10      90.5
+sfx_ok.wav          0.85    -18.91      -33.65      73.3
+sfx_fail.wav        1.25    -12.15      -27.52      107.7
+sfx_press.wav       0.41    -20.84      -40.78      35.4
+sfx_whoosh.wav      2.00    -6.00       -25.50      172.3
+--------------------
+BGM 音符（音级检查）: D F# A E B
+sfx_god        D5 → F#5 → A5 → D5
+sfx_perfect    A4 → D5 → F#5
+sfx_good       D5 → A5
+sfx_ok         D5
+sfx_fail       D3 → F#3
+
+RESULT: WROTE 14 files
+
+url: file:///E:/game_design/dista/%E5%8E%9F%E5%9E%8B/dista_prototype.html
+
+==== 6/7 screenshots ====
+proto_home.png bytes: 339354
+proto_home_continue.png bytes: 343142
+proto_home_diag.png bytes: 348935
+proto_play.png bytes: 314787
+proto_result.png bytes: 334514
+proto_result_early.png bytes: 323932
+proto_result_dual.png bytes: 354772
+proto_god.png bytes: 386508
+proto_god_diag.png bytes: 396671
+proto_fail.png bytes: 326593
+proto_tap_start.png bytes: 314699
+proto_tap_continue.png bytes: 318986
+proto_complete.png bytes: 302243
+proto_scene_night.png bytes: 314787
+proto_scene_noon.png bytes: 214500
+proto_scene_minimal.png bytes: 259418
+proto_relax.png bytes: 308399
+proto_challenge.png bytes: 316223
+proto_advance.png bytes: 313536
+proto_tap_challenge.png bytes: 315013
+proto_tap_relax.png bytes: 314187
+proto_timer.png bytes: 314444
+proto_timeout.png bytes: 297431
+proto_hud_challenge.png bytes: 312737
+proto_hud_relax.png bytes: 308399
+proto_season2.png bytes: 317304
+proto_relax60.png bytes: 309144
+proto_fx_season.png bytes: 369271
+proto_beat_season4.png bytes: 326791
+proto_desync.png bytes: 377001
+
+==== 6b/screenshots: red-bar self check ====
+OK         proto_home.png  (720x1280, 红条像素=0)
+OK         proto_home_continue.png  (720x1280, 红条像素=0)
+OK         proto_home_diag.png  (720x1280, 红条像素=0)
+OK         proto_play.png  (720x1280, 红条像素=0)
+OK         proto_result.png  (720x1280, 红条像素=0)
+OK         proto_result_early.png  (720x1280, 红条像素=0)
+OK         proto_result_dual.png  (720x1280, 红条像素=0)
+OK         proto_god.png  (720x1280, 红条像素=0)
+OK         proto_god_diag.png  (720x1280, 红条像素=0)
+OK         proto_fail.png  (720x1280, 红条像素=0)
+OK         proto_tap_start.png  (720x1280, 红条像素=0)
+OK         proto_tap_continue.png  (720x1280, 红条像素=0)
+OK         proto_complete.png  (720x1280, 红条像素=0)
+OK         proto_scene_night.png  (720x1280, 红条像素=0)
+OK         proto_scene_noon.png  (720x1280, 红条像素=0)
+OK         proto_scene_minimal.png  (720x1280, 红条像素=0)
+OK         proto_relax.png  (720x1280, 红条像素=0)
+OK         proto_challenge.png  (720x1280, 红条像素=0)
+OK         proto_advance.png  (720x1280, 红条像素=0)
+OK         proto_tap_challenge.png  (720x1280, 红条像素=0)
+OK         proto_tap_relax.png  (720x1280, 红条像素=0)
+OK         proto_timer.png  (720x1280, 红条像素=0)
+OK         proto_timeout.png  (720x1280, 红条像素=0)
+OK         proto_hud_challenge.png  (720x1280, 红条像素=0)
+OK         proto_hud_relax.png  (720x1280, 红条像素=0)
+OK         proto_season2.png  (720x1280, 红条像素=0)
+OK         proto_relax60.png  (720x1280, 红条像素=0)
+OK         proto_fx_season.png  (720x1280, 红条像素=0)
+OK         proto_beat_season4.png  (720x1280, 红条像素=0)
+OK         proto_desync.png  (720x1280, 红条像素=0)
+PNG-CHECK: PASS (30 张均无红条)
+
+==== 7/7 dom check ====
+dom[home] chars: 377189  title: 定格瞬间 · 原型  core-mode: core
+dom[home] PASS: no JS error
+dom[play] chars: 377189  title: 定格瞬间 · 原型  core-mode: core
+dom[play] PASS: no JS error
+dom[result] chars: 377189  title: 定格瞬间 · 原型  core-mode: core
+dom[result] PASS: no JS error
+dom[complete] chars: 377189  title: 定格瞬间 · 原型  core-mode: core
+dom[complete] PASS: no JS error
+
+==== summary ====
+html bytes: 418880  (409.1 KB)
+shots dir: E:\game_design\dista\04_项目管理\验收截图
+shot count: 30
+wav dir   : (not found)
+RESULT: PASS (30 screenshots, 姣忓紶閮借繃绾㈡潯鑷 + 4 dom dumps + selfcheck + modes_check + audio_check A1-A10 + wav render)

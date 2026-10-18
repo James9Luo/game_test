@@ -1,0 +1,16 @@
+id,name,object_id,outline_id,motion_type,ang_speed_min,ang_speed_max,lin_speed_min,lin_speed_max,jitter,tolerance_deg,pass_rate,star3_rate,est_seconds,weight,note,path,cycle_ms,turns,speed_stage,variant,object_id_2,attempts,hit_target_ms
+1,第一次定格,cup_tumbler,cup_tumbler,旋转,95,95,286,286,0.00,15,0.60,0.93,5,1.0,建立因果：慢转一圈，看得清「转正」那一刻,h_line,3776,1,1,single,,3,140
+2,再快一点,cup_tumbler,cup_tumbler,旋转,104,104,313,313,0.00,15,0.60,0.93,5,0.9,只加一个变量：速度升一档,h_line,3453,1,1,single,,3,128
+3,致敬原片,car_hatch,car_hatch,旋转,300,300,450,450,0.00,12,0.60,0.93,3,0.9,换形状+翻两圈：致敬原视频,h_line,2398,2,1,single,,3,112
+4,翻滚的车,car_hatch,car_hatch,旋转,309,309,464,464,0.00,12,0.62,0.94,3,0.85,同形状只提速度：练「车头朝上」,h_line,2330,2,1,single,,3,102
+5,忽然变速,can_cola,can_cola,组合,267,267,286,477,0.00,10,0.62,0.94,4,0.8,变速点固定在周期 40% 处：可练可背,h_line_rl,2694,2,0.75,single,,3,92
+6,拖鞋在飞,slipper,slipper,抛物,252,252,295,295,0.04,10,0.64,0.94,4,0.75,不规则长条：歪一点就掉分,diag_dl,2858,2,1,single,,3,82
+7,吉他卡点,guitar,guitar,抛物,184,184,294,294,0.04,8,0.64,0.94,5,0.7,抛物弧上只有顶点附近是对的,arc_up,3909,2,1,single,,3,74
+8,扳手不好惹,wrench,wrench,抛物,220,220,258,258,0.05,8,0.66,0.94,4,0.65,细长且两头不对称，角度容错收窄,diag_ur,3268,2,1,single,,3,66
+9,升空,rocket,rocket,弹跳,141,141,398,398,0.06,8,0.66,0.94,6,0.6,弹跳读谱：反弹后的上升段才是窗口,bounce_floor,5107,2,1,single,,3,60
+10,双轮廓,car_hatch,car_hatch,旋转,440,440,660,660,0.03,5,0.60,0.94,3,0.55,两个物体同一帧都要卡位：注意力被撕开,h_line,1636,2,1,dual,toilet,3,55
+11,锤子落点,hammer,hammer,旋转,260,260,260,260,0.08,5,0.68,0.94,5,0.5,慢速三圈：靠节奏不靠反应,h_line,4153,3,1,single,,3,50
+12,吉他二段,guitar,guitar,抛物,344,344,269,269,0.08,5,0.70,0.94,4,0.45,速度拉满：抛物线上只有一瞬,diag_dl,3138,3,1,single,,3,46
+13,马桶起飞,toilet,toilet,抛物,375,375,399,399,0.10,5,0.70,0.94,4,0.4,微扰上限：能背节奏不能背死,arc_down,2881,3,1,single,,3,42
+14,火箭加速,rocket,rocket,组合,261,261,388,647,0.12,4,0.72,0.94,5,0.35,两段变速+弹跳：给高手准备的,bounce_floor,4135,3,1.25,single,,3,38
+15,最后一下,wrench,wrench,旋转,301,301,301,301,0.10,3,0.72,0.94,5,0.3,双轮廓终局：两个都得卡住,h_line,3586,3,1,dual,rocket,3,34

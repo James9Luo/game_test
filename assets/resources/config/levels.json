@@ -1,0 +1,3308 @@
+{
+  "version": 1,
+  "generatedBy": "tools/export_levels.mjs",
+  "source": "01_策划文档/levels.csv",
+  "note": "linSpeed/angSpeed 为派生字段（工具重算，运行时只读）；hitWindow/godWindow/starWindow/tolDegActual/tolPxActual 为派生值（seed=0，形状或数值一变就重算）；改数值一律改 CSV 后重跑本工具",
+  "levelCount": 60,
+  "levels": [
+    {
+      "id": 1,
+      "name": "第一次定格",
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 3776,
+      "turns": 1,
+      "jitter": 0,
+      "toleranceDeg": 15,
+      "passRate": 0.6,
+      "star3Rate": 0.93,
+      "estSec": 5,
+      "weight": 1,
+      "attempts": 3,
+      "note": "建立因果：慢转一圈，看得清「转正」那一刻",
+      "speedStage": 1,
+      "hitTargetMs": 140,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        286,
+        286
+      ],
+      "angSpeed": [
+        95.3,
+        95.3
+      ],
+      "tolDegActual": 13.3,
+      "tolPxActual": 40,
+      "hitWindow": {
+        "earlyMs": -140.4,
+        "lateMs": 140
+      },
+      "godWindow": {
+        "earlyMs": -17,
+        "lateMs": 17
+      },
+      "starWindow": {
+        "earlyMs": -23.9,
+        "lateMs": 23.9
+      },
+      "windowDriftPct": 0.3
+    },
+    {
+      "id": 2,
+      "name": "再快一点",
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 3453,
+      "turns": 1,
+      "jitter": 0,
+      "toleranceDeg": 15,
+      "passRate": 0.6,
+      "star3Rate": 0.93,
+      "estSec": 5,
+      "weight": 0.9,
+      "attempts": 3,
+      "note": "只加一个变量：速度升一档",
+      "speedStage": 1,
+      "hitTargetMs": 128,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        312.8,
+        312.8
+      ],
+      "angSpeed": [
+        104.3,
+        104.3
+      ],
+      "tolDegActual": 13.3,
+      "tolPxActual": 40,
+      "hitWindow": {
+        "earlyMs": -128.4,
+        "lateMs": 128
+      },
+      "godWindow": {
+        "earlyMs": -15.6,
+        "lateMs": 15.6
+      },
+      "starWindow": {
+        "earlyMs": -21.9,
+        "lateMs": 21.9
+      },
+      "windowDriftPct": 0.3
+    },
+    {
+      "id": 3,
+      "name": "致敬原片",
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2398,
+      "turns": 2,
+      "jitter": 0,
+      "toleranceDeg": 12,
+      "passRate": 0.6,
+      "star3Rate": 0.93,
+      "estSec": 3,
+      "weight": 0.9,
+      "attempts": 3,
+      "note": "换形状+翻两圈：致敬原视频",
+      "speedStage": 1,
+      "hitTargetMs": 112,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        450.4,
+        450.4
+      ],
+      "angSpeed": [
+        300.3,
+        300.3
+      ],
+      "tolDegActual": 33.6,
+      "tolPxActual": 50.4,
+      "hitWindow": {
+        "earlyMs": -122.2,
+        "lateMs": 112
+      },
+      "godWindow": {
+        "earlyMs": -10.5,
+        "lateMs": 10.5
+      },
+      "starWindow": {
+        "earlyMs": -14.9,
+        "lateMs": 15.2
+      },
+      "windowDriftPct": 9.1
+    },
+    {
+      "id": 4,
+      "name": "翻滚的车",
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2330,
+      "turns": 2,
+      "jitter": 0,
+      "toleranceDeg": 12,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 3,
+      "weight": 0.85,
+      "attempts": 3,
+      "note": "同形状只提速度：练「车头朝上」",
+      "speedStage": 1,
+      "hitTargetMs": 102,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        463.5,
+        463.5
+      ],
+      "angSpeed": [
+        309,
+        309
+      ],
+      "tolDegActual": 31.5,
+      "tolPxActual": 47.3,
+      "hitWindow": {
+        "earlyMs": -110.8,
+        "lateMs": 102
+      },
+      "godWindow": {
+        "earlyMs": -10.2,
+        "lateMs": 10.2
+      },
+      "starWindow": {
+        "earlyMs": -12.5,
+        "lateMs": 12.5
+      },
+      "windowDriftPct": 8.6
+    },
+    {
+      "id": 5,
+      "name": "忽然变速",
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line_rl",
+      "cycleMs": 2694,
+      "turns": 2,
+      "jitter": 0,
+      "toleranceDeg": 10,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 4,
+      "weight": 0.8,
+      "attempts": 3,
+      "note": "变速点固定在周期 40% 处：可练可背",
+      "speedStage": 0.75,
+      "hitTargetMs": 92,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        286.4,
+        477.3
+      ],
+      "angSpeed": [
+        267.3,
+        267.3
+      ],
+      "tolDegActual": 24.6,
+      "tolPxActual": 43.9,
+      "hitWindow": {
+        "earlyMs": -92,
+        "lateMs": 92.3
+      },
+      "godWindow": {
+        "earlyMs": -11.2,
+        "lateMs": 11.2
+      },
+      "starWindow": {
+        "earlyMs": -13.5,
+        "lateMs": 13.5
+      },
+      "windowDriftPct": 0.3
+    },
+    {
+      "id": 6,
+      "name": "拖鞋在飞",
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "single",
+      "motion": "抛物",
+      "path": "diag_dl",
+      "cycleMs": 2858,
+      "turns": 2,
+      "jitter": 0.04,
+      "toleranceDeg": 10,
+      "passRate": 0.64,
+      "star3Rate": 0.94,
+      "estSec": 4,
+      "weight": 0.75,
+      "attempts": 3,
+      "note": "不规则长条：歪一点就掉分",
+      "speedStage": 1,
+      "hitTargetMs": 82,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        295.2,
+        295.2
+      ],
+      "angSpeed": [
+        251.9,
+        251.9
+      ],
+      "tolDegActual": 20.9,
+      "tolPxActual": 24.5,
+      "hitWindow": {
+        "earlyMs": -82,
+        "lateMs": 88.2
+      },
+      "godWindow": {
+        "earlyMs": -10.3,
+        "lateMs": 10.3
+      },
+      "starWindow": {
+        "earlyMs": -12.4,
+        "lateMs": 12.4
+      },
+      "windowDriftPct": 7.6
+    },
+    {
+      "id": 7,
+      "name": "吉他卡点",
+      "shapeId": "guitar",
+      "outlineId": "guitar",
+      "variant": "single",
+      "motion": "抛物",
+      "path": "arc_up",
+      "cycleMs": 3909,
+      "turns": 2,
+      "jitter": 0.04,
+      "toleranceDeg": 8,
+      "passRate": 0.64,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.7,
+      "attempts": 3,
+      "note": "抛物弧上只有顶点附近是对的",
+      "speedStage": 1,
+      "hitTargetMs": 74,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        293.7,
+        293.7
+      ],
+      "angSpeed": [
+        184.2,
+        184.2
+      ],
+      "tolDegActual": 13.8,
+      "tolPxActual": 21.9,
+      "hitWindow": {
+        "earlyMs": -74,
+        "lateMs": 74
+      },
+      "godWindow": {
+        "earlyMs": -7.5,
+        "lateMs": 7.5
+      },
+      "starWindow": {
+        "earlyMs": -9,
+        "lateMs": 9
+      },
+      "windowDriftPct": 0
+    },
+    {
+      "id": 8,
+      "name": "扳手不好惹",
+      "shapeId": "wrench",
+      "outlineId": "wrench",
+      "variant": "single",
+      "motion": "抛物",
+      "path": "diag_ur",
+      "cycleMs": 3268,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 8,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 4,
+      "weight": 0.65,
+      "attempts": 3,
+      "note": "细长且两头不对称，角度容错收窄",
+      "speedStage": 1,
+      "hitTargetMs": 66,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        258.2,
+        258.2
+      ],
+      "angSpeed": [
+        220.3,
+        220.3
+      ],
+      "tolDegActual": 14.8,
+      "tolPxActual": 17.3,
+      "hitWindow": {
+        "earlyMs": -68,
+        "lateMs": 66
+      },
+      "godWindow": {
+        "earlyMs": -7.1,
+        "lateMs": 7.1
+      },
+      "starWindow": {
+        "earlyMs": -8.6,
+        "lateMs": 8.3
+      },
+      "windowDriftPct": 3
+    },
+    {
+      "id": 9,
+      "name": "升空",
+      "shapeId": "rocket",
+      "outlineId": "rocket",
+      "variant": "single",
+      "motion": "弹跳",
+      "path": "bounce_floor",
+      "cycleMs": 5107,
+      "turns": 2,
+      "jitter": 0.06,
+      "toleranceDeg": 8,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 6,
+      "weight": 0.6,
+      "attempts": 3,
+      "note": "弹跳读谱：反弹后的上升段才是窗口",
+      "speedStage": 1,
+      "hitTargetMs": 60,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        398.4,
+        398.4
+      ],
+      "angSpeed": [
+        141,
+        141
+      ],
+      "tolDegActual": 8.6,
+      "tolPxActual": 24.4,
+      "hitWindow": {
+        "earlyMs": -60.3,
+        "lateMs": 62.4
+      },
+      "godWindow": {
+        "earlyMs": -8.3,
+        "lateMs": 8
+      },
+      "starWindow": {
+        "earlyMs": -10.1,
+        "lateMs": 9.8
+      },
+      "windowDriftPct": 4.1
+    },
+    {
+      "id": 10,
+      "name": "双轮廓",
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "dual",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 1636,
+      "turns": 2,
+      "jitter": 0.03,
+      "toleranceDeg": 5,
+      "passRate": 0.6,
+      "star3Rate": 0.94,
+      "estSec": 3,
+      "weight": 0.55,
+      "attempts": 3,
+      "note": "两个物体同一帧都要卡位：注意力被撕开",
+      "speedStage": 1,
+      "shapeId2": "toilet",
+      "hitTargetMs": 55,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        660.1,
+        660.1
+      ],
+      "angSpeed": [
+        440.1,
+        440.1
+      ],
+      "tolDegActual": 24.4,
+      "tolPxActual": 36.6,
+      "hitWindow": {
+        "earlyMs": -55,
+        "lateMs": 59.7
+      },
+      "godWindow": {
+        "earlyMs": -5.9,
+        "lateMs": 5.9
+      },
+      "starWindow": {
+        "earlyMs": -7.1,
+        "lateMs": 7.1
+      },
+      "windowDriftPct": 8.6
+    },
+    {
+      "id": 11,
+      "name": "锤子落点",
+      "shapeId": "hammer",
+      "outlineId": "hammer",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 4153,
+      "turns": 3,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.68,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "慢速三圈：靠节奏不靠反应",
+      "speedStage": 1,
+      "hitTargetMs": 50,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        260.1,
+        260.1
+      ],
+      "angSpeed": [
+        260.1,
+        260.1
+      ],
+      "tolDegActual": 13.3,
+      "tolPxActual": 13.3,
+      "hitWindow": {
+        "earlyMs": -50,
+        "lateMs": 51.5
+      },
+      "godWindow": {
+        "earlyMs": -7.4,
+        "lateMs": 7.4
+      },
+      "starWindow": {
+        "earlyMs": -8.9,
+        "lateMs": 8.9
+      },
+      "windowDriftPct": 3
+    },
+    {
+      "id": 12,
+      "name": "吉他二段",
+      "shapeId": "guitar",
+      "outlineId": "guitar",
+      "variant": "single",
+      "motion": "抛物",
+      "path": "diag_dl",
+      "cycleMs": 3138,
+      "turns": 3,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 4,
+      "weight": 0.45,
+      "attempts": 3,
+      "note": "速度拉满：抛物线上只有一瞬",
+      "speedStage": 1,
+      "hitTargetMs": 46,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        268.9,
+        268.9
+      ],
+      "angSpeed": [
+        344.2,
+        344.2
+      ],
+      "tolDegActual": 16.2,
+      "tolPxActual": 12.7,
+      "hitWindow": {
+        "earlyMs": -46,
+        "lateMs": 47.1
+      },
+      "godWindow": {
+        "earlyMs": -6,
+        "lateMs": 6
+      },
+      "starWindow": {
+        "earlyMs": -7.1,
+        "lateMs": 7.1
+      },
+      "windowDriftPct": 2.5
+    },
+    {
+      "id": 13,
+      "name": "马桶起飞",
+      "shapeId": "toilet",
+      "outlineId": "toilet",
+      "variant": "single",
+      "motion": "抛物",
+      "path": "arc_down",
+      "cycleMs": 2881,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 4,
+      "weight": 0.4,
+      "attempts": 3,
+      "note": "微扰上限：能背节奏不能背死",
+      "speedStage": 1,
+      "hitTargetMs": 42,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        398.6,
+        398.6
+      ],
+      "angSpeed": [
+        374.9,
+        374.9
+      ],
+      "tolDegActual": 16.2,
+      "tolPxActual": 17.2,
+      "hitWindow": {
+        "earlyMs": -44.7,
+        "lateMs": 42
+      },
+      "godWindow": {
+        "earlyMs": -6.5,
+        "lateMs": 6.1
+      },
+      "starWindow": {
+        "earlyMs": -7.5,
+        "lateMs": 7.5
+      },
+      "windowDriftPct": 6.5
+    },
+    {
+      "id": 14,
+      "name": "火箭加速",
+      "shapeId": "rocket",
+      "outlineId": "rocket",
+      "variant": "single",
+      "motion": "组合",
+      "path": "bounce_floor",
+      "cycleMs": 4135,
+      "turns": 3,
+      "jitter": 0.12,
+      "toleranceDeg": 4,
+      "passRate": 0.72,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.35,
+      "attempts": 3,
+      "note": "两段变速+弹跳：给高手准备的",
+      "speedStage": 1.25,
+      "hitTargetMs": 38,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        388.4,
+        647.4
+      ],
+      "angSpeed": [
+        261.2,
+        261.2
+      ],
+      "tolDegActual": 10.3,
+      "tolPxActual": 15.3,
+      "hitWindow": {
+        "earlyMs": -38,
+        "lateMs": 39
+      },
+      "godWindow": {
+        "earlyMs": -5.8,
+        "lateMs": 5.8
+      },
+      "starWindow": {
+        "earlyMs": -7.3,
+        "lateMs": 7.3
+      },
+      "windowDriftPct": 2.6
+    },
+    {
+      "id": 15,
+      "name": "最后一下",
+      "shapeId": "wrench",
+      "outlineId": "wrench",
+      "variant": "dual",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 3586,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 3,
+      "passRate": 0.72,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.3,
+      "attempts": 3,
+      "note": "双轮廓终局：两个都得卡住",
+      "speedStage": 1,
+      "shapeId2": "rocket",
+      "hitTargetMs": 34,
+      "season": 1,
+      "sineAmp": 0,
+      "sinePeriodMs": 960,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        301.2,
+        301.2
+      ],
+      "angSpeed": [
+        301.2,
+        301.2
+      ],
+      "tolDegActual": 10.5,
+      "tolPxActual": 10.5,
+      "hitWindow": {
+        "earlyMs": -34,
+        "lateMs": 34
+      },
+      "godWindow": {
+        "earlyMs": -5.1,
+        "lateMs": 5.1
+      },
+      "starWindow": {
+        "earlyMs": -5.9,
+        "lateMs": 5.9
+      },
+      "windowDriftPct": 0
+    },
+    {
+      "id": 16,
+      "name": "第2季·01",
+      "shapeId": "book",
+      "outlineId": "book",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2200,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：正弦弱",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.04,
+      "sinePeriodMs": 1100,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        471.3,
+        510.5
+      ],
+      "angSpeed": [
+        327.3,
+        327.3
+      ],
+      "tolDegActual": 47.5,
+      "tolPxActual": 72.1,
+      "hitWindow": {
+        "earlyMs": -148.1,
+        "lateMs": 143.1
+      },
+      "godWindow": {
+        "earlyMs": -13.2,
+        "lateMs": 13.2
+      },
+      "starWindow": {
+        "earlyMs": -16.1,
+        "lateMs": 16.1
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 17,
+      "name": "第2季·02",
+      "shapeId": "handheld",
+      "outlineId": "handheld",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2150,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.04,
+      "sinePeriodMs": 1075,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        482.2,
+        522.4
+      ],
+      "angSpeed": [
+        334.9,
+        334.9
+      ],
+      "tolDegActual": 34.9,
+      "tolPxActual": 52.7,
+      "hitWindow": {
+        "earlyMs": -109.9,
+        "lateMs": 102.6
+      },
+      "godWindow": {
+        "earlyMs": -11.1,
+        "lateMs": 11.1
+      },
+      "starWindow": {
+        "earlyMs": -13.4,
+        "lateMs": 13.4
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 18,
+      "name": "第2季·03",
+      "shapeId": "toaster",
+      "outlineId": "toaster",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2100,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.04,
+      "sinePeriodMs": 1050,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        493.7,
+        534.9
+      ],
+      "angSpeed": [
+        342.9,
+        342.9
+      ],
+      "tolDegActual": 33.5,
+      "tolPxActual": 50.7,
+      "hitWindow": {
+        "earlyMs": -100.2,
+        "lateMs": 96.4
+      },
+      "godWindow": {
+        "earlyMs": -5.3,
+        "lateMs": 5.3
+      },
+      "starWindow": {
+        "earlyMs": -6.6,
+        "lateMs": 6.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 19,
+      "name": "第2季·04",
+      "shapeId": "camera",
+      "outlineId": "camera",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2100,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：正弦中",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.08,
+      "sinePeriodMs": 1050,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        473.1,
+        555.4
+      ],
+      "angSpeed": [
+        342.9,
+        342.9
+      ],
+      "tolDegActual": 34.1,
+      "tolPxActual": 51.9,
+      "hitWindow": {
+        "earlyMs": -105.3,
+        "lateMs": 98
+      },
+      "godWindow": {
+        "earlyMs": -8.8,
+        "lateMs": 8.8
+      },
+      "starWindow": {
+        "earlyMs": -10.6,
+        "lateMs": 10.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 20,
+      "name": "第2季·05",
+      "shapeId": "mug",
+      "outlineId": "mug",
+      "variant": "dual",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 2000,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "shapeId2": "mecha_doll",
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.08,
+      "sinePeriodMs": 1000,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        496.8,
+        583.2
+      ],
+      "angSpeed": [
+        360,
+        360
+      ],
+      "tolDegActual": 13.9,
+      "tolPxActual": 20.9,
+      "hitWindow": {
+        "earlyMs": -39,
+        "lateMs": 38
+      },
+      "godWindow": {
+        "earlyMs": -4.3,
+        "lateMs": 4.3
+      },
+      "starWindow": {
+        "earlyMs": -5.3,
+        "lateMs": 5.3
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 21,
+      "name": "第2季·06",
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 1950,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.08,
+      "sinePeriodMs": 975,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        509.5,
+        598.2
+      ],
+      "angSpeed": [
+        369.2,
+        369.2
+      ],
+      "tolDegActual": 31.3,
+      "tolPxActual": 47.6,
+      "hitWindow": {
+        "earlyMs": -92.8,
+        "lateMs": 83.5
+      },
+      "godWindow": {
+        "earlyMs": -8.4,
+        "lateMs": 8.4
+      },
+      "starWindow": {
+        "earlyMs": -10.3,
+        "lateMs": 10.3
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 22,
+      "name": "第2季·07",
+      "shapeId": "crab",
+      "outlineId": "crab",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 1950,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：正弦强",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 975,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        487.4,
+        620.3
+      ],
+      "angSpeed": [
+        369.2,
+        369.2
+      ],
+      "tolDegActual": 30.4,
+      "tolPxActual": 46.5,
+      "hitWindow": {
+        "earlyMs": -88.2,
+        "lateMs": 81.1
+      },
+      "godWindow": {
+        "earlyMs": -6.6,
+        "lateMs": 6.6
+      },
+      "starWindow": {
+        "earlyMs": -8,
+        "lateMs": 8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 23,
+      "name": "第2季·08",
+      "shapeId": "teapot",
+      "outlineId": "teapot",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 1850,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 925,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        513.7,
+        653.8
+      ],
+      "angSpeed": [
+        389.2,
+        389.2
+      ],
+      "tolDegActual": 29.9,
+      "tolPxActual": 44.7,
+      "hitWindow": {
+        "earlyMs": -78.7,
+        "lateMs": 75.6
+      },
+      "godWindow": {
+        "earlyMs": -4.9,
+        "lateMs": 4.9
+      },
+      "starWindow": {
+        "earlyMs": -6.2,
+        "lateMs": 6.2
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 24,
+      "name": "第2季·09",
+      "shapeId": "sneaker",
+      "outlineId": "sneaker",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "diag_dl",
+      "cycleMs": 1800,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 900,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        412.5,
+        525
+      ],
+      "angSpeed": [
+        400,
+        400
+      ],
+      "tolDegActual": 29.3,
+      "tolPxActual": 33,
+      "hitWindow": {
+        "earlyMs": -72.3,
+        "lateMs": 82.2
+      },
+      "godWindow": {
+        "earlyMs": -7.4,
+        "lateMs": 7.4
+      },
+      "starWindow": {
+        "earlyMs": -9.1,
+        "lateMs": 9.1
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 25,
+      "name": "第2季·10",
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "dual",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 1800,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：双物体",
+      "speedStage": 1,
+      "shapeId2": "toilet",
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 900,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        528,
+        672
+      ],
+      "angSpeed": [
+        400,
+        400
+      ],
+      "tolDegActual": 18.3,
+      "tolPxActual": 27.1,
+      "hitWindow": {
+        "earlyMs": -45.9,
+        "lateMs": 45
+      },
+      "godWindow": {
+        "earlyMs": -6.1,
+        "lateMs": 6.1
+      },
+      "starWindow": {
+        "earlyMs": -7.4,
+        "lateMs": 7.8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 26,
+      "name": "第2季·11",
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "diag_dl",
+      "cycleMs": 1700,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 850,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        436.8,
+        555.9
+      ],
+      "angSpeed": [
+        423.5,
+        423.5
+      ],
+      "tolDegActual": 29.5,
+      "tolPxActual": 35.3,
+      "hitWindow": {
+        "earlyMs": -73.6,
+        "lateMs": 68.7
+      },
+      "godWindow": {
+        "earlyMs": -8.2,
+        "lateMs": 8.2
+      },
+      "starWindow": {
+        "earlyMs": -9.8,
+        "lateMs": 9.8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 27,
+      "name": "第2季·12",
+      "shapeId": "mecha_doll",
+      "outlineId": "mecha_doll",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "diag_dl",
+      "cycleMs": 1650,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 825,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        450,
+        572.8
+      ],
+      "angSpeed": [
+        436.4,
+        436.4
+      ],
+      "tolDegActual": 26.2,
+      "tolPxActual": 31.2,
+      "hitWindow": {
+        "earlyMs": -65.9,
+        "lateMs": 59.1
+      },
+      "godWindow": {
+        "earlyMs": -6,
+        "lateMs": 6
+      },
+      "starWindow": {
+        "earlyMs": -7.1,
+        "lateMs": 7.1
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 28,
+      "name": "第2季·13",
+      "shapeId": "icecream",
+      "outlineId": "icecream",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "diag_dl",
+      "cycleMs": 1650,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：正弦强+斜线",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 825,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        450,
+        572.8
+      ],
+      "angSpeed": [
+        436.4,
+        436.4
+      ],
+      "tolDegActual": 26,
+      "tolPxActual": 30.7,
+      "hitWindow": {
+        "earlyMs": -61.5,
+        "lateMs": 58.7
+      },
+      "godWindow": {
+        "earlyMs": -6.7,
+        "lateMs": 6.7
+      },
+      "starWindow": {
+        "earlyMs": -8.3,
+        "lateMs": 8.3
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 29,
+      "name": "第2季·14",
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "single",
+      "motion": "旋转",
+      "path": "diag_dl",
+      "cycleMs": 1550,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 775,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        479.1,
+        609.7
+      ],
+      "angSpeed": [
+        464.5,
+        464.5
+      ],
+      "tolDegActual": 22.5,
+      "tolPxActual": 25.5,
+      "hitWindow": {
+        "earlyMs": -47.7,
+        "lateMs": 51.1
+      },
+      "godWindow": {
+        "earlyMs": -5.6,
+        "lateMs": 5.6
+      },
+      "starWindow": {
+        "earlyMs": -6.7,
+        "lateMs": 6.7
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 30,
+      "name": "第2季·15",
+      "shapeId": "dessert",
+      "outlineId": "dessert",
+      "variant": "dual",
+      "motion": "旋转",
+      "path": "h_line",
+      "cycleMs": 1500,
+      "turns": 2,
+      "jitter": 0.05,
+      "toleranceDeg": 5,
+      "passRate": 0.62,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "shapeId2": "skateboard",
+      "hitTargetMs": 0,
+      "season": 2,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 750,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 0,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        633.6,
+        806.4
+      ],
+      "angSpeed": [
+        480,
+        480
+      ],
+      "tolDegActual": 13.5,
+      "tolPxActual": 20.3,
+      "hitWindow": {
+        "earlyMs": -29.6,
+        "lateMs": 27.8
+      },
+      "godWindow": {
+        "earlyMs": -3.2,
+        "lateMs": 3.2
+      },
+      "starWindow": {
+        "earlyMs": -4,
+        "lateMs": 4
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 31,
+      "name": "第3季·01",
+      "shapeId": "book",
+      "outlineId": "book",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1900,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：惯性横向首现",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.06,
+      "sinePeriodMs": 950,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 2,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        534.3,
+        602.5
+      ],
+      "angSpeed": [
+        378.9,
+        378.9
+      ],
+      "tolDegActual": 40.6,
+      "tolPxActual": 62.5,
+      "hitWindow": {
+        "earlyMs": -109.2,
+        "lateMs": 104.6
+      },
+      "godWindow": {
+        "earlyMs": -11.3,
+        "lateMs": 11.3
+      },
+      "starWindow": {
+        "earlyMs": -13.6,
+        "lateMs": 13.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 32,
+      "name": "第3季·02",
+      "shapeId": "handheld",
+      "outlineId": "handheld",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1861,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.06,
+      "sinePeriodMs": 931,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 2,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        545.5,
+        615.2
+      ],
+      "angSpeed": [
+        386.9,
+        386.9
+      ],
+      "tolDegActual": 30.2,
+      "tolPxActual": 46.4,
+      "hitWindow": {
+        "earlyMs": -82.1,
+        "lateMs": 76.3
+      },
+      "godWindow": {
+        "earlyMs": -9.3,
+        "lateMs": 9.3
+      },
+      "starWindow": {
+        "earlyMs": -11.1,
+        "lateMs": 11.1
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 33,
+      "name": "第3季·03",
+      "shapeId": "toaster",
+      "outlineId": "toaster",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1821,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.06,
+      "sinePeriodMs": 911,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 2,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        557.5,
+        628.7
+      ],
+      "angSpeed": [
+        395.4,
+        395.4
+      ],
+      "tolDegActual": 18.4,
+      "tolPxActual": 28.3,
+      "hitWindow": {
+        "earlyMs": -46.4,
+        "lateMs": 45.6
+      },
+      "godWindow": {
+        "earlyMs": -4.3,
+        "lateMs": 4.3
+      },
+      "starWindow": {
+        "earlyMs": -5.2,
+        "lateMs": 5.2
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 34,
+      "name": "第3季·04",
+      "shapeId": "camera",
+      "outlineId": "camera",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1821,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：惯性纵向",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 911,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 3,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        533.8,
+        652.4
+      ],
+      "angSpeed": [
+        395.4,
+        395.4
+      ],
+      "tolDegActual": 30.4,
+      "tolPxActual": 44.3,
+      "hitWindow": {
+        "earlyMs": -76,
+        "lateMs": 75.1
+      },
+      "godWindow": {
+        "earlyMs": -7.4,
+        "lateMs": 7.4
+      },
+      "starWindow": {
+        "earlyMs": -9.1,
+        "lateMs": 9.1
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 35,
+      "name": "第3季·05",
+      "shapeId": "mug",
+      "outlineId": "mug",
+      "variant": "dual",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1743,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "shapeId2": "mecha_doll",
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 872,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 3,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        557.7,
+        681.6
+      ],
+      "angSpeed": [
+        413.1,
+        413.1
+      ],
+      "tolDegActual": 12.6,
+      "tolPxActual": 18.7,
+      "hitWindow": {
+        "earlyMs": -30.3,
+        "lateMs": 29.9
+      },
+      "godWindow": {
+        "earlyMs": -3.7,
+        "lateMs": 3.7
+      },
+      "starWindow": {
+        "earlyMs": -4.6,
+        "lateMs": 4.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 36,
+      "name": "第3季·06",
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1704,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 852,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 3,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        445.7,
+        544.7
+      ],
+      "angSpeed": [
+        422.5,
+        422.5
+      ],
+      "tolDegActual": 26.9,
+      "tolPxActual": 31,
+      "hitWindow": {
+        "earlyMs": -62.2,
+        "lateMs": 74.3
+      },
+      "godWindow": {
+        "earlyMs": -7.3,
+        "lateMs": 7.3
+      },
+      "starWindow": {
+        "earlyMs": -8.9,
+        "lateMs": 8.9
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 37,
+      "name": "第3季·07",
+      "shapeId": "crab",
+      "outlineId": "crab",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1704,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：惯性斜向",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 852,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 4,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0.125,
+      "linSpeed": [
+        445.7,
+        544.7
+      ],
+      "angSpeed": [
+        422.5,
+        422.5
+      ],
+      "tolDegActual": 28.6,
+      "tolPxActual": 33.4,
+      "hitWindow": {
+        "earlyMs": -66.2,
+        "lateMs": 71.9
+      },
+      "godWindow": {
+        "earlyMs": -5.7,
+        "lateMs": 5.7
+      },
+      "starWindow": {
+        "earlyMs": -6.9,
+        "lateMs": 6.9
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 38,
+      "name": "第3季·08",
+      "shapeId": "teapot",
+      "outlineId": "teapot",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1625,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 813,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 4,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0.125,
+      "linSpeed": [
+        467.3,
+        571.2
+      ],
+      "angSpeed": [
+        443.1,
+        443.1
+      ],
+      "tolDegActual": 24.1,
+      "tolPxActual": 28.4,
+      "hitWindow": {
+        "earlyMs": -53.1,
+        "lateMs": 61.2
+      },
+      "godWindow": {
+        "earlyMs": -4.6,
+        "lateMs": 4.6
+      },
+      "starWindow": {
+        "earlyMs": -5.8,
+        "lateMs": 5.8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 39,
+      "name": "第3季·09",
+      "shapeId": "sneaker",
+      "outlineId": "sneaker",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1586,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 793,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 4,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0.125,
+      "linSpeed": [
+        478.8,
+        585.2
+      ],
+      "angSpeed": [
+        454,
+        454
+      ],
+      "tolDegActual": 24.4,
+      "tolPxActual": 29,
+      "hitWindow": {
+        "earlyMs": -52.6,
+        "lateMs": 59
+      },
+      "godWindow": {
+        "earlyMs": -6.4,
+        "lateMs": 6.4
+      },
+      "starWindow": {
+        "earlyMs": -7.6,
+        "lateMs": 7.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 40,
+      "name": "第3季·10",
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "dual",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1586,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：双物体+惯性",
+      "speedStage": 1,
+      "shapeId2": "dino",
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 793,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        612.9,
+        749.1
+      ],
+      "angSpeed": [
+        454,
+        454
+      ],
+      "tolDegActual": 11.9,
+      "tolPxActual": 18,
+      "hitWindow": {
+        "earlyMs": -25.7,
+        "lateMs": 31.4
+      },
+      "godWindow": {
+        "earlyMs": -3.4,
+        "lateMs": 3.4
+      },
+      "starWindow": {
+        "earlyMs": -4.2,
+        "lateMs": 4.2
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 41,
+      "name": "第3季·11",
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1507,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 754,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        685.7,
+        838.1
+      ],
+      "angSpeed": [
+        477.8,
+        477.8
+      ],
+      "tolDegActual": 21.1,
+      "tolPxActual": 34.6,
+      "hitWindow": {
+        "earlyMs": -44.5,
+        "lateMs": 43.1
+      },
+      "godWindow": {
+        "earlyMs": -5.7,
+        "lateMs": 5.7
+      },
+      "starWindow": {
+        "earlyMs": -7.2,
+        "lateMs": 7.2
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 42,
+      "name": "第3季·12",
+      "shapeId": "mecha_doll",
+      "outlineId": "mecha_doll",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1468,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 734,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        704,
+        860.4
+      ],
+      "angSpeed": [
+        490.5,
+        490.5
+      ],
+      "tolDegActual": 19,
+      "tolPxActual": 31,
+      "hitWindow": {
+        "earlyMs": -38.5,
+        "lateMs": 37.8
+      },
+      "godWindow": {
+        "earlyMs": -4.5,
+        "lateMs": 4.5
+      },
+      "starWindow": {
+        "earlyMs": -5.2,
+        "lateMs": 5.2
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 43,
+      "name": "第3季·13",
+      "shapeId": "icecream",
+      "outlineId": "icecream",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1468,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：强惯性+弧线",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 734,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        688.3,
+        876
+      ],
+      "angSpeed": [
+        490.5,
+        490.5
+      ],
+      "tolDegActual": 20,
+      "tolPxActual": 31.2,
+      "hitWindow": {
+        "earlyMs": -40.9,
+        "lateMs": 39.9
+      },
+      "godWindow": {
+        "earlyMs": -5.6,
+        "lateMs": 5.6
+      },
+      "starWindow": {
+        "earlyMs": -6.6,
+        "lateMs": 6.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 44,
+      "name": "第3季·14",
+      "shapeId": "lobster",
+      "outlineId": "lobster",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1389,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 695,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        727.5,
+        925.9
+      ],
+      "angSpeed": [
+        518.4,
+        518.4
+      ],
+      "tolDegActual": 16.7,
+      "tolPxActual": 26.5,
+      "hitWindow": {
+        "earlyMs": -32.8,
+        "lateMs": 31.5
+      },
+      "godWindow": {
+        "earlyMs": -3.6,
+        "lateMs": 3.6
+      },
+      "starWindow": {
+        "earlyMs": -4.3,
+        "lateMs": 4.3
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 45,
+      "name": "第3季·15",
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "dual",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1350,
+      "turns": 2,
+      "jitter": 0.08,
+      "toleranceDeg": 5,
+      "passRate": 0.66,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "shapeId2": "wrench",
+      "hitTargetMs": 0,
+      "season": 3,
+      "sineAmp": 0.12,
+      "sinePeriodMs": 675,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        704,
+        896
+      ],
+      "angSpeed": [
+        533.3,
+        533.3
+      ],
+      "tolDegActual": 12.6,
+      "tolPxActual": 18.9,
+      "hitWindow": {
+        "earlyMs": -23.8,
+        "lateMs": 23.2
+      },
+      "godWindow": {
+        "earlyMs": -3.2,
+        "lateMs": 3.2
+      },
+      "starWindow": {
+        "earlyMs": -3.9,
+        "lateMs": 3.9
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 46,
+      "name": "第4季·01",
+      "shapeId": "book",
+      "outlineId": "book",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1700,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：三圈首现",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 850,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 4,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        571.8,
+        698.8
+      ],
+      "angSpeed": [
+        635.3,
+        635.3
+      ],
+      "tolDegActual": 44.8,
+      "tolPxActual": 46.3,
+      "hitWindow": {
+        "earlyMs": -72.1,
+        "lateMs": 68.5
+      },
+      "godWindow": {
+        "earlyMs": -7.7,
+        "lateMs": 7.7
+      },
+      "starWindow": {
+        "earlyMs": -9.3,
+        "lateMs": 9.3
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 47,
+      "name": "第4季·02",
+      "shapeId": "handheld",
+      "outlineId": "handheld",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1664,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 832,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 4,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        584.1,
+        713.9
+      ],
+      "angSpeed": [
+        649,
+        649
+      ],
+      "tolDegActual": 30.3,
+      "tolPxActual": 31.3,
+      "hitWindow": {
+        "earlyMs": -48.1,
+        "lateMs": 45.4
+      },
+      "godWindow": {
+        "earlyMs": -6.7,
+        "lateMs": 6.7
+      },
+      "starWindow": {
+        "earlyMs": -7.9,
+        "lateMs": 7.9
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 48,
+      "name": "第4季·03",
+      "shapeId": "toaster",
+      "outlineId": "toaster",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1629,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.1,
+      "sinePeriodMs": 815,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 4,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        596.7,
+        729.3
+      ],
+      "angSpeed": [
+        663,
+        663
+      ],
+      "tolDegActual": 17.6,
+      "tolPxActual": 18.1,
+      "hitWindow": {
+        "earlyMs": -26.3,
+        "lateMs": 25.9
+      },
+      "godWindow": {
+        "earlyMs": -3.1,
+        "lateMs": 3.1
+      },
+      "starWindow": {
+        "earlyMs": -3.9,
+        "lateMs": 3.9
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 49,
+      "name": "第4季·04",
+      "shapeId": "camera",
+      "outlineId": "camera",
+      "variant": "single",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1629,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：三圈+强正弦",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 815,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0.125,
+      "linSpeed": [
+        570.2,
+        755.8
+      ],
+      "angSpeed": [
+        663,
+        663
+      ],
+      "tolDegActual": 29.8,
+      "tolPxActual": 29,
+      "hitWindow": {
+        "earlyMs": -43.6,
+        "lateMs": 44.8
+      },
+      "godWindow": {
+        "earlyMs": -5,
+        "lateMs": 5
+      },
+      "starWindow": {
+        "earlyMs": -6.2,
+        "lateMs": 6.2
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 50,
+      "name": "第4季·05",
+      "shapeId": "mug",
+      "outlineId": "mug",
+      "variant": "dual",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1557,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "shapeId2": "mecha_doll",
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 779,
+      "sinePhase": 0,
+      "phase2": 0.38,
+      "cycle2Ms": 0,
+      "timeLimitSec": 20,
+      "inertiaPx": 5,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0.125,
+      "linSpeed": [
+        596.5,
+        790.8
+      ],
+      "angSpeed": [
+        693.6,
+        693.6
+      ],
+      "tolDegActual": 16.9,
+      "tolPxActual": 23.9,
+      "hitWindowByMover": [
+        {
+          "earlyMs": -36.2,
+          "lateMs": 32.8
+        },
+        {
+          "earlyMs": -24,
+          "lateMs": 23.6
+        }
+      ],
+      "godWindowByMover": [
+        {
+          "earlyMs": -5.2,
+          "lateMs": 4.8
+        },
+        {
+          "earlyMs": -2.2,
+          "lateMs": 2.2
+        }
+      ],
+      "perfectMsByMover": [
+        756.8,
+        1331.8
+      ],
+      "hitWindow": {
+        "earlyMs": -24,
+        "lateMs": 23.6
+      },
+      "godWindow": {
+        "earlyMs": -2.2,
+        "lateMs": 2.2
+      },
+      "starWindow": {
+        "earlyMs": -2.6,
+        "lateMs": 2.6
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 51,
+      "name": "第4季·06",
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1521,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 761,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 5,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0.125,
+      "linSpeed": [
+        477.1,
+        632.4
+      ],
+      "angSpeed": [
+        710.1,
+        710.1
+      ],
+      "tolDegActual": 25.8,
+      "tolPxActual": 20.4,
+      "hitWindow": {
+        "earlyMs": -35.3,
+        "lateMs": 38.2
+      },
+      "godWindow": {
+        "earlyMs": -4.7,
+        "lateMs": 5
+      },
+      "starWindow": {
+        "earlyMs": -5.8,
+        "lateMs": 5.8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 52,
+      "name": "第4季·07",
+      "shapeId": "crab",
+      "outlineId": "crab",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1521,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：三圈+斜线",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 761,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        477.1,
+        632.4
+      ],
+      "angSpeed": [
+        710.1,
+        710.1
+      ],
+      "tolDegActual": 30,
+      "tolPxActual": 23.3,
+      "hitWindow": {
+        "earlyMs": -41.1,
+        "lateMs": 41.5
+      },
+      "godWindow": {
+        "earlyMs": -4,
+        "lateMs": 4
+      },
+      "starWindow": {
+        "earlyMs": -4.7,
+        "lateMs": 4.7
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 53,
+      "name": "第4季·08",
+      "shapeId": "teapot",
+      "outlineId": "teapot",
+      "variant": "single",
+      "motion": "组合",
+      "path": "diag_dl",
+      "cycleMs": 1450,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 725,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        500.5,
+        663.4
+      ],
+      "angSpeed": [
+        744.8,
+        744.8
+      ],
+      "tolDegActual": 26.1,
+      "tolPxActual": 20.4,
+      "hitWindow": {
+        "earlyMs": -34,
+        "lateMs": 37.5
+      },
+      "godWindow": {
+        "earlyMs": -3.1,
+        "lateMs": 3.1
+      },
+      "starWindow": {
+        "earlyMs": -3.8,
+        "lateMs": 3.8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 54,
+      "name": "第4季·09",
+      "shapeId": "sneaker",
+      "outlineId": "sneaker",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1414,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 707,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0,
+      "linSpeed": [
+        698.4,
+        925.7
+      ],
+      "angSpeed": [
+        763.8,
+        763.8
+      ],
+      "tolDegActual": 23.2,
+      "tolPxActual": 25,
+      "hitWindow": {
+        "earlyMs": -29.8,
+        "lateMs": 29.5
+      },
+      "godWindow": {
+        "earlyMs": -3.7,
+        "lateMs": 3.7
+      },
+      "starWindow": {
+        "earlyMs": -4.7,
+        "lateMs": 4.7
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 55,
+      "name": "第4季·10",
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "dual",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1414,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：呼吸加快+双物体",
+      "speedStage": 1,
+      "shapeId2": "dino",
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 600,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        646.9,
+        857.6
+      ],
+      "angSpeed": [
+        763.8,
+        763.8
+      ],
+      "tolDegActual": 11.3,
+      "tolPxActual": 12.4,
+      "hitWindow": {
+        "earlyMs": -14.4,
+        "lateMs": 15.1
+      },
+      "godWindow": {
+        "earlyMs": -2.3,
+        "lateMs": 2.3
+      },
+      "starWindow": {
+        "earlyMs": -3,
+        "lateMs": 3
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 56,
+      "name": "第4季·11",
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1343,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 600,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        728.6,
+        965.8
+      ],
+      "angSpeed": [
+        804.2,
+        804.2
+      ],
+      "tolDegActual": 24,
+      "tolPxActual": 27.1,
+      "hitWindow": {
+        "earlyMs": -29.6,
+        "lateMs": 29
+      },
+      "godWindow": {
+        "earlyMs": -4.5,
+        "lateMs": 4.5
+      },
+      "starWindow": {
+        "earlyMs": -5.4,
+        "lateMs": 5.4
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 57,
+      "name": "第4季·12",
+      "shapeId": "mecha_doll",
+      "outlineId": "mecha_doll",
+      "variant": "single",
+      "motion": "组合",
+      "path": "arc_up",
+      "cycleMs": 1307,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 600,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0.25,
+      "linSpeed": [
+        751.2,
+        995.8
+      ],
+      "angSpeed": [
+        826.3,
+        826.3
+      ],
+      "tolDegActual": 20,
+      "tolPxActual": 22.1,
+      "hitWindow": {
+        "earlyMs": -23.9,
+        "lateMs": 23.5
+      },
+      "godWindow": {
+        "earlyMs": -3.1,
+        "lateMs": 3.1
+      },
+      "starWindow": {
+        "earlyMs": -4,
+        "lateMs": 3.7
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 58,
+      "name": "第4季·13",
+      "shapeId": "icecream",
+      "outlineId": "icecream",
+      "variant": "single",
+      "motion": "组合",
+      "path": "bounce_floor",
+      "cycleMs": 1307,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "机制：全机制收紧（弹跳）",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 600,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 0.7,
+      "inertiaPhase": 0.5,
+      "linSpeed": [
+        1331,
+        1764.3
+      ],
+      "angSpeed": [
+        826.3,
+        826.3
+      ],
+      "tolDegActual": 14,
+      "tolPxActual": 29,
+      "hitWindow": {
+        "earlyMs": -16.7,
+        "lateMs": 16.4
+      },
+      "godWindow": {
+        "earlyMs": -2.5,
+        "lateMs": 2.5
+      },
+      "starWindow": {
+        "earlyMs": -2.8,
+        "lateMs": 2.8
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 59,
+      "name": "第4季·14",
+      "shapeId": "lobster",
+      "outlineId": "lobster",
+      "variant": "single",
+      "motion": "组合",
+      "path": "bounce_floor",
+      "cycleMs": 1236,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 600,
+      "sinePhase": 0,
+      "phase2": 0,
+      "cycle2Ms": 0,
+      "timeLimitSec": 0,
+      "inertiaPx": 6,
+      "inertiaHz": 0.9,
+      "inertiaPhase": 0.5,
+      "linSpeed": [
+        1414.5,
+        1875
+      ],
+      "angSpeed": [
+        873.8,
+        873.8
+      ],
+      "tolDegActual": 11.3,
+      "tolPxActual": 24.2,
+      "hitWindow": {
+        "earlyMs": -12.6,
+        "lateMs": 12.9
+      },
+      "godWindow": {
+        "earlyMs": -1.8,
+        "lateMs": 1.8
+      },
+      "starWindow": {
+        "earlyMs": -2.1,
+        "lateMs": 2.1
+      },
+      "windowDriftPct": null
+    },
+    {
+      "id": 60,
+      "name": "第4季·15",
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "dual",
+      "motion": "组合",
+      "path": "h_line",
+      "cycleMs": 1200,
+      "turns": 3,
+      "jitter": 0.1,
+      "toleranceDeg": 5,
+      "passRate": 0.7,
+      "star3Rate": 0.94,
+      "estSec": 5,
+      "weight": 0.5,
+      "attempts": 3,
+      "note": "季内提速",
+      "speedStage": 1,
+      "shapeId2": "cactus",
+      "hitTargetMs": 0,
+      "season": 4,
+      "sineAmp": 0.14,
+      "sinePeriodMs": 600,
+      "sinePhase": 0,
+      "phase2": 0.4,
+      "cycle2Ms": 0,
+      "timeLimitSec": 20,
+      "inertiaPx": 6,
+      "inertiaHz": 1.1,
+      "inertiaPhase": 0.5,
+      "linSpeed": [
+        774,
+        1026
+      ],
+      "angSpeed": [
+        900,
+        900
+      ],
+      "tolDegActual": 12.9,
+      "tolPxActual": 15.4,
+      "hitWindowByMover": [
+        {
+          "earlyMs": -18.5,
+          "lateMs": 17.6
+        },
+        {
+          "earlyMs": -14.2,
+          "lateMs": 13.9
+        }
+      ],
+      "godWindowByMover": [
+        {
+          "earlyMs": -2.6,
+          "lateMs": 2.6
+        },
+        {
+          "earlyMs": -2.3,
+          "lateMs": 2.3
+        }
+      ],
+      "perfectMsByMover": [
+        583.3,
+        1049.7
+      ],
+      "hitWindow": {
+        "earlyMs": -14.2,
+        "lateMs": 13.9
+      },
+      "godWindow": {
+        "earlyMs": -2.3,
+        "lateMs": 2.3
+      },
+      "starWindow": {
+        "earlyMs": -2.6,
+        "lateMs": 2.6
+      },
+      "windowDriftPct": null
+    }
+  ]
+}

@@ -53,7 +53,8 @@
 | `art/fx/` | 特效帧 / 粒子贴图 | `fx_hit_01.png` |
 | `audio/` | 音效与 BGM | `sfx_snap_01.wav` |
 | `prefabs/` | 预制体 | `obj_cup.prefab` |
-| `config/` | **由策划表导出**的 JSON（程序只读，不手改） | `levels.json`、`judge_rule.json` |
+| `config/` | **由策划表导出**的 JSON（程序只读，不手改） | `shapes.json`（美术源） |
+| `resources/config/` | **运行时配置**（`resources.load` 只认这里）：`levels.json` / `judge_rule.json` 由 `tools/export_levels.mjs` 从 `01_策划文档/levels.csv` 生成；`shapes.json` 是 `assets/config/shapes.json` 的自动副本（决策 D-010） | `levels.json`、`judge_rule.json`、`shapes.json` |
 
 硬规矩：
 

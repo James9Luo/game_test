@@ -1,0 +1,26 @@
+{
+  "version": 3,
+  "note": "v0.3 双模式（规格 20261018_v0.3_双模式改为时间限制.md）：两个模式的判定/评分/星级/特效/音效/HUD 完全相同，唯一差异是挑战模式每关限时 15 秒；relax 打完 15 关回到第 1 关循环。判定口径不在这里：levels.csv / judge_rule.json 一个字没改。",
+  "challenge": {
+    "source": "levels.json",
+    "timeLimitMs": 15000,
+    "bgmGain": 1.0,
+    "sfxGain": 1.0,
+    "ratingSfx": true,
+    "showScore": true,
+    "autoNext": true,
+    "loop": false,
+    "recordBest": true
+  },
+  "relax": {
+    "source": "levels_relax.json",
+    "timeLimitMs": null,
+    "bgmGain": 1.0,
+    "sfxGain": 1.0,
+    "ratingSfx": true,
+    "showScore": true,
+    "autoNext": true,
+    "loop": true,
+    "recordBest": false
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "metric": "intersection / max(objectArea, targetArea) × 100",
+  "metricName": "轮廓重合面积（不是中心点）",
+  "onTimeMs": 16.7,
+  "combo": {
+    "step": 0.1,
+    "max": 2,
+    "formula": "min(2, 1 + step × combo)"
+  },
+  "modeCoef": {
+    "campaign": 1,
+    "endless": 1.15
+  },
+  "starSplit": 0.7,
+  "ratings": [
+    {
+      "id": "god",
+      "minPercent": 95,
+      "baseScore": 1000,
+      "label": "神级定格"
+    },
+    {
+      "id": "perfect",
+      "minPercent": 80,
+      "baseScore": 600,
+      "label": "完美"
+    },
+    {
+      "id": "good",
+      "minPercent": 60,
+      "baseScore": 350,
+      "label": "不错"
+    },
+    {
+      "id": "ok",
+      "minPercent": 40,
+      "baseScore": 150,
+      "label": "及格"
+    },
+    {
+      "id": "fail",
+      "minPercent": 0,
+      "baseScore": 0,
+      "label": "差得有点远"
+    }
+  ]
+}

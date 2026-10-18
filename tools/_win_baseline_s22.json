@@ -1,0 +1,788 @@
+{
+  "version": "v0.7-S22",
+  "precision": "full",
+  "note": "S22c 基线：P2 改 levels.csv 之前抓一次。之后除换形关外，任何一关窗口都不许变（diff = 0）。",
+  "capturedFrom": "assets/resources/config/levels.json + assets/scripts/core（seed=0 实算，未四舍五入）",
+  "levels": [
+    {
+      "id": 1,
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "cycleMs": 3776,
+      "turns": 1,
+      "season": 1,
+      "hit": [
+        -140.44535156250004,
+        139.98487500000002
+      ]
+    },
+    {
+      "id": 2,
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "cycleMs": 3453,
+      "turns": 1,
+      "season": 1,
+      "hit": [
+        -128.43162048339846,
+        128.01053320312502
+      ]
+    },
+    {
+      "id": 3,
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "cycleMs": 2398,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -122.23652783203126,
+        112.00141186523436
+      ]
+    },
+    {
+      "id": 4,
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "cycleMs": 2330,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -110.81436767578126,
+        102.00604614257813
+      ]
+    },
+    {
+      "id": 5,
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "single",
+      "cycleMs": 2694,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -91.987998046875,
+        92.31652661132813
+      ]
+    },
+    {
+      "id": 6,
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "single",
+      "cycleMs": 2858,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -82.0132796261736,
+        88.21596463991781
+      ]
+    },
+    {
+      "id": 7,
+      "shapeId": "guitar",
+      "outlineId": "guitar",
+      "variant": "single",
+      "cycleMs": 3909,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -73.99635385739847,
+        73.99635385739847
+      ]
+    },
+    {
+      "id": 8,
+      "shapeId": "wrench",
+      "outlineId": "wrench",
+      "variant": "single",
+      "cycleMs": 3268,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -67.97226090471867,
+        66.00774469359965
+      ]
+    },
+    {
+      "id": 9,
+      "shapeId": "rocket",
+      "outlineId": "rocket",
+      "variant": "single",
+      "cycleMs": 5107,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -60.30601915472984,
+        62.44887262723293
+      ]
+    },
+    {
+      "id": 10,
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "dual",
+      "cycleMs": 1636,
+      "turns": 2,
+      "season": 1,
+      "hit": [
+        -54.99345272533897,
+        59.74108893184305
+      ]
+    },
+    {
+      "id": 11,
+      "shapeId": "hammer",
+      "outlineId": "hammer",
+      "variant": "single",
+      "cycleMs": 4153,
+      "turns": 3,
+      "season": 1,
+      "hit": [
+        -49.99667649713713,
+        51.481726294081795
+      ]
+    },
+    {
+      "id": 12,
+      "shapeId": "guitar",
+      "outlineId": "guitar",
+      "variant": "single",
+      "cycleMs": 3138,
+      "turns": 3,
+      "season": 1,
+      "hit": [
+        -46.00614899477655,
+        47.128250189771094
+      ]
+    },
+    {
+      "id": 13,
+      "shapeId": "toilet",
+      "outlineId": "toilet",
+      "variant": "single",
+      "cycleMs": 2881,
+      "turns": 3,
+      "season": 1,
+      "hit": [
+        -44.725701362467056,
+        41.9943608212477
+      ]
+    },
+    {
+      "id": 14,
+      "shapeId": "rocket",
+      "outlineId": "rocket",
+      "variant": "single",
+      "cycleMs": 4135,
+      "turns": 3,
+      "season": 1,
+      "hit": [
+        -37.99993425416057,
+        38.97429154272879
+      ]
+    },
+    {
+      "id": 15,
+      "shapeId": "wrench",
+      "outlineId": "wrench",
+      "variant": "dual",
+      "cycleMs": 3586,
+      "turns": 3,
+      "season": 1,
+      "hit": [
+        -33.99717869077624,
+        33.99717869077624
+      ]
+    },
+    {
+      "id": 16,
+      "shapeId": "book",
+      "outlineId": "book",
+      "variant": "single",
+      "cycleMs": 2200,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -148.12019413088456,
+        143.09468754430094
+      ]
+    },
+    {
+      "id": 17,
+      "shapeId": "handheld",
+      "outlineId": "handheld",
+      "variant": "single",
+      "cycleMs": 2150,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -109.85781443757774,
+        102.62012313345498
+      ]
+    },
+    {
+      "id": 18,
+      "shapeId": "toaster",
+      "outlineId": "toaster",
+      "variant": "single",
+      "cycleMs": 2100,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -100.23360864197925,
+        96.44644458749642
+      ]
+    },
+    {
+      "id": 19,
+      "shapeId": "camera",
+      "outlineId": "camera",
+      "variant": "single",
+      "cycleMs": 2100,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -105.28316071462304,
+        97.96131020928955
+      ]
+    },
+    {
+      "id": 20,
+      "shapeId": "mug",
+      "outlineId": "mug",
+      "variant": "dual",
+      "cycleMs": 2000,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -38.95368741753782,
+        37.99186797512948
+      ]
+    },
+    {
+      "id": 21,
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "cycleMs": 1950,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -92.83962167846514,
+        83.46188211498381
+      ]
+    },
+    {
+      "id": 22,
+      "shapeId": "crab",
+      "outlineId": "crab",
+      "variant": "single",
+      "cycleMs": 1950,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -88.15075189672449,
+        81.11744722411349
+      ]
+    },
+    {
+      "id": 23,
+      "shapeId": "teapot",
+      "outlineId": "teapot",
+      "variant": "single",
+      "cycleMs": 1850,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -78.73694410415283,
+        75.62305365935583
+      ]
+    },
+    {
+      "id": 24,
+      "shapeId": "sneaker",
+      "outlineId": "sneaker",
+      "variant": "single",
+      "cycleMs": 1800,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -72.28073109698686,
+        82.23556232591318
+      ]
+    },
+    {
+      "id": 25,
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "dual",
+      "cycleMs": 1800,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -45.878787402877876,
+        45.01314990471037
+      ]
+    },
+    {
+      "id": 26,
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "cycleMs": 1700,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -73.57918734423811,
+        68.67390818795556
+      ]
+    },
+    {
+      "id": 27,
+      "shapeId": "mecha_doll",
+      "outlineId": "mecha_doll",
+      "variant": "single",
+      "cycleMs": 1650,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -65.86058631891117,
+        59.115827479022684
+      ]
+    },
+    {
+      "id": 28,
+      "shapeId": "icecream",
+      "outlineId": "icecream",
+      "variant": "single",
+      "cycleMs": 1650,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -61.49633059898333,
+        58.719076959029245
+      ]
+    },
+    {
+      "id": 29,
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "single",
+      "cycleMs": 1550,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -47.706244343453726,
+        51.06058964885281
+      ]
+    },
+    {
+      "id": 30,
+      "shapeId": "dessert",
+      "outlineId": "dessert",
+      "variant": "dual",
+      "cycleMs": 1500,
+      "turns": 2,
+      "season": 2,
+      "hit": [
+        -29.575947854056494,
+        27.772536399540854
+      ]
+    },
+    {
+      "id": 31,
+      "shapeId": "book",
+      "outlineId": "book",
+      "variant": "single",
+      "cycleMs": 1900,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -109.15872895432429,
+        104.6293211138959
+      ]
+    },
+    {
+      "id": 32,
+      "shapeId": "handheld",
+      "outlineId": "handheld",
+      "variant": "single",
+      "cycleMs": 1861,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -82.07406201799418,
+        76.30669549781081
+      ]
+    },
+    {
+      "id": 33,
+      "shapeId": "toaster",
+      "outlineId": "toaster",
+      "variant": "single",
+      "cycleMs": 1821,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -46.44955418336586,
+        45.58133821732164
+      ]
+    },
+    {
+      "id": 34,
+      "shapeId": "camera",
+      "outlineId": "camera",
+      "variant": "single",
+      "cycleMs": 1821,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -75.9688970288694,
+        75.10068106282517
+      ]
+    },
+    {
+      "id": 35,
+      "shapeId": "mug",
+      "outlineId": "mug",
+      "variant": "dual",
+      "cycleMs": 1743,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -30.332490747803597,
+        29.91697717591588
+      ]
+    },
+    {
+      "id": 36,
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "cycleMs": 1704,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -62.15110404704039,
+        74.33759503665615
+      ]
+    },
+    {
+      "id": 37,
+      "shapeId": "crab",
+      "outlineId": "crab",
+      "variant": "single",
+      "cycleMs": 1704,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -66.21326771024565,
+        71.900296838733
+      ]
+    },
+    {
+      "id": 38,
+      "shapeId": "teapot",
+      "outlineId": "teapot",
+      "variant": "single",
+      "cycleMs": 1625,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -53.07154844607217,
+        61.2066033173679
+      ]
+    },
+    {
+      "id": 39,
+      "shapeId": "sneaker",
+      "outlineId": "sneaker",
+      "variant": "single",
+      "cycleMs": 1586,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -52.55400400283164,
+        58.98147211828588
+      ]
+    },
+    {
+      "id": 40,
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "dual",
+      "cycleMs": 1586,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -25.709872461816918,
+        31.381167857805945
+      ]
+    },
+    {
+      "id": 41,
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "cycleMs": 1507,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -44.54744128027227,
+        43.11042704542478
+      ]
+    },
+    {
+      "id": 42,
+      "shapeId": "mecha_doll",
+      "outlineId": "mecha_doll",
+      "variant": "single",
+      "cycleMs": 1468,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -38.49519884591459,
+        37.795286139625226
+      ]
+    },
+    {
+      "id": 43,
+      "shapeId": "icecream",
+      "outlineId": "icecream",
+      "variant": "single",
+      "cycleMs": 1468,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -40.94489331792734,
+        39.895024258493294
+      ]
+    },
+    {
+      "id": 44,
+      "shapeId": "lobster",
+      "outlineId": "lobster",
+      "variant": "single",
+      "cycleMs": 1389,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -32.781231660271,
+        31.456737451775197
+      ]
+    },
+    {
+      "id": 45,
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "dual",
+      "cycleMs": 1350,
+      "turns": 2,
+      "season": 3,
+      "hit": [
+        -23.815149645199817,
+        23.171496952086308
+      ]
+    },
+    {
+      "id": 46,
+      "shapeId": "book",
+      "outlineId": "book",
+      "variant": "single",
+      "cycleMs": 1700,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -72.12312796711663,
+        68.49682544363031
+      ]
+    },
+    {
+      "id": 47,
+      "shapeId": "handheld",
+      "outlineId": "handheld",
+      "variant": "single",
+      "cycleMs": 1664,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -48.11558318221627,
+        45.3548529996301
+      ]
+    },
+    {
+      "id": 48,
+      "shapeId": "toaster",
+      "outlineId": "toaster",
+      "variant": "single",
+      "cycleMs": 1629,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -26.254430270040892,
+        25.868335707246175
+      ]
+    },
+    {
+      "id": 49,
+      "shapeId": "camera",
+      "outlineId": "camera",
+      "variant": "single",
+      "cycleMs": 1629,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -43.62868559580324,
+        44.7869692841874
+      ]
+    },
+    {
+      "id": 50,
+      "shapeId": "mug",
+      "outlineId": "mug",
+      "variant": "dual",
+      "cycleMs": 1557,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -23.986924633296216,
+        23.617895023553196
+      ]
+    },
+    {
+      "id": 51,
+      "shapeId": "car_hatch",
+      "outlineId": "car_hatch",
+      "variant": "single",
+      "cycleMs": 1521,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -35.32871905528252,
+        38.21269612101987
+      ]
+    },
+    {
+      "id": 52,
+      "shapeId": "crab",
+      "outlineId": "crab",
+      "variant": "single",
+      "cycleMs": 1521,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -41.096673186757215,
+        41.45717031997438
+      ]
+    },
+    {
+      "id": 53,
+      "shapeId": "teapot",
+      "outlineId": "teapot",
+      "variant": "single",
+      "cycleMs": 1450,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -34.023250146827436,
+        37.45994208085042
+      ]
+    },
+    {
+      "id": 54,
+      "shapeId": "sneaker",
+      "outlineId": "sneaker",
+      "variant": "single",
+      "cycleMs": 1414,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -29.827167802003807,
+        29.49203108512736
+      ]
+    },
+    {
+      "id": 55,
+      "shapeId": "can_cola",
+      "outlineId": "can_cola",
+      "variant": "dual",
+      "cycleMs": 1414,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -14.410878825687233,
+        15.081152259440127
+      ]
+    },
+    {
+      "id": 56,
+      "shapeId": "cup_tumbler",
+      "outlineId": "cup_tumbler",
+      "variant": "single",
+      "cycleMs": 1343,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -29.60271626672658,
+        28.966098712603433
+      ]
+    },
+    {
+      "id": 57,
+      "shapeId": "mecha_doll",
+      "outlineId": "mecha_doll",
+      "variant": "single",
+      "cycleMs": 1307,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -23.852775141250902,
+        23.54299884071518
+      ]
+    },
+    {
+      "id": 58,
+      "shapeId": "icecream",
+      "outlineId": "icecream",
+      "variant": "single",
+      "cycleMs": 1307,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -16.727920228929207,
+        16.41814392839348
+      ]
+    },
+    {
+      "id": 59,
+      "shapeId": "lobster",
+      "outlineId": "lobster",
+      "variant": "single",
+      "cycleMs": 1236,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -12.59677951099676,
+        12.889727871717614
+      ]
+    },
+    {
+      "id": 60,
+      "shapeId": "slipper",
+      "outlineId": "slipper",
+      "variant": "dual",
+      "cycleMs": 1200,
+      "turns": 3,
+      "season": 4,
+      "hit": [
+        -14.220794209750238,
+        13.936378325555232
+      ]
+    }
+  ]
+}

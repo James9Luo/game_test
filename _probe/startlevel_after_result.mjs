@@ -1,0 +1,16 @@
+﻿import { loadProto } from '../tools/proto_vm.mjs';
+const H = loadProto({ search: '', storage: {} });
+const P = H.P, a = P.app, T = P.CORE.moverTiming;
+P.startRun('challenge', 49);
+const pm = a.rt.movers.map(m => T(m).perfectMs);
+let t = a.attemptStart + pm[0];
+P.freeze(t); P.press(t);
+P.freeze(t + 401); P.update(); P.update();
+t = a.attemptStart + pm[1];
+P.freeze(t); P.press(t);
+P.freeze(t + 401); P.update(); P.update();
+console.log('after pass → phase=', a.phase, 'pass=', a.fb && a.fb.pass);
+P.startLevel(49);
+console.log('startLevel(while result) → phase=', a.phase, 'fb=', a.fb ? 'set' : 'null', 'frozen=', JSON.stringify(a.frozen));
+P.restartLevel();
+console.log('restartLevel() → phase=', a.phase, 'fb=', a.fb ? 'set' : 'null', 'frozen=', JSON.stringify(a.frozen));
