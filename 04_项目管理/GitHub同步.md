@@ -63,6 +63,7 @@ $p = "E:\game_design\tools\MinGit\cmd"
 | 2026-10-18 | 首推 `main` | ✅ commit `31ef808`，37 个文件 / 1337 行，远端 `main` 已跟踪 |
 | 2026-10-18 | SSH 认证 | ✅ `Hi James9Luo!`（443 端口） |
 | 2026-10-18 | 暂存校验 | ✅ `build/ library/ temp/ local/ profiles/` 只有 `.gitkeep` 入库，缓存目录 0 条 |
+| 2026-10-19 | 第 2 次推送（v0.7 四线改造） | ✅ commit `4490faa`，**215 个文件 / 33.1 MB**；暂存审计：缓存目录 0 条、无 >50MB 单文件（最大 = `03_交付素材/audio/bgm_loop.wav` 2.5 MB）；推后 `main` 干净（ahead 0 / behind 0） |
 
 新机器复现的三条最小命令（凭据需各自生成并加到 GitHub）：
 
