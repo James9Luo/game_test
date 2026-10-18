@@ -71,6 +71,8 @@
 4. 项目设置里确认：设计分辨率 `720×1280`、适配方案 `Fit Width`（**待验证**：竖屏首屏与分享卡片比例，验证方法见 GDD 第 7 节）。
 5. 提交一次空工程基线，`.gitignore` 之外的变更应只有 `assets/`、`settings/`、`package.json`、`tsconfig.json`。
 
+> 仓库已关联 GitHub `James9Luo/game_test`（`main` 已跟踪 `origin/main`）。日常提交/推送/换机克隆见 [04_项目管理/GitHub同步.md](04_项目管理/GitHub同步.md)——本机没有系统 git，只有 `E:\game_design\tools\MinGit` 便携版。
+
 ---
 
 ## 5. 写作用域（并行作业必读）
