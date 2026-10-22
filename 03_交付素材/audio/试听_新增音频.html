@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新增音频试听 ·《定格瞬间》· 2026-10-22</title>
+<style>
+  :root{
+    --bg:#0E1520; --panel:#16202E; --line:#243447; --ink:#E8F0FA; --dim:#8FA3BA;
+    --good:#2BFFB0; --warn:#FFC24B; --new:#7FB8FF; --old:#6C7E93;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+    padding:30px 20px 70px}
+  .wrap{max-width:980px;margin:0 auto}
+  h1{font-size:22px;margin:0 0 6px;letter-spacing:.3px}
+  h2{font-size:16px;margin:38px 0 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:8px}
+  .hint{background:rgba(127,184,255,.07);border:1px solid rgba(127,184,255,.28);
+    border-radius:9px;padding:11px 15px;font-size:13px;margin:16px 0 22px;color:#CFE0F5}
+  .hint b{color:var(--new)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;
+    padding:19px 21px;margin-bottom:16px;position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--acc)}
+  .card.spring{--acc:#FFC24B} .card.rain{--acc:#5FB6E8} .card.night{--acc:#8E7BFF}
+  .card h3{font-size:16px;margin:0 0 3px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .badge{font-size:11px;padding:2px 8px;border-radius:20px;font-weight:600;
+    background:rgba(255,255,255,.07);color:var(--acc)}
+  .badge.new{background:rgba(127,184,255,.16);color:var(--new)}
+  .meta{color:var(--dim);font-size:12.5px;margin:0 0 14px}
+  .row{display:grid;grid-template-columns:96px 1fr 76px;gap:11px;align-items:center;margin-bottom:9px}
+  .label{font-size:12px;color:var(--dim);font-weight:600;letter-spacing:.4px}
+  audio{width:100%;height:34px}
+  .play{background:var(--line);color:var(--ink);border:0;border-radius:8px;
+    padding:7px 0;font-size:12.5px;cursor:pointer;width:100%;transition:.15s}
+  .play:hover{background:#2E425A}
+  .play.on{background:var(--acc);color:#06121A;font-weight:700}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px;
+    padding-top:13px;border-top:1px solid var(--line)}
+  .st{text-align:center}
+  .st .k{font-size:11px;color:var(--dim)}
+  .st .v{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;margin-top:1px}
+  .desc{font-size:13px;color:#C3D2E4;margin:12px 0 0;line-height:1.7}
+  .desc em{color:var(--acc);font-style:normal;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:11px;margin-top:10px}
+  .item{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+  .item .nm{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+  .item .ds{color:var(--dim);font-size:12px;margin-bottom:9px;line-height:1.55}
+  .item .nt{color:#9FD8FF;font-size:11.5px;font-family:ui-monospace,Consolas,monospace;margin-bottom:9px}
+  .item .lv{color:var(--dim);font-size:11.5px;margin-top:7px;font-variant-numeric:tabular-nums}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;
+    font-variant-numeric:tabular-nums}
+  th{color:var(--dim);font-size:11px;font-weight:600;text-align:right;padding:6px 0}
+  th:first-child{text-align:left}
+  td{padding:7px 0;border-top:1px solid #1C2836;text-align:right}
+  td:first-child{text-align:left;color:#C3D2E4}
+  .ok{color:var(--good)}
+  .foot{color:var(--dim);font-size:12.5px;line-height:1.85;margin-top:14px}
+  code{background:#0A1018;padding:1px 5px;border-radius:4px;font-size:12px;color:#9FD8FF}
+  .old a{color:var(--old)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>新增音频试听 ·《定格瞬间》</h1>
+  <p class="sub">2026-10-22 批次 · 3 套新 BGM + 7 条新特效音 · 既有资产一个字节未改</p>
+
+  <div class="hint">
+    <b>怎么听：</b>BGM 给两个文件 —— <em>试听版</em>（RMS −18dBFS，单独播放的正常响度）和
+    <em>游戏内版</em>（−39.17dBFS，与判定音一起播时的底色电平）。
+    只放游戏内版会像"没声音"，那是设计如此。<br>
+    <b>为什么能放在一起：</b>三套新曲和 7 条新音效与既有资产共用
+    <code>原型/_src/audio.js</code> 的同一套加法合成音色族、同一套反馈延迟混响（0.28s / fb 0.30 / wet 0.25），
+    同一调式（D 大调五声音阶 {D,E,F#,A,B}）。
+  </div>
+
+  <h2>一、新增 BGM<span class="badge new">V4 / V5 / V6</span></h2>
+  <p class="sub">全部 8 小节真无缝循环；速度 76~79BPM（既有三套 75~80）；500ms 动态 ≤7dB；接缝跳变 ≤4dB；无强鼓点</p>
+
+  <div class="card spring">
+    <h3>V4 春日微风 <span class="badge">79 BPM</span><span class="badge new">新增</span></h3>
+    <p class="meta">24.30s / 8 小节 / 右手 24 颗 + 风铃 4 颗 / 钢琴 + 风铃 + 暖垫 / 白天·春天·明亮</p>
+    <div class="row"><span class="label">试听版</span><audio controls preload="none" src="bgm_v4_spring_79bpm_preview.wav"></audio><button class="play">播放</button></div>
+    <div class="row"><span class="label">游戏内版</span><audio controls preload="none" src="bgm_v4_spring_79bpm.wav"></audio><button class="play">播放</button></div>
+    <div class="stats">
+      <div class="st"><div class="k">500ms 动态</div><div class="v">6.0 dB</div></div>
+      <div class="st"><div class="k">接缝跳变</div><div class="v">2.2 dB</div></div>
+      <div class="st"><div class="k">低频冲击</div><div class="v">6.4 dB</div></div>
+      <div class="st"><div class="k">铺底高于旋律</div><div class="v">13.2 dB</div></div>
+    </div>
+    <p class="desc">
+      右手浮在<em>反拍</em>上（1.1 / 2.1 / 3.1 拍），比既有 V1 的 1.0/2.2/3.0 更"飘" ——
+      听感是"有人在慢慢弹，不是在打拍子"。低音加了一颗五度，比 V1 更满。
+      每 2 小节末尾一颗 <em>风铃</em>（A5 / F#5 / A5 / D5，−24dB），音区高、几乎听不见，但耳朵会抓住。
+    </p>
+  </div>
+
+  <div class="card rain">
+    <h3>V5 雨落窗台 <span class="badge">76 BPM</span><span class="badge new">新增</span></h3>
+    <p class="meta">25.26s / 8 小节 / 音乐盒 16 颗 + 雨声底噪 / 最慢、最安静的一首</p>
+    <div class="row"><span class="label">试听版</span><audio controls preload="none" src="bgm_v5_rain_76bpm_preview.wav"></audio><button class="play">播放</button></div>
+    <div class="row"><span class="label">游戏内版</span><audio controls preload="none" src="bgm_v5_rain_76bpm.wav"></audio><button class="play">播放</button></div>
+    <div class="stats">
+      <div class="st"><div class="k">500ms 动态</div><div class="v">5.2 dB</div></div>
+      <div class="st"><div class="k">接缝跳变</div><div class="v">1.6 dB</div></div>
+      <div class="st"><div class="k">低频冲击</div><div class="v">5.6 dB</div></div>
+      <div class="st"><div class="k">雨声层低于音乐</div><div class="v">25.5 dB</div></div>
+    </div>
+    <p class="desc">
+      旋律换成 <em>音乐盒</em> 音色（只有 1/4/6 谐波的"略空"纯音），每小节只有 2 颗。
+      底下垫一条<em>雨声</em>：带通噪声 1500→4500Hz 缓慢上扫（模拟雨势渐强）+ 十几颗零星雨滴。
+      雨声比音乐层低 25.5dB —— 是"垫在下面"的存在感，不抢注意力。
+    </p>
+  </div>
+
+  <div class="card night">
+    <h3>V6 夜行列车 <span class="badge">77 BPM</span><span class="badge new">新增</span></h3>
+    <p class="meta">24.94s / 8 小节 / 右手仅 8 颗 + 远处钟音 4 颗 / 低频嗡鸣 + 垫音 / 长夜·助眠</p>
+    <div class="row"><span class="label">试听版</span><audio controls preload="none" src="bgm_v6_night_77bpm_preview.wav"></audio><button class="play">播放</button></div>
+    <div class="row"><span class="label">游戏内版</span><audio controls preload="none" src="bgm_v6_night_77bpm.wav"></audio><button class="play">播放</button></div>
+    <div class="stats">
+      <div class="st"><div class="k">500ms 动态</div><div class="v">5.4 dB</div></div>
+      <div class="st"><div class="k">接缝跳变</div><div class="v">1.3 dB</div></div>
+      <div class="st"><div class="k">低频冲击</div><div class="v">5.8 dB</div></div>
+      <div class="st"><div class="k">铺底高于旋律</div><div class="v">15.3 dB</div></div>
+    </div>
+    <p class="desc">
+      低频用 <em>sub 音色</em>（只有基频 + 0.1 的 2 次谐波）做"车身共振"，不是鼓点。
+      右手每小节只有 1 颗、落在第 2.2 拍（离开正拍），每 2 小节远处一记钟音（D5 / A5 / F#5 / B4）。
+      整首最"远"，适合长夜放着不管。
+    </p>
+  </div>
+
+  <h2>二、新增特效音<span class="badge new">7 条</span></h2>
+  <p class="sub">全部沿用既有音色族与混响；峰值一律低于 perfect 档（−9.4dBFS），不盖过判定反馈</p>
+  <div class="grid">
+    <div class="item">
+      <div class="nm">预备拍 <span class="badge new">新</span></div>
+      <div class="ds">物体进入接近段时给一记轻点，帮玩家对拍。可选，默认关。</div>
+      <div class="nt">D5 · mallet · T60 0.30s</div>
+      <button class="play" data-audio="sfx_cue.wav">播放</button>
+      <div class="lv">峰值 −21.99 dBFS · 0.65s</div>
+    </div>
+    <div class="item">
+      <div class="nm">拾取道具 <span class="badge new">新</span></div>
+      <div class="ds">道具收集系统（v0.9）拾到一件。上行三音，越高越轻。</div>
+      <div class="nt">A4 → D5 → F#5 · mallet</div>
+      <button class="play" data-audio="sfx_collect.wav">播放</button>
+      <div class="lv">峰值 −14.41 dBFS · 1.10s</div>
+    </div>
+    <div class="item">
+      <div class="nm">漂流瓶 <span class="badge new">新</span></div>
+      <div class="ds">漂流瓶社交系统（v0.8）放瓶 / 收到瓶。两音，轻轻放下。</div>
+      <div class="nt">D5 → F#5 · mallet</div>
+      <button class="play" data-audio="sfx_bottle.wav">播放</button>
+      <div class="lv">峰值 −20.02 dBFS · 1.25s</div>
+    </div>
+    <div class="item">
+      <div class="nm">解锁新道具 <span class="badge new">新</span></div>
+      <div class="ds">图鉴点亮新剪影。四音上行再落回，是本批最亮的一条。</div>
+      <div class="nt">D5 → F#5 → A5 → D5 · mallet</div>
+      <button class="play" data-audio="sfx_unlock.wav">播放</button>
+      <div class="lv">峰值 −10.50 dBFS · 1.45s</div>
+    </div>
+    <div class="item">
+      <div class="nm">季节更替 <span class="badge new">新</span></div>
+      <div class="ds">四季关卡切换（v0.4）。pad 慢起音的"呼吸"，两声交叠。</div>
+      <div class="nt">D4 → A4 · pad · 2.4s</div>
+      <button class="play" data-audio="sfx_season.wav">播放</button>
+      <div class="lv">峰值 −20.20 dBFS · 2.75s</div>
+    </div>
+    <div class="item">
+      <div class="nm">连击达成 <span class="badge new">新</span></div>
+      <div class="ds">连击里程碑。三音快速上冲，音区亮但不刺。</div>
+      <div class="nt">E5 → A5 → B5 · mallet</div>
+      <button class="play" data-audio="sfx_combo.wav">播放</button>
+      <div class="lv">峰值 −13.55 dBFS · 0.95s</div>
+    </div>
+    <div class="item">
+      <div class="nm">界面轻触 <span class="badge new">新</span></div>
+      <div class="ds">菜单点击。比游戏内 press 更轻更短，音色区隔开（2.8kHz vs 2kHz）。</div>
+      <div class="nt">噪声 2800Hz · 50ms</div>
+      <button class="play" data-audio="sfx_ui.wav">播放</button>
+      <div class="lv">峰值 −22.06 dBFS · 0.40s</div>
+    </div>
+  </div>
+
+  <h2>三、与既有资产的 A/B 对照</h2>
+  <p class="sub">老文件原样保留，这里只是放在一起方便比</p>
+  <table>
+    <tr><th>曲目</th><th>BPM</th><th>时长</th><th>右手音符</th><th>噪声层</th><th>试听</th></tr>
+    <tr><td>V1 极简 <span class="badge">既有</span></td><td>80</td><td>24.00s</td><td>24</td><td>无</td>
+      <td><audio controls preload="none" src="bgm_v1_minimal_80bpm_preview.wav"></audio></td></tr>
+    <tr><td>V2 细节完整 <span class="badge">既有</span></td><td>75</td><td>25.60s</td><td>32</td><td>刷镲 + 黑胶</td>
+      <td><audio controls preload="none" src="bgm_v2_lofi_75bpm_preview.wav"></audio></td></tr>
+    <tr><td>V3 纯净 <span class="badge">既有</span></td><td>78</td><td>24.62s</td><td>16</td><td>无</td>
+      <td><audio controls preload="none" src="bgm_v3_ambient_78bpm_preview.wav"></audio></td></tr>
+    <tr><td>V4 春日微风 <span class="badge new">新增</span></td><td>79</td><td>24.30s</td><td>24</td><td>无</td>
+      <td><audio controls preload="none" src="bgm_v4_spring_79bpm_preview.wav"></audio></td></tr>
+    <tr><td>V5 雨落窗台 <span class="badge new">新增</span></td><td>76</td><td>25.26s</td><td>16</td><td>雨声 + 雨滴</td>
+      <td><audio controls preload="none" src="bgm_v5_rain_76bpm_preview.wav"></audio></td></tr>
+    <tr><td>V6 夜行列车 <span class="badge new">新增</span></td><td>77</td><td>24.94s</td><td>8</td><td>无</td>
+      <td><audio controls preload="none" src="bgm_v6_night_77bpm_preview.wav"></audio></td></tr>
+  </table>
+
+  <h2>四、自动校验结论</h2>
+  <p class="sub">由 <code>tools/render_audio_extra.mjs</code> 离线渲染时同步跑的 24 条断言，全部通过</p>
+  <table>
+    <tr><th>断言</th><th>门槛</th><th>结果</th></tr>
+    <tr><td>A1 无削波（峰值 ≤ −1dBFS，无 |x| ≥ 1）</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>A3/A4 全部音高 ∈ D 大调五声音阶</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>A11a 特效音全部走加法合成预设（无裸三角波）</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>A11c 琶音总包络不越弹越响（每步 ≤ 2.5dB）</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>A12a 速度 75~80BPM、4~8 小节</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>A12b 500ms 动态 ≤ 7dB</td><td>硬</td><td class="ok">通过（5.2~6.0dB）</td></tr>
+    <tr><td>A12c 循环接缝跳变 ≤ 4dB</td><td>硬</td><td class="ok">通过（1.3~2.2dB）</td></tr>
+    <tr><td>A12d 无强鼓点（低频峰/中值 ≤ 12dB）</td><td>硬</td><td class="ok">通过（5.6~6.4dB）</td></tr>
+    <tr><td>A12f 游戏内电平 = perfect − 15dB</td><td>硬</td><td class="ok">通过（与既有三套同为 −39.17dBFS）</td></tr>
+    <tr><td>新增特效音峰值不高于 perfect 档</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>雨声是垫底（比音乐层低 12~26dB）</td><td>硬</td><td class="ok">通过（−25.5dB）</td></tr>
+    <tr><td>铺底不压过旋律（铺底高于旋律 ≤ 16dB）</td><td>硬</td><td class="ok">通过（13.6 / 11.8 / 15.3dB）</td></tr>
+    <tr><td>新增三套互相可辨识（雨声 / 风铃 / 疏密）</td><td>硬</td><td class="ok">通过</td></tr>
+    <tr><td>新增 BGM 游戏内电平与既有三套一致</td><td>硬</td><td class="ok">通过（±0dB）</td></tr>
+  </table>
+
+  <p class="foot">
+    生成脚本：<code>tools/render_audio_extra.mjs</code> · 产物清单：<code>audio_extra_manifest.json</code><br>
+    本批只<b>新增</b>文件：既有 <code>bgm_loop.wav</code> / <code>bgm_v1~v3</code> / <code>sfx_god~ui</code> 与
+    <code>原型/_src/audio.js</code>、<code>tools/render_audio.mjs</code> 均未改动。<br>
+    听感仍需人判 —— 机器只能保证"不刺耳、不跑调、不削波、层次不打架"。
+  </p>
+</div>
+
+<script>
+  const audios = Array.from(document.querySelectorAll('audio'));
+  function stopAll(except) {
+    audios.forEach(a => { if (a !== except && !a.paused) { a.pause(); a.currentTime = 0; } });
+    document.querySelectorAll('.play.on').forEach(b => b.classList.remove('on'));
+  }
+  document.querySelectorAll('.play').forEach(btn => {
+    btn.addEventListener('click', () => {
+      let audio = null;
+      if (btn.dataset.audio) {
+        audio = new Audio(btn.dataset.audio);
+      } else {
+        const row = btn.closest('.row');
+        audio = row ? row.querySelector('audio') : null;
+      }
+      if (!audio) return;
+      if (btn.classList.contains('on')) { audio.pause(); audio.currentTime = 0; btn.classList.remove('on'); return; }
+      stopAll(audio);
+      audio.play();
+      btn.classList.add('on');
+      audio.addEventListener('ended', () => btn.classList.remove('on'));
+    });
+  });
+  audios.forEach(a => a.addEventListener('play', () => stopAll(a)));
+</script>
+</body>
+</html>

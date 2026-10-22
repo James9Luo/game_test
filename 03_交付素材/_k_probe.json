@@ -1,0 +1,72 @@
+{
+ "hot_balloon_v10": {
+  "k": 0.09,
+  "earlyMs": -117,
+  "lateMs": 117
+ },
+ "songbird_v10": {
+  "k": 0.0695,
+  "earlyMs": -88.8,
+  "lateMs": 91.9
+ },
+ "cup_tumbler_v10": {
+  "k": 0.0676,
+  "earlyMs": -87.5,
+  "lateMs": 88.1
+ },
+ "car_hatch_v10": {
+  "k": 0.094,
+  "earlyMs": -115.7,
+  "lateMs": 128.7
+ },
+ "can_cola_v10": {
+  "k": 0.0929,
+  "earlyMs": -120.8,
+  "lateMs": 120.8
+ },
+ "slipper_v10": {
+  "k": 0.0645,
+  "earlyMs": -83.1,
+  "lateMs": 84.7
+ },
+ "guitar_v10": {
+  "k": 0.0607,
+  "earlyMs": -78.9,
+  "lateMs": 78.9
+ },
+ "wrench_v10": {
+  "k": 0.0699,
+  "earlyMs": -90.4,
+  "lateMs": 91.3
+ },
+ "rocket_v10": {
+  "k": 0.0473,
+  "earlyMs": -61.5,
+  "lateMs": 61.5
+ },
+ "toilet_v10": {
+  "k": 0.0788,
+  "earlyMs": -106.5,
+  "lateMs": 98.3
+ },
+ "cat_v10": {
+  "k": 0.08,
+  "earlyMs": -104.3,
+  "lateMs": 103.7
+ },
+ "tv_v10": {
+  "k": 0.1244,
+  "earlyMs": -161.7,
+  "lateMs": 161.7
+ },
+ "burger_v10": {
+  "k": 0.12,
+  "earlyMs": -155.7,
+  "lateMs": 156.3
+ },
+ "duck_v10": {
+  "k": 0.1088,
+  "earlyMs": -130.6,
+  "lateMs": 152.2
+ }
+}

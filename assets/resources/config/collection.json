@@ -1,0 +1,674 @@
+{
+ "version": 1,
+ "note": "v0.9 道具收集（mock，无服务端）。口径：只归属挑战模式；助眠零收集；不影响判定。主线池 21 = 挑战 60 关作主物体的去重集合；稀有池 15 = 挑战未作主物体（D-095），顺序与 thresholds 一一对应；thresholds 为 D-096 的 sim 实测定稿。 【2026-10-21 换形成 v10】12 件轮廓/细节改为分层平涂版，id 不变；k/band/hint 同步，池子与阈值不变。 【2026-10-22 D-115】cup_tumbler 换形为 v11 描样（44 顶点），k 0.0328→0.0426。 【2026-10-22 D-116】can_cola 换形为 v11 描样（k 0.0453→0.0493）；car_hatch 描样版窗/门细节被合并、暂缓。 【2026-10-22 D-116】can_cola 换形为 v11 描样（k 0.0453→0.0493）；car_hatch 描样版窗/门细节被合并、暂缓。 【2026-10-22 D-117】car_hatch 改用 v3 重描（细节块 57 个，采样映射按 bbox 对齐），k 0.0458→0.0467。 【2026-10-22 D-123】全部 36 件换 v11 描样，k/难度档按 k_probe 实测重算。 【2026-10-22 D-123】全部 36 件换 v11 描样，k/难度档按 k_probe 实测重算。 【k 同步】按 k_probe 实测重算 k/难度档。 【k 同步】按 k_probe 实测重算 k/难度档。 【k 同步】按 k_probe 实测重算 k/难度档。",
+ "rules": {
+  "collectInRelax": false,
+  "dailyTasks": false,
+  "affectsJudge": false,
+  "unlockBy": {
+   "main": "clearedChallengeLevels",
+   "rare": "cumulativeGodInChallenge"
+  }
+ },
+ "thresholds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  10,
+  12,
+  14,
+  17,
+  20,
+  25,
+  31
+ ],
+ "pools": {
+  "mainline": [
+   "cup_tumbler",
+   "car_hatch",
+   "can_cola",
+   "slipper",
+   "guitar",
+   "wrench",
+   "rocket",
+   "hammer",
+   "toilet",
+   "book",
+   "handheld",
+   "toaster",
+   "camera",
+   "mug",
+   "crab",
+   "teapot",
+   "sneaker",
+   "mecha_doll",
+   "icecream",
+   "dessert",
+   "lobster"
+  ],
+  "rare": [
+   "banana",
+   "duck",
+   "cat",
+   "octopus",
+   "burger",
+   "tv",
+   "skateboard",
+   "headphone",
+   "saxophone",
+   "cactus",
+   "dino",
+   "windmill",
+   "satellite",
+   "anchor",
+   "dragon"
+  ]
+ },
+ "order": [
+  "cup_tumbler",
+  "car_hatch",
+  "can_cola",
+  "slipper",
+  "guitar",
+  "wrench",
+  "rocket",
+  "hammer",
+  "toilet",
+  "book",
+  "handheld",
+  "toaster",
+  "camera",
+  "mug",
+  "crab",
+  "teapot",
+  "sneaker",
+  "mecha_doll",
+  "icecream",
+  "dessert",
+  "lobster",
+  "banana",
+  "duck",
+  "cat",
+  "octopus",
+  "burger",
+  "tv",
+  "skateboard",
+  "headphone",
+  "saxophone",
+  "cactus",
+  "dino",
+  "windmill",
+  "satellite",
+  "anchor",
+  "dragon"
+ ],
+ "items": {
+  "cup_tumbler": {
+   "name": "保温杯",
+   "k": 0.0427,
+   "band": "偏宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    1,
+    2,
+    26,
+    41,
+    56
+   ],
+   "firstLevel": 1,
+   "hint": "宽盖（三段色）+ 右侧按压钮 + 上宽下窄的杯身 + 底圈深色带"
+  },
+  "car_hatch": {
+   "name": "小汽车",
+   "k": 0.0464,
+   "band": "偏宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    3,
+    4,
+    10,
+    21,
+    36,
+    51
+   ],
+   "firstLevel": 3,
+   "hint": "掀背侧视：两块侧窗夹 B 柱 + 双轮轮拱 + 腰线门缝 + 前后灯"
+  },
+  "slipper": {
+   "name": "拖鞋",
+   "k": 0.036,
+   "band": "舒适",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    6,
+    29,
+    45,
+    60
+   ],
+   "firstLevel": 6,
+   "hint": "俯视人字拖：鞋床 + 两条人字带 + 趾夹扣，鞋跟有一块垫"
+  },
+  "banana": {
+   "name": "香蕉",
+   "k": 0.0223,
+   "band": "敏感",
+   "source": "rare",
+   "rareIndex": 0,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "厚弯月 + 右端短柄，两端粗细明显不同"
+  },
+  "wrench": {
+   "name": "扳手",
+   "k": 0.0203,
+   "band": "敏感",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    8,
+    15
+   ],
+   "firstLevel": 8,
+   "hint": "左端开口钳嘴（V 缝）+ 右端梅花孔 + 一根柄中线"
+  },
+  "guitar": {
+   "name": "吉他",
+   "k": 0.0353,
+   "band": "舒适",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    7,
+    12
+   ],
+   "firstLevel": 7,
+   "hint": "葫芦身 + 音孔圈 + 三道品丝 + 四根弦通到琴头弦钮"
+  },
+  "duck": {
+   "name": "鸭子",
+   "k": 0.0381,
+   "band": "舒适",
+   "source": "rare",
+   "rareIndex": 1,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "圆身抬头 + 橙喙 + 三层羽面（参考样张：1.2:1 的鸭形，不是飞鸟）"
+  },
+  "cat": {
+   "name": "猫咪",
+   "k": 0.0369,
+   "band": "舒适",
+   "source": "rare",
+   "rareIndex": 2,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "正视：两只三角耳 + 一对眼 + 胡须 + 向左上卷的尾"
+  },
+  "octopus": {
+   "name": "章鱼",
+   "k": 0.0499,
+   "band": "偏宽容",
+   "source": "rare",
+   "rareIndex": 3,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "6 条长短差 2 倍以上的触手往外甩，触手间谷很深"
+  },
+  "rocket": {
+   "name": "火箭",
+   "k": 0.0311,
+   "band": "偏敏感",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    9,
+    14
+   ],
+   "firstLevel": 9,
+   "hint": "米色整流罩 + 双层舷窗 + 深色喷口 + 两侧尾翼"
+  },
+  "burger": {
+   "name": "汉堡",
+   "k": 0.067,
+   "band": "极宽容",
+   "source": "rare",
+   "rareIndex": 4,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "右侧咬一口 + 生菜波边 + 肉饼与底包分层 + 七粒芝麻"
+  },
+  "tv": {
+   "name": "电视机",
+   "k": 0.0716,
+   "band": "极宽容",
+   "source": "rare",
+   "rareIndex": 5,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "厚机身 1.5:1 + 深色屏框 + 右侧竖格栅 + 双旋钮 + 两只脚"
+  },
+  "toilet": {
+   "name": "马桶",
+   "k": 0.0395,
+   "band": "舒适",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    13
+   ],
+   "firstLevel": 13,
+   "hint": "右上高水箱 + 座圈双椭圆 + 盆口深色 + 一枚冲水钮"
+  },
+  "hammer": {
+   "name": "锤子",
+   "k": 0.0189,
+   "band": "敏感",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    11
+   ],
+   "firstLevel": 11,
+   "hint": "左端圆面粗头（越往右越薄）+ 向右下弯的木柄"
+  },
+  "can_cola": {
+   "name": "可乐罐",
+   "k": 0.0499,
+   "band": "偏宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    5,
+    25,
+    40,
+    55
+   ],
+   "firstLevel": 5,
+   "hint": "银顶银底夹一圈米色标签 + 右上拉环孔 + 左侧高光带"
+  },
+  "book": {
+   "name": "书本",
+   "k": 0.0753,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    16,
+    31,
+    46
+   ],
+   "firstLevel": 16,
+   "hint": "圆角厚书壳 + 右上书签 + 右侧书页凹口"
+  },
+  "mug": {
+   "name": "马克杯",
+   "k": 0.0712,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    20,
+    35,
+    50
+   ],
+   "firstLevel": 20,
+   "hint": "厚杯身 + 实心耳形把手（无孔）+ 杯口唇缘"
+  },
+  "skateboard": {
+   "name": "滑板",
+   "k": 0.0268,
+   "band": "偏敏感",
+   "source": "rare",
+   "rareIndex": 6,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "细长板面 + 两端翘尾 + 两个轮拱"
+  },
+  "camera": {
+   "name": "复古相机",
+   "k": 0.0684,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    19,
+    34,
+    49
+   ],
+   "firstLevel": 19,
+   "hint": "镜头筒是左侧偏下的外轮廓凸起，不是居中的圆"
+  },
+  "handheld": {
+   "name": "掌机",
+   "k": 0.0612,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    17,
+    32,
+    47
+   ],
+   "firstLevel": 17,
+   "hint": "单侧摇杆凸起 + 左右肩键不等高"
+  },
+  "dessert": {
+   "name": "甜筒",
+   "k": 0.0281,
+   "band": "偏敏感",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    30
+   ],
+   "firstLevel": 30,
+   "hint": "锥筒 + 双球（大小球分叉）+ 两球之间的凹口"
+  },
+  "crab": {
+   "name": "卡通螃蟹",
+   "k": 0.0346,
+   "band": "舒适",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    22,
+    37,
+    52
+   ],
+   "firstLevel": 22,
+   "hint": "一只钳子拉到最远端、两钳面积差 3.7 倍、腿长差 ≥2 倍"
+  },
+  "mecha_doll": {
+   "name": "小机甲玩偶",
+   "k": 0.0586,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    27,
+    42,
+    57
+   ],
+   "firstLevel": 27,
+   "hint": "圆头 + 双肩甲 + 双腿深 V 缺口 + 头顶天线"
+  },
+  "toaster": {
+   "name": "面包机",
+   "k": 0.0765,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    18,
+    33,
+    48
+   ],
+   "firstLevel": 18,
+   "hint": "顶部长槽 + 左下旋钮凸起 + 正面一条出面包缝"
+  },
+  "teapot": {
+   "name": "茶壶",
+   "k": 0.06,
+   "band": "极宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    23,
+    38,
+    53
+   ],
+   "firstLevel": 23,
+   "hint": "壶嘴从左侧伸出 + 顶部小盖钮 + 右侧实心把手"
+  },
+  "headphone": {
+   "name": "耳机",
+   "k": 0.0677,
+   "band": "极宽容",
+   "source": "rare",
+   "rareIndex": 7,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "中空马蹄形头梁 + 左右两只耳罩"
+  },
+  "sneaker": {
+   "name": "球鞋",
+   "k": 0.0516,
+   "band": "偏宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    24,
+    39,
+    54
+   ],
+   "firstLevel": 24,
+   "hint": "鞋头上翘 + 侧面三道鞋带斜线 + 后跟提环"
+  },
+  "icecream": {
+   "name": "冰淇淋",
+   "k": 0.0288,
+   "band": "偏敏感",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    28,
+    43,
+    58
+   ],
+   "firstLevel": 28,
+   "hint": "上方两颗球一高一低 + 下方锥筒 + 右侧一片融化滴落"
+  },
+  "saxophone": {
+   "name": "萨克斯",
+   "k": 0.0283,
+   "band": "偏敏感",
+   "source": "rare",
+   "rareIndex": 8,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "细长管身 + 底部 U 形弯管 + 顶部吹嘴斜切"
+  },
+  "lobster": {
+   "name": "龙虾",
+   "k": 0.0503,
+   "band": "偏宽容",
+   "source": "main",
+   "rareIndex": -1,
+   "levelIds": [
+    44,
+    59
+   ],
+   "firstLevel": 44,
+   "hint": "两只大钳一前一后 + 扇形尾 + 一对触须"
+  },
+  "cactus": {
+   "name": "仙人掌",
+   "k": 0.0348,
+   "band": "舒适",
+   "source": "rare",
+   "rareIndex": 9,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "直立主干 + 两侧高低不同的臂 + 顶部平切"
+  },
+  "dino": {
+   "name": "小恐龙",
+   "k": 0.0426,
+   "band": "偏宽容",
+   "source": "rare",
+   "rareIndex": 10,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "长尾拖后 + 短前肢 + 头部一个眼窝凸起"
+  },
+  "windmill": {
+   "name": "风车",
+   "k": 0.0407,
+   "band": "偏宽容",
+   "source": "rare",
+   "rareIndex": 11,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "四片叶片成十字 + 下方细塔身 + 塔顶小平台"
+  },
+  "satellite": {
+   "name": "卫星",
+   "k": 0.0195,
+   "band": "敏感",
+   "source": "rare",
+   "rareIndex": 12,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "左右两片太阳能板 + 中间球形舱体 + 右侧单侧天线"
+  },
+  "anchor": {
+   "name": "船锚",
+   "k": 0.0139,
+   "band": "敏感",
+   "source": "rare",
+   "rareIndex": 13,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "顶部圆环 + 垂直锚杆 + 底部两片外张锚爪"
+  },
+  "dragon": {
+   "name": "小飞龙",
+   "k": 0.0577,
+   "band": "极宽容",
+   "source": "rare",
+   "rareIndex": 14,
+   "levelIds": [],
+   "firstLevel": 0,
+   "hint": "前伸的龙首 + 后掠残翼 + 长尾拖在身后"
+  }
+ },
+ "relaxCycle2": {
+  "fromRound": 2,
+  "stepPerRound": 12,
+  "note": "第 1 圈保持 levels_relax.json 原表（S2/S3 不动）；第 2 圈起按当前场景的顺序表轮换 shapeId/outlineId，其余字段（cycleMs/turns/path/passRate/variant）一律不动。撞到该关第二件时顺延到下一个未撞的。",
+  "orders": {
+   "night_station": [
+    "mug",
+    "guitar",
+    "satellite",
+    "windmill",
+    "book",
+    "teapot",
+    "headphone",
+    "camera",
+    "saxophone",
+    "tv",
+    "cup_tumbler",
+    "can_cola",
+    "toaster",
+    "sneaker",
+    "slipper",
+    "hammer",
+    "wrench",
+    "rocket",
+    "toilet",
+    "car_hatch",
+    "mecha_doll",
+    "handheld",
+    "dessert",
+    "icecream",
+    "lobster",
+    "crab",
+    "dino",
+    "dragon",
+    "cat",
+    "duck",
+    "octopus",
+    "burger",
+    "banana",
+    "skateboard",
+    "cactus",
+    "anchor"
+   ],
+   "noon_window": [
+    "icecream",
+    "dessert",
+    "duck",
+    "cat",
+    "burger",
+    "banana",
+    "octopus",
+    "crab",
+    "dino",
+    "dragon",
+    "mug",
+    "teapot",
+    "cup_tumbler",
+    "can_cola",
+    "slipper",
+    "sneaker",
+    "book",
+    "camera",
+    "tv",
+    "guitar",
+    "saxophone",
+    "lobster",
+    "rocket",
+    "skateboard",
+    "handheld",
+    "mecha_doll",
+    "toaster",
+    "satellite",
+    "windmill",
+    "anchor",
+    "headphone",
+    "hammer",
+    "wrench",
+    "car_hatch",
+    "toilet",
+    "cactus"
+   ],
+   "minimal": [
+    "cup_tumbler",
+    "car_hatch",
+    "slipper",
+    "banana",
+    "wrench",
+    "guitar",
+    "duck",
+    "cat",
+    "octopus",
+    "rocket",
+    "burger",
+    "tv",
+    "toilet",
+    "hammer",
+    "can_cola",
+    "book",
+    "mug",
+    "skateboard",
+    "camera",
+    "handheld",
+    "dessert",
+    "crab",
+    "mecha_doll",
+    "toaster",
+    "teapot",
+    "headphone",
+    "sneaker",
+    "icecream",
+    "saxophone",
+    "lobster",
+    "cactus",
+    "dino",
+    "windmill",
+    "satellite",
+    "anchor",
+    "dragon"
+   ]
+  }
+ }
+}

@@ -1,0 +1,674 @@
+{
+  "version": 1,
+  "note": "v0.9 道具收集（mock，无服务端）。口径：只归属挑战模式；助眠零收集；不影响判定。主线池 21 = 挑战 60 关作主物体的去重集合；稀有池 15 = 挑战未作主物体（D-095），顺序与 thresholds 一一对应；thresholds 为 D-096 的 sim 实测定稿。",
+  "rules": {
+    "collectInRelax": false,
+    "dailyTasks": false,
+    "affectsJudge": false,
+    "unlockBy": {
+      "main": "clearedChallengeLevels",
+      "rare": "cumulativeGodInChallenge"
+    }
+  },
+  "thresholds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10,
+    12,
+    14,
+    17,
+    20,
+    25,
+    31
+  ],
+  "pools": {
+    "mainline": [
+      "cup_tumbler",
+      "car_hatch",
+      "can_cola",
+      "slipper",
+      "guitar",
+      "wrench",
+      "rocket",
+      "hammer",
+      "toilet",
+      "book",
+      "handheld",
+      "toaster",
+      "camera",
+      "mug",
+      "crab",
+      "teapot",
+      "sneaker",
+      "mecha_doll",
+      "icecream",
+      "dessert",
+      "lobster"
+    ],
+    "rare": [
+      "banana",
+      "duck",
+      "cat",
+      "octopus",
+      "burger",
+      "tv",
+      "skateboard",
+      "headphone",
+      "saxophone",
+      "cactus",
+      "dino",
+      "windmill",
+      "satellite",
+      "anchor",
+      "dragon"
+    ]
+  },
+  "order": [
+    "cup_tumbler",
+    "car_hatch",
+    "can_cola",
+    "slipper",
+    "guitar",
+    "wrench",
+    "rocket",
+    "hammer",
+    "toilet",
+    "book",
+    "handheld",
+    "toaster",
+    "camera",
+    "mug",
+    "crab",
+    "teapot",
+    "sneaker",
+    "mecha_doll",
+    "icecream",
+    "dessert",
+    "lobster",
+    "banana",
+    "duck",
+    "cat",
+    "octopus",
+    "burger",
+    "tv",
+    "skateboard",
+    "headphone",
+    "saxophone",
+    "cactus",
+    "dino",
+    "windmill",
+    "satellite",
+    "anchor",
+    "dragon"
+  ],
+  "items": {
+    "cup_tumbler": {
+      "name": "保温杯",
+      "k": 0.0315,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        1,
+        2,
+        26,
+        41,
+        56
+      ],
+      "firstLevel": 1,
+      "hint": "宽盖 + 右侧按压凸起 + 由上往下收腰，倒过来立刻认得出"
+    },
+    "car_hatch": {
+      "name": "小汽车",
+      "k": 0.0467,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        3,
+        4,
+        10,
+        21,
+        36,
+        51
+      ],
+      "firstLevel": 3,
+      "hint": "车顶偏后、挡风斜面朝前、两个轮拱突出车底"
+    },
+    "slipper": {
+      "name": "拖鞋",
+      "k": 0.0329,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        6,
+        29,
+        45,
+        60
+      ],
+      "firstLevel": 6,
+      "hint": "鞋头厚、鞋跟薄，鞋面上拱一道斜梁"
+    },
+    "banana": {
+      "name": "香蕉",
+      "k": 0.0245,
+      "band": "偏敏感",
+      "source": "rare",
+      "rareIndex": 0,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "厚弯月 + 右端短柄，两端粗细明显不同"
+    },
+    "wrench": {
+      "name": "扳手",
+      "k": 0.0252,
+      "band": "偏敏感",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        8,
+        15
+      ],
+      "firstLevel": 8,
+      "hint": "左端开口钳嘴（V 形夹缝）、右端梅花头、中间细腰"
+    },
+    "guitar": {
+      "name": "吉他",
+      "k": 0.0254,
+      "band": "偏敏感",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        7,
+        12
+      ],
+      "firstLevel": 7,
+      "hint": "右上半月形缺角（cutaway）+ 下半葫芦腰 + 左上斜琴头"
+    },
+    "duck": {
+      "name": "鸭子",
+      "k": 0.0433,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 1,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "扁嘴前伸、尾尖上翘、脖子后面一道凹口"
+    },
+    "cat": {
+      "name": "猫咪",
+      "k": 0.0433,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 2,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "两只高低不同的耳朵 + 左后方上卷的尾巴钩"
+    },
+    "octopus": {
+      "name": "章鱼",
+      "k": 0.0413,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 3,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "6 条长短差 2 倍以上的触手往外甩，触手间谷很深"
+    },
+    "rocket": {
+      "name": "火箭",
+      "k": 0.02,
+      "band": "偏敏感",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        9,
+        14
+      ],
+      "firstLevel": 9,
+      "hint": "尖锥头 + 左大右小两片尾翼 + 左侧一个侧面凸包"
+    },
+    "burger": {
+      "name": "汉堡",
+      "k": 0.0499,
+      "band": "偏宽容",
+      "source": "rare",
+      "rareIndex": 4,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "右侧咬穿一大口 + 左边两片生菜外翻"
+    },
+    "tv": {
+      "name": "电视机",
+      "k": 0.0449,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 5,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "宽屏 CRT：左屏幕 + 右音箱台阶 + 两脚宽度不等"
+    },
+    "toilet": {
+      "name": "马桶",
+      "k": 0.0283,
+      "band": "偏敏感",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        13
+      ],
+      "firstLevel": 13,
+      "hint": "右后方高水箱 + 左前方外翻的盆沿"
+    },
+    "hammer": {
+      "name": "锤子",
+      "k": 0.0222,
+      "band": "偏敏感",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        11
+      ],
+      "firstLevel": 11,
+      "hint": "左端圆面粗头（越往右越薄）+ 向右下弯的木柄"
+    },
+    "can_cola": {
+      "name": "可乐罐",
+      "k": 0.0426,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        5,
+        25,
+        40,
+        55
+      ],
+      "firstLevel": 5,
+      "hint": "右上拉环凸起 + 上下两道收口卷边，拉环是唯一不对称点"
+    },
+    "book": {
+      "name": "书本",
+      "k": 0.071,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        16,
+        31,
+        46
+      ],
+      "firstLevel": 16,
+      "hint": "圆角厚书壳 + 右上书签 + 右侧书页凹口"
+    },
+    "mug": {
+      "name": "马克杯",
+      "k": 0.0482,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        20,
+        35,
+        50
+      ],
+      "firstLevel": 20,
+      "hint": "厚杯身 + 实心耳形把手（无孔）+ 杯口唇缘"
+    },
+    "skateboard": {
+      "name": "滑板",
+      "k": 0.0195,
+      "band": "偏敏感",
+      "source": "rare",
+      "rareIndex": 6,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "细长板面 + 两端翘尾 + 两个轮拱"
+    },
+    "camera": {
+      "name": "复古相机",
+      "k": 0.0504,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        19,
+        34,
+        49
+      ],
+      "firstLevel": 19,
+      "hint": "镜头筒是左侧偏下的外轮廓凸起，不是居中的圆"
+    },
+    "handheld": {
+      "name": "掌机",
+      "k": 0.0518,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        17,
+        32,
+        47
+      ],
+      "firstLevel": 17,
+      "hint": "单侧摇杆凸起 + 左右肩键不等高"
+    },
+    "dessert": {
+      "name": "甜筒",
+      "k": 0.0322,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        30
+      ],
+      "firstLevel": 30,
+      "hint": "锥筒 + 双球（大小球分叉）+ 两球之间的凹口"
+    },
+    "crab": {
+      "name": "卡通螃蟹",
+      "k": 0.046,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        22,
+        37,
+        52
+      ],
+      "firstLevel": 22,
+      "hint": "一只钳子拉到最远端、两钳面积差 3.7 倍、腿长差 ≥2 倍"
+    },
+    "mecha_doll": {
+      "name": "小机甲玩偶",
+      "k": 0.0341,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        27,
+        42,
+        57
+      ],
+      "firstLevel": 27,
+      "hint": "圆头 + 双肩甲 + 双腿深 V 缺口 + 头顶天线"
+    },
+    "toaster": {
+      "name": "面包机",
+      "k": 0.0505,
+      "band": "偏宽容",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        18,
+        33,
+        48
+      ],
+      "firstLevel": 18,
+      "hint": "顶部长槽 + 左下旋钮凸起 + 正面一条出面包缝"
+    },
+    "teapot": {
+      "name": "茶壶",
+      "k": 0.0448,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        23,
+        38,
+        53
+      ],
+      "firstLevel": 23,
+      "hint": "壶嘴从左侧伸出 + 顶部小盖钮 + 右侧实心把手"
+    },
+    "headphone": {
+      "name": "耳机",
+      "k": 0.0315,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 7,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "中空马蹄形头梁 + 左右两只耳罩"
+    },
+    "sneaker": {
+      "name": "球鞋",
+      "k": 0.0446,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        24,
+        39,
+        54
+      ],
+      "firstLevel": 24,
+      "hint": "鞋头上翘 + 侧面三道鞋带斜线 + 后跟提环"
+    },
+    "icecream": {
+      "name": "冰淇淋",
+      "k": 0.0334,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        28,
+        43,
+        58
+      ],
+      "firstLevel": 28,
+      "hint": "上方两颗球一高一低 + 下方锥筒 + 右侧一片融化滴落"
+    },
+    "saxophone": {
+      "name": "萨克斯",
+      "k": 0.0198,
+      "band": "偏敏感",
+      "source": "rare",
+      "rareIndex": 8,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "细长管身 + 底部 U 形弯管 + 顶部吹嘴斜切"
+    },
+    "lobster": {
+      "name": "龙虾",
+      "k": 0.0329,
+      "band": "舒适",
+      "source": "main",
+      "rareIndex": -1,
+      "levelIds": [
+        44,
+        59
+      ],
+      "firstLevel": 44,
+      "hint": "两只大钳一前一后 + 扇形尾 + 一对触须"
+    },
+    "cactus": {
+      "name": "仙人掌",
+      "k": 0.0291,
+      "band": "偏敏感",
+      "source": "rare",
+      "rareIndex": 9,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "直立主干 + 两侧高低不同的臂 + 顶部平切"
+    },
+    "dino": {
+      "name": "小恐龙",
+      "k": 0.032,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 10,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "长尾拖后 + 短前肢 + 头部一个眼窝凸起"
+    },
+    "windmill": {
+      "name": "风车",
+      "k": 0.0293,
+      "band": "偏敏感",
+      "source": "rare",
+      "rareIndex": 11,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "四片叶片成十字 + 下方细塔身 + 塔顶小平台"
+    },
+    "satellite": {
+      "name": "卫星",
+      "k": 0.0313,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 12,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "左右两片太阳能板 + 中间球形舱体 + 右侧单侧天线"
+    },
+    "anchor": {
+      "name": "船锚",
+      "k": 0.0246,
+      "band": "偏敏感",
+      "source": "rare",
+      "rareIndex": 13,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "顶部圆环 + 垂直锚杆 + 底部两片外张锚爪"
+    },
+    "dragon": {
+      "name": "小飞龙",
+      "k": 0.0315,
+      "band": "舒适",
+      "source": "rare",
+      "rareIndex": 14,
+      "levelIds": [],
+      "firstLevel": 0,
+      "hint": "前伸的龙首 + 后掠残翼 + 长尾拖在身后"
+    }
+  },
+  "relaxCycle2": {
+    "fromRound": 2,
+    "stepPerRound": 12,
+    "note": "第 1 圈保持 levels_relax.json 原表（S2/S3 不动）；第 2 圈起按当前场景的顺序表轮换 shapeId/outlineId，其余字段（cycleMs/turns/path/passRate/variant）一律不动。撞到该关第二件时顺延到下一个未撞的。",
+    "orders": {
+      "night_station": [
+        "mug",
+        "guitar",
+        "satellite",
+        "windmill",
+        "book",
+        "teapot",
+        "headphone",
+        "camera",
+        "saxophone",
+        "tv",
+        "cup_tumbler",
+        "can_cola",
+        "toaster",
+        "sneaker",
+        "slipper",
+        "hammer",
+        "wrench",
+        "rocket",
+        "toilet",
+        "car_hatch",
+        "mecha_doll",
+        "handheld",
+        "dessert",
+        "icecream",
+        "lobster",
+        "crab",
+        "dino",
+        "dragon",
+        "cat",
+        "duck",
+        "octopus",
+        "burger",
+        "banana",
+        "skateboard",
+        "cactus",
+        "anchor"
+      ],
+      "noon_window": [
+        "icecream",
+        "dessert",
+        "duck",
+        "cat",
+        "burger",
+        "banana",
+        "octopus",
+        "crab",
+        "dino",
+        "dragon",
+        "mug",
+        "teapot",
+        "cup_tumbler",
+        "can_cola",
+        "slipper",
+        "sneaker",
+        "book",
+        "camera",
+        "tv",
+        "guitar",
+        "saxophone",
+        "lobster",
+        "rocket",
+        "skateboard",
+        "handheld",
+        "mecha_doll",
+        "toaster",
+        "satellite",
+        "windmill",
+        "anchor",
+        "headphone",
+        "hammer",
+        "wrench",
+        "car_hatch",
+        "toilet",
+        "cactus"
+      ],
+      "minimal": [
+        "cup_tumbler",
+        "car_hatch",
+        "slipper",
+        "banana",
+        "wrench",
+        "guitar",
+        "duck",
+        "cat",
+        "octopus",
+        "rocket",
+        "burger",
+        "tv",
+        "toilet",
+        "hammer",
+        "can_cola",
+        "book",
+        "mug",
+        "skateboard",
+        "camera",
+        "handheld",
+        "dessert",
+        "crab",
+        "mecha_doll",
+        "toaster",
+        "teapot",
+        "headphone",
+        "sneaker",
+        "icecream",
+        "saxophone",
+        "lobster",
+        "cactus",
+        "dino",
+        "windmill",
+        "satellite",
+        "anchor",
+        "dragon"
+      ]
+    }
+  }
+}

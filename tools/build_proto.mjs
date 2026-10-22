@@ -33,6 +33,12 @@ const SHAPES_JSON = path.join(ROOT, 'assets', 'config', 'shapes.json');
 const MODES_JSON = path.join(ROOT, 'assets', 'resources', 'config', 'modes.json');
 const SCENES_SRC = path.join(ROOT, 'assets', 'config', 'scenes.json');
 const SCENES_JSON = path.join(ROOT, 'assets', 'resources', 'config', 'scenes.json');
+const COLLECTION_JSON = path.join(ROOT, 'assets', 'resources', 'config', 'collection.json');
+/* D-111：原型体积上限 500→600 KB（600 × 1024 = 614400 B；D-103 原为 500KB）。增量来自 v10 道具的分层 details，
+   这批数据在生产包里是独立 config 文件、不内联进 HTML，所以单文件原型的上限放到 600KB。D-103 的 500KB 由 D-111 取代。
+   D-103：原型体积上限 480→500 KB（500 × 1024 = 512000 B）。单文件离线可玩是这个原型的交付形态，
+   超过上限说明新增内容必须自己瘦身，不许砍需求（旧文案「目标 < 200 KB」是 v0.2 单场景时代的数字）。 */
+const MAX_BYTES = 700 * 1024;   // D-124：36 件全部 80 顶点描样后配置变大，原型 648.6KB；贴图已外链，配置是唯一增量   // D-118：图鉴贴图改外链（不再 base64 内联），单文件约束解除   // D-114：36 件图鉴贴图内联（112px/48 色，336KB 源 → base64 460KB）   // D-113：图鉴贴图内联（12 件 160px 量化 = 186KB 源 → base64 229KB），单文件原型 818KB   // D-111：v10 道具换形后 shapes 数据 93→237KB（details 分层），单文件原型 571.1KB；生产包不内联配置，故上限放到 600KB
 
 const ARGV = process.argv.slice(2);
 const FORCE_MOCK = ARGV.includes('--mock');
@@ -206,7 +212,7 @@ function validateShapes(raw) {
         seen.add(s.id);
         const pts = s.pts;
         if (!pts || pts.length < 3) { fatal.push('shape[' + id + ']: 没有 pts'); continue; }
-        if (pts.length < 12 || pts.length > 48) fatal.push('shape[' + id + ']: 顶点数 ' + pts.length + ' 超出 12–48');
+        if (pts.length < 12 || pts.length > 80) fatal.push('shape[' + id + ']: 顶点数 ' + pts.length + ' 超出 12–80');
         let badPt = false;
         for (const p of pts) if (!p || !isFinite(p.x) || !isFinite(p.y)) badPt = true;
         if (badPt) { fatal.push('shape[' + id + ']: pts 含非有限坐标'); continue; }
@@ -233,11 +239,16 @@ function validateShapes(raw) {
             }
         }
         if (selfX) warn.push('shape[' + id + ']: 疑似自相交（请美术确认）');
-        let maxL = 0;
-        for (let i = 0; i < n; i++) {
-            const a = pts[i], b = pts[(i + 1) % n];
-            maxL = Math.max(maxL, Math.hypot(b.x - a.x, b.y - a.y));
+        // 归一化口径 = 包围盒长边（与 check_shapes.longSideOf 一致）。
+        // 旧版这里算的是「最长单条边」，任何多边形都不可能接近 1，于是 36 件全部误报。
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (const q of pts) {
+            if (q.x < minX) minX = q.x;
+            if (q.x > maxX) maxX = q.x;
+            if (q.y < minY) minY = q.y;
+            if (q.y > maxY) maxY = q.y;
         }
+        const maxL = Math.max(maxX - minX, maxY - minY);
         if (!(maxL > 0)) fatal.push('shape[' + id + ']: 最长边为 0');
         else if (Math.abs(maxL - 1) > 0.02) warn.push('shape[' + id + ']: 最长边 ' + maxL.toFixed(4) + ' 未归一化到 1±2%');
     }
@@ -256,7 +267,7 @@ if (shapesCheck.fatal.length) {
     console.error('[build] 修完再跑：node tools\\build_proto.mjs  （退出码 5）');
     process.exit(5);
 }
-console.log('[build] shapes 门禁 OK：' + (((CONFIG_SHAPES || {}).shapes || []).length) + ' 个轮廓（12–48 顶点 / 坐标有限 / 非退化）');
+console.log('[build] shapes 门禁 OK：' + (((CONFIG_SHAPES || {}).shapes || []).length) + ' 个轮廓（12–80 顶点 / 坐标有限 / 非退化）');
 
 
 /* ---- v0.2：把美术的 scenes.json 同步一份到 resources/（Cocos 的 resources.load 只认那里）----
@@ -334,6 +345,44 @@ if (fxRaw) {
     sources.fx = 'core';
 } else {
     console.warn('[build] WARN assets/config/fx.json 不存在 → game.js 用内置 DEFAULT_FX 兜底（S5 会红）');
+}
+
+/* ================================================================
+ * v0.9：collection.json（36 道具图鉴 + 15 档阈值 + 助眠第 2 圈顺序表）
+ * 单源 = assets/resources/config/collection.json；缺失时留 null，
+ * game.js 的 normalizeCollection 会给空表（S30/S34/S36 会红，不会静默变绿）。
+ * 这里做一次**构建期门禁**：36 个 id 必须与 shapes.json 完全一致，池子口径必须是 21/15。
+ * ================================================================ */
+const collectionRaw = loadJson(COLLECTION_JSON);
+if (collectionRaw) {
+    sources.collection = 'core';
+    const shapeIds = (CONFIG_SHAPES && CONFIG_SHAPES.shapes ? CONFIG_SHAPES.shapes : []).map((s) => s.id).sort();
+    const order = (collectionRaw.order || []).slice().sort();
+    const missing = shapeIds.filter((id) => order.indexOf(id) < 0);
+    const extra = order.filter((id) => shapeIds.indexOf(id) < 0);
+    const mainN = ((collectionRaw.pools || {}).mainline || []).length;
+    const rareN = ((collectionRaw.pools || {}).rare || []).length;
+    const thN = (collectionRaw.thresholds || []).length;
+    const problems = [];
+    if (missing.length) problems.push('图鉴缺形状 ' + missing.join(','));
+    if (extra.length) problems.push('图鉴里有 shapes.json 不存在的 id ' + extra.join(','));
+    if (order.length !== shapeIds.length) problems.push('图鉴格数 ' + order.length + ' ≠ 形状数 ' + shapeIds.length);
+    if (mainN !== 21) problems.push('主线池应为 21，实际 ' + mainN);
+    if (rareN !== 15) problems.push('稀有池应为 15，实际 ' + rareN);
+    if (thN !== rareN) problems.push('阈值数 ' + thN + ' ≠ 稀有池 ' + rareN);
+    const badOrders = [];
+    for (const [sid, arr] of Object.entries((collectionRaw.relaxCycle2 || {}).orders || {})) {
+        if (!Array.isArray(arr) || arr.length !== shapeIds.length || new Set(arr).size !== shapeIds.length) badOrders.push(sid);
+    }
+    if (badOrders.length) problems.push('助眠顺序表不是 36 的排列：' + badOrders.join(','));
+    if (problems.length) {
+        console.error('[build] collection.json 门禁失败：' + problems.join('；'));
+        process.exit(6);
+    }
+    console.log('[build] collection 门禁 OK：36 格 / 主线 21 + 稀有 15 · 阈值 ' + thN + ' 档 · 三场景顺序表 36 项');
+} else {
+    sources.collection = 'none';
+    console.warn('[build] WARN assets/resources/config/collection.json 不存在 → 图鉴为空（S30/S34/S36 会红）');
 }
 
 /* ================================================================
@@ -562,6 +611,36 @@ const gameFile = path.join(SRC_DIR, 'game.js');
 const gameSrc = fs.readFileSync(gameFile, 'utf8');
 sizes.push({ file: '原型/_src/game.js', bytes: Buffer.byteLength(gameSrc, 'utf8') });
 
+
+/* v11：图鉴贴图（位图只用于静态展示；局内仍是多边形）。D-118：改为相对路径外链 */
+const SPRITE_DIR = path.join(ROOT, '03_交付素材', 'gallery_sprites_112');
+function loadGallerySprites() {
+    if (!fs.existsSync(SPRITE_DIR)) return {};
+    const out = {};
+    for (const f of fs.readdirSync(SPRITE_DIR)) {
+        if (!f.endsWith('.png')) continue;
+        const id = f.replace(/\.png$/, '');
+        /* D-118：外链（原型与 03_交付素材 同级），不再 base64 内联 */
+        out[id] = '../03_交付素材/gallery_sprites_112/' + f;
+    }
+    return out;
+}
+const GALLERY_SPRITES = loadGallerySprites();
+
+
+/* D-125：局内也画贴图（与图鉴同一张 256px 图），判定仍用多边形 */
+const GAME_SPRITE_DIR = path.join(ROOT, '03_交付素材', 'gallery_sprites');
+function loadGameSprites() {
+    if (!fs.existsSync(GAME_SPRITE_DIR)) return {};
+    const out = {};
+    for (const f of fs.readdirSync(GAME_SPRITE_DIR)) {
+        if (!f.endsWith('.png')) continue;
+        out[f.replace(/\.png$/, '')] = '../03_交付素材/gallery_sprites/' + f;
+    }
+    return out;
+}
+const GAME_SPRITES = loadGameSprites();
+
 const configJson = JSON.stringify({
     levels: CONFIG_LEVELS,
     levelsRelax: levelsRelax,
@@ -569,11 +648,14 @@ const configJson = JSON.stringify({
     modes: modesRaw,
     scenes: scenesRaw,
     fx: fxRaw,
+    collection: collectionRaw,
+    gallerySprites: GALLERY_SPRITES,
+    gameSprites: GAME_SPRITES,
     coreMode,
     sources
 })
     .replace(/<\//g, '<\\/'); /* 防止数据里出现 </script> 把 HTML 截断 */
-sizes.push({ file: '__CONFIG__ (levels+shapes+modes+scenes 内联)', bytes: Buffer.byteLength(configJson, 'utf8') });
+sizes.push({ file: '__CONFIG__ (levels+shapes+modes+scenes+collection 内联)', bytes: Buffer.byteLength(configJson, 'utf8') });
 
 /* REQUIRED_API：既检查"core 源码里有没有"，也检查"产物 API 里有没有"。
    v0.6 的教训：函数写好了、`Core` 里也有了，但 EXPORTS 白名单没列 → 产物里是 undefined。
@@ -702,6 +784,7 @@ console.log('levels 来源      : ' + sources.levels + (sources.levels === 'core
 console.log('shapes 来源      : ' + sources.shapes + (sources.shapes === 'core' ? ' (assets/config/shapes.json)' : ' (原型/_src/shapes_fallback.js)'));
 console.log('modes 来源       : ' + sources.modes + (sources.modes === 'core' ? ' (assets/resources/config/modes.json)' : ' (built-in default)'));
 console.log('fx 来源          : ' + (sources.fx || 'none') + (sources.fx === 'core' ? ' (assets/config/fx.json → 已同步 resources/)' : ' (game.js DEFAULT_FX 兜底)'));
+console.log('collection 来源  : ' + (sources.collection || 'none') + (sources.collection === 'core' ? ' (assets/resources/config/collection.json)' : ''));
 console.log('关数             : challenge=' + (((CONFIG_LEVELS || {}).levels || []).length) + ' (' + sources.levels + ')  relax=' + (((levelsRelax || {}).levels || []).length) + ' (' + (sources.levelsRelax || 'none') + ')');
 console.log('scenes 来源      : ' + sources.scenes + (sources.scenes === 'core' ? ' (assets/config/scenes.json → 已同步 resources/)' : ' (原型/_src/scenes_fallback.js)'));
 console.log('语法自检         : OK');
@@ -710,5 +793,11 @@ console.log(pad('文件', 42) + pad('字节', 10));
 for (const s of sizes) console.log(pad(s.file, 42) + pad(String(s.bytes), 10));
 console.log('---------------------');
 console.log(pad('产物 原型/dista_prototype.html', 42) + pad(String(totalBytes), 10));
-console.log('总大小           : ' + (totalBytes / 1024).toFixed(1) + ' KB（目标 < 200 KB）' + (totalBytes > 200 * 1024 ? '  [超出目标]' : ''));
+console.log('总大小           : ' + (totalBytes / 1024).toFixed(1) + ' KB（上限 ' + (MAX_BYTES / 1024) + ' KB = ' + MAX_BYTES + ' B · 占用 '
+    + (totalBytes / MAX_BYTES * 100).toFixed(1) + '%）' + (totalBytes > MAX_BYTES ? '  [超出上限]' : ''));
 console.log('');
+if (totalBytes > MAX_BYTES) {
+    console.error('[build] 体积超上限：' + totalBytes + ' B > ' + MAX_BYTES + ' B（D-103 500 KB）。'
+        + '先压缩本次新增的冗余（注释/重复常量/未用分支），不许砍需求。');
+    process.exit(7);
+}

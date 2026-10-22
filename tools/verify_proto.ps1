@@ -17,8 +17,8 @@
 # Steps:
 #   1) node tools/build_proto.mjs      rebuild the single-file HTML
 #   2) node tools/selfcheck_proto.mjs  logic assertions without a browser
-#   3) Edge headless screenshots       7 states
-#   4) Edge --dump-dom                 4 states -> title / data-js-error check
+#   3) Edge headless screenshots       40 states
+#   4) Edge --dump-dom                 6 states -> title / data-js-error check
 #   5) summary                         sizes + per-shot bytes + RESULT line
 
 param(
@@ -34,6 +34,30 @@ $Build = Join-Path $Root 'tools\build_proto.mjs'
 $Check = Join-Path $Root 'tools\selfcheck_proto.mjs'
 
 $fail = 0
+
+# ---- D-108：所有 Edge 调用统一走这个封装（超时杀进程树，避免挂死 40 张截图 / 6 个 DOM） ----
+function Invoke-Edge {
+    param(
+        [string]$EdgePath,
+        [string[]]$EdgeArguments,
+        [int]$TimeoutMs = 30000,
+        [string]$StdOutFile = ''
+    )
+    $spArgs = @{
+        FilePath     = $EdgePath
+        ArgumentList = $EdgeArguments
+        PassThru     = $true
+        WindowStyle  = 'Hidden'
+    }
+    if ($StdOutFile) { $spArgs.RedirectStandardOutput = $StdOutFile; $spArgs.RedirectStandardError = ($StdOutFile + '.err') }
+    $proc = Start-Process @spArgs
+    if (-not $proc.WaitForExit($TimeoutMs)) {
+        try { & taskkill /T /F /PID $proc.Id 2>$null | Out-Null } catch { }
+        Start-Sleep -Milliseconds 300
+        return $false
+    }
+    return $true
+}
 
 if (-not (Test-Path $Node)) { Write-Output ('MISSING node: ' + $Node); exit 2 }
 if (-not (Test-Path $Edge)) { Write-Output ('MISSING edge: ' + $Edge); exit 2 }
@@ -151,11 +175,12 @@ $shots = @(
     # v0.3: challenge countdown (<=3s amber) and the timeout settlement panel
     @{ name = 'proto_timer.png';         query = '?mode=challenge&screen=play&lvl=1&press=0.57&timeLeft=2.4' },
     @{ name = 'proto_timeout.png';       query = '?mode=challenge&screen=play&timeout=1' },
-    # 两模式并排：除倒计时外 HUD 必须完全一致（同关卡同 press，最省事的 L1 单物体）
+    # v0.9: two-mode side by side. Except for the countdown, the HUD must be identical
+    #   (same level, same press; L1 single object keeps it simple).
     @{ name = 'proto_hud_challenge.png'; query = '?mode=challenge&screen=play&lvl=1&press=0.55' },
     @{ name = 'proto_hud_relax.png';     query = '?mode=relax&screen=play&lvl=1&press=0.55' },
     # v0.4: season intro / relax level 46 / season-3 god FX (tint from fx.json)
-    # NOTE: do NOT combine ?season= with ?at=god — the jump-season branch leaves app.rt
+    # NOTE: do NOT combine ?season= with ?at=god - the jump-season branch leaves app.rt
     # half-rebuilt and perfectMs is NaN there. lvl=31 IS season 3 level 1, same meaning.
     @{ name = 'proto_season2.png';       query = '?mode=challenge&screen=play&season=2&press=0.55' },
     @{ name = 'proto_relax60.png';       query = '?mode=relax&screen=play&relaxLvl=46&press=0.55' },
@@ -164,7 +189,33 @@ $shots = @(
     @{ name = 'proto_beat_season4.png';  query = '?mode=challenge&screen=play&lvl=58&press=0.55' },
     # v0.6: desync level frozen right after the FIRST of two presses
     #   (one solid dot + one hollow dot; the other object still flying; heatmap only for the frozen mover)
-    @{ name = 'proto_desync.png';        query = '?mode=challenge&screen=play&desyncStage=1' }
+    @{ name = 'proto_desync.png';        query = '?mode=challenge&screen=play&desyncStage=1' },
+    # v0.9: collection gallery (mock). progress= seeds the fake save (unlocked level N, which also
+    #   implies cleared N-1), god= seeds the cumulative god count (unlocks rare items), sel= picks the
+    #   detail tile. Both shots are deterministic; lit count is derived from the level table at runtime.
+    #   gallery          -> rich state (progress=12, god=3, cup_tumbler selected: 11/36 lit + detail)
+    #   gallery_locked   -> all silhouettes (progress=1, god=0, banana selected: 0/36 lit, 36 grey shapes)
+    #   relax_no_gallery -> relax mode asked for screen=gallery: must NOT render any gallery entry (S32)
+    #   cardscene        -> D-094 render-time scene override (?cardScene=) must NOT write the scene pref
+    @{ name = 'proto_gallery.png';        query = '?screen=gallery&progress=12&god=3&sel=cup_tumbler' },
+    @{ name = 'proto_gallery_locked.png'; query = '?screen=gallery&progress=1&god=0&sel=banana' },
+    @{ name = 'proto_relax_no_gallery.png'; query = '?mode=relax&screen=gallery' },
+    @{ name = 'proto_cardscene.png';      query = '?cardScene=noon_window&screen=play&lvl=1&press=0.57' },
+    # v0.9.1: collection experience rework (D-103..D-107).
+    #   home_card      -> home gallery card: last 3 silhouettes + "N/36" (D-106)
+    #   gallery_p1/p2  -> 4x3 pagination, 12 big cells per page, 3 pages (D-107); page=2 = last page, next arrow greyed
+    #   gallery_detail -> full-screen 240px detail opened by ?detail=<id> (D-104/D-107)
+    #   unlock_card    -> result panel + "new collection" card above it (D-105); fxAt=500 keeps the card on screen
+    #   play_gallery   -> in-level book icon bottom-left (D-106), 44x44 icon with 88px hit area
+    # NOTE: fxAt=500 only; fxAt>=1220 auto-advances to the next level and the card is gone.
+    # scene=night_station is pinned on purpose: past 07:00 local time the absent ?scene lets
+    # autoSceneId() pick noon_window (light theme) and the shots stop matching the dark baseline.
+    @{ name = 'proto_home_card.png';      query = '?screen=home&progress=12&god=3&scene=night_station' },
+    @{ name = 'proto_gallery_p1.png';     query = '?screen=gallery&progress=12&god=3&scene=night_station' },
+    @{ name = 'proto_gallery_p2.png';     query = '?screen=gallery&progress=12&god=3&page=2&scene=night_station' },
+    @{ name = 'proto_gallery_detail.png'; query = '?screen=gallery&progress=12&god=3&detail=banana&scene=night_station' },
+    @{ name = 'proto_unlock_card.png';    query = '?screen=result&lvl=1&press=0.5&fxAt=500&scene=night_station' },
+    @{ name = 'proto_play_gallery.png';   query = '?screen=play&lvl=1&press=0.55&scene=night_station' }
 )
 
 foreach ($s in $shots) {
@@ -190,7 +241,7 @@ foreach ($s in $shots) {
 
     $ok = $false
     for ($try = 1; $try -le 3; $try++) {
-        & $Edge @edgeArgs 2>$null | Out-Null
+        Invoke-Edge -EdgePath $Edge -EdgeArguments $edgeArgs -TimeoutMs 90000 | Out-Null
         if ((Test-Path $out) -and ((Get-Item $out).Length -gt 0)) { $ok = $true; break }
         Start-Sleep -Milliseconds 400
     }
@@ -212,9 +263,10 @@ foreach ($s in $shots) {
 }
 
 # ============================================================
-# 6b) 每张截图都做"红条自证"检查
-#     错误网在页面顶部画 #FF6B6B 红条；崩溃页整张都是那条红。
-#     不做这一步，崩溃图会被当成"成功截图"混过去（proto_fx_season 就是这么漏的）。
+# 6b) red-bar self check for EVERY screenshot
+#     The error net paints a #FF6B6B bar at the top of the page; a crashed page
+#     is entirely that red. Without this step a crash shot passes as "good"
+#     (that is exactly how proto_fx_season slipped through in v0.4).
 # ============================================================
 Write-Output ''
 Write-Output '==== 6b/screenshots: red-bar self check ===='
@@ -227,11 +279,11 @@ if ($pngs.Count -gt 0) {
     $PngCheck = Join-Path $Root 'tools\png_check.mjs'
     & $Node $PngCheck @pngs
     if ($LASTEXITCODE -ne 0) {
-        Write-Output ('PNG CHECK FAILED exit=' + $LASTEXITCODE + ' → 有截图是报错页，不能算通过')
+        Write-Output ('PNG CHECK FAILED exit=' + $LASTEXITCODE + ' -> at least one shot is an error page, cannot pass')
         $fail = $fail + 1
     }
 } else {
-    Write-Output 'PNG CHECK: 没有截图可查'
+    Write-Output 'PNG CHECK: no screenshots to check'
     $fail = $fail + 1
 }
 
@@ -242,7 +294,14 @@ $domChecks = @(
     @{ name = 'home';     query = '?screen=home' },
     @{ name = 'play';     query = '?screen=play&lvl=1&press=0.57' },
     @{ name = 'result';   query = '?screen=result&lvl=1&press=0.515' },
-    @{ name = 'complete'; query = '?screen=complete' }
+    @{ name = 'complete'; query = '?screen=complete' },
+    # v0.9: gallery page must run without JS errors (only "no JS-ERROR" is asserted here;
+    #   36-cell completeness / silhouette visibility are judged on the PNG, not on the DOM)
+    @{ name = 'gallery';  query = '?screen=gallery&progress=12&god=3&scene=night_station' },
+    # v0.9.1: pagination + full-screen detail (D-107). Only "no JS-ERROR" is asserted;
+    #   layout / page arrows / 240px silhouette are judged on the PNG and by S41/S42.
+    #   scene=night_station pinned for the same reason as the shots above.
+    @{ name = 'gallery_detail'; query = '?screen=gallery&progress=12&god=3&detail=banana&scene=night_station' }
 )
 
 foreach ($d in $domChecks) {
@@ -260,7 +319,11 @@ foreach ($d in $domChecks) {
         '--dump-dom',
         ($uri + $d.query)
     )
-    $dom = (& $Edge @domArgs 2>$null | Out-String)
+    $domTmp = Join-Path $env:TEMP ('dista_dom_' + [System.Guid]::NewGuid().ToString('N').Substring(0, 8) + '.html')
+    $domDone = Invoke-Edge -EdgePath $Edge -EdgeArguments $domArgs -TimeoutMs 45000 -StdOutFile $domTmp
+    if (-not $domDone) { Write-Output ('dom[' + $d.name + '] WARN: 超时被杀，按空 DOM 处理') }
+    if (Test-Path $domTmp) { $dom = (Get-Content -Path $domTmp -Raw -Encoding UTF8); Remove-Item $domTmp -Force -ErrorAction SilentlyContinue } else { $dom = '' }
+    if (-not $dom) { $dom = '' }
 
     $domFile = Join-Path $OutDir ('proto_dom_' + $d.name + '.html')
     Set-Content -Path $domFile -Value $dom -Encoding UTF8
@@ -297,9 +360,14 @@ Write-Output ('html bytes: ' + $size + '  (' + [math]::Round($size / 1024, 1) + 
 Write-Output ('shots dir: ' + $OutDir)
 Write-Output ('shot count: ' + $shots.Count)
 
-# audio deliverables
-$audioDir = Join-Path $Root '03_交付素材'
-$wavDir = Get-ChildItem -Path $audioDir -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'audio*' } | Select-Object -First 1
+# audio deliverables (dir name is Chinese -> discover it by wildcard, never write it here)
+$audioDir = $null
+foreach ($d in (Get-ChildItem -Path $Root -Directory -ErrorAction SilentlyContinue)) {
+    if ($d.Name -like '03_*') { $audioDir = $d.FullName; break }
+}
+if ($audioDir) {
+    $wavDir = Get-ChildItem -Path $audioDir -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'audio*' } | Select-Object -First 1
+} else { $wavDir = $null }
 if ($wavDir) {
     $wavs = @(Get-ChildItem -Path $wavDir.FullName -Filter '*.wav' -ErrorAction SilentlyContinue)
     Write-Output ('wav dir   : ' + $wavDir.FullName)
@@ -309,7 +377,7 @@ if ($wavDir) {
 }
 
 if ($fail -eq 0) {
-    Write-Output ('RESULT: PASS (' + $shots.Count + ' screenshots, 每张都过红条自检 + ' + $domChecks.Count + ' dom dumps + selfcheck + modes_check + audio_check A1-A10 + wav render)')
+    Write-Output ('RESULT: PASS (' + $shots.Count + ' screenshots, every one passed the red-bar self check + ' + $domChecks.Count + ' dom dumps + selfcheck + modes_check + audio_check A1-A10 + wav render)')
     exit 0
 } else {
     Write-Output ('RESULT: FAIL (' + $fail + ' problems, see WARN/FAIL lines above)')

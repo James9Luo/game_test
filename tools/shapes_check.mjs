@@ -81,7 +81,7 @@ const histStr = [...hist.entries()].sort((a, b) => a[0] - b[0]).map(([k, v]) => 
 if (histStr) rep.info(`顶点数分布：${histStr}`);
 
 // 关卡引用完整性
-if (exists(LEVELS_PATH)) {
+if (exists(LEVELS_PATH) && !argv.includes('--no-levels')) {
     const raw = readJson(LEVELS_PATH);
     const levels = Array.isArray(raw) ? raw : raw.levels || [];
     const missing = [];

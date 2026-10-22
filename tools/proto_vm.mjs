@@ -21,8 +21,8 @@ function makeCtx() {
     const grad = { addColorStop: noop };
     return {
         save: noop, restore: noop, setTransform: noop, translate: noop, rotate: noop, scale: noop,
-        clearRect: noop, fillRect: noop, strokeRect: noop, beginPath: noop, closePath: noop,
-        moveTo: noop, lineTo: noop, arc: noop, arcTo: noop, fill: noop, stroke: noop, clip: noop,
+        clearRect: noop, fillRect: noop, strokeRect: noop, rect: noop, beginPath: noop, closePath: noop,
+        moveTo: noop, lineTo: noop, quadraticCurveTo: noop, bezierCurveTo: noop, arc: noop, arcTo: noop, fill: noop, stroke: noop, clip: noop,
         createLinearGradient: () => grad, createRadialGradient: () => grad,
         measureText: (t) => ({ width: String(t == null ? '' : t).length * 12 }),
         fillText: noop, drawImage: noop, setLineDash: noop,

@@ -1,0 +1,1596 @@
+{
+  "meta": {
+    "startedAt": "2026-10-22T14:28:20.929Z",
+    "levels": [
+      1,
+      10,
+      25,
+      50,
+      55,
+      60
+    ],
+    "repeat": 3,
+    "edge": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "headless": true,
+    "click": {
+      "x": 360,
+      "y": 640
+    },
+    "html": {
+      "path": "原型/dista_prototype.html",
+      "sha1": "ba074f887ce9fee0f50f0eede8a463c0f56c1939",
+      "bytes": 679355,
+      "mtime": "2026-10-22T14:15:03.630Z"
+    },
+    "node": "v24.21.0",
+    "platform": "win32 10.0.19041",
+    "htmlUnchangedDuringRun": true
+  },
+  "preflight": {
+    "viewport": {
+      "w": 720,
+      "h": 1280,
+      "dpr": 1,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+    },
+    "screenPlay": {
+      "note": "?screen=play&lvl=N 是截图冻结分支：timeFreeze 被钉住 → 时钟不走、点击时刻与画面无关",
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?screen=play&lvl=1",
+      "now1": 1779.2500000000002,
+      "now2": 1779.2500000000002,
+      "clockFrozen": true,
+      "scene": "play",
+      "gestureDoneBefore": false,
+      "pressJudged": true,
+      "pressClock": 1779.25,
+      "frozenClock": 1779.2500000000002,
+      "pressAtFrozenFrame": false,
+      "tier": "ok",
+      "pct": 54.29423606475029
+    },
+    "fps": 28.8,
+    "autoplay": {
+      "note": "?autoplay=1 分支要求 app.scene==='play'，但无 ?screen= 时 applyDebug 走首页开场 → 观察它是否真的按过一次",
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?autoplay=1&press=0.5&lvl=1",
+      "scene": "home",
+      "lvl": 0,
+      "pressGlow": -1000000000,
+      "fb": null,
+      "judgedOrNot": false
+    },
+    "fpsOnLevel": 37
+  },
+  "summary": {
+    "trials": 18,
+    "pass": 6,
+    "fail": 0,
+    "notOk": 0,
+    "tierCount": {
+      "god": 6
+    },
+    "timing": {
+      "samples": 18,
+      "meanAbsMs": 0.1,
+      "p50AbsMs": 0,
+      "p95AbsMs": 0.2,
+      "minMs": -0.33321748085177205,
+      "maxMs": 0.04122942027652243
+    },
+    "failLevels": [],
+    "notOkLevels": []
+  },
+  "trials": [
+    {
+      "level": 1,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.99999999985302,
+      "deltaMs": 1.4711076801177114e-9,
+      "theory": {
+        "pctPerfect0": 99.99999999955953,
+        "pctPerfect1": null
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1779.999999998529,
+          "deltaMs": 1.4711076801177114e-9,
+          "pct": 99.99999999985302,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1617.5,
+          "t0": 1780,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L01_pass_repro.png",
+      "shotBytes": 365507,
+      "ms": 3700,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=1&lvl=1",
+      "def": {
+        "id": 1,
+        "name": "第一次定格",
+        "variant": "single",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.93,
+        "cycleMs": 3235,
+        "turns": 1,
+        "season": 1,
+        "shapeId": "cup_tumbler",
+        "shapeId2": null,
+        "prop": "保温杯",
+        "prop2": null
+      },
+      "movers": [
+        {
+          "cycleMs": 3235,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1617.499999998529
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 8.093700000000354,
+        "rttMs": [
+          8.1
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 10,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.95697301994042,
+      "deltaMs": -0.05877048435604593,
+      "theory": {
+        "pctPerfect0": 99.99999999961202,
+        "pctPerfect1": 99.99999999939088
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2907.4587705797235,
+          "deltaMs": -0.05877048435604593,
+          "pct": 99.95697301994042,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 911.3941530337186,
+          "t0": 2907.4000000953674,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L10_pass_repro.png",
+      "shotBytes": 393052,
+      "ms": 4610,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=10&lvl=10",
+      "def": {
+        "id": 10,
+        "name": "双轮廓",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.94,
+        "cycleMs": 1788,
+        "turns": 2,
+        "season": 1,
+        "shapeId": "car_hatch",
+        "shapeId2": "toilet",
+        "prop": "小汽车",
+        "prop2": "马桶"
+      },
+      "movers": [
+        {
+          "cycleMs": 1822.905847037807,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 911.4529235180746
+        },
+        {
+          "cycleMs": 1822.905847037807,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 911.4529235180746
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 3.459899999999834,
+        "rttMs": [
+          3.5
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 25,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.93469233430511,
+      "deltaMs": -0.10845698676439497,
+      "theory": {
+        "pctPerfect0": 99.99999999985658,
+        "pctPerfect1": 99.99999999982877
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 3717.708456891397,
+          "deltaMs": -0.10845698676439497,
+          "pct": 99.93469233430511,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1167.6297084006483,
+          "t0": 3717.5999999046326,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L25_pass_repro.png",
+      "shotBytes": 398996,
+      "ms": 5621,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=25&lvl=25",
+      "def": {
+        "id": 25,
+        "name": "第2季·10",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.62,
+        "star3Rate": 0.94,
+        "cycleMs": 2318,
+        "turns": 2,
+        "season": 2,
+        "shapeId": "can_cola",
+        "shapeId2": "toilet",
+        "prop": "可乐罐",
+        "prop2": "马桶"
+      },
+      "movers": [
+        {
+          "cycleMs": 2349.570291527826,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1167.738165387413
+        },
+        {
+          "cycleMs": 2349.570291527826,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1167.738165387413
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 11.061600000000908,
+        "rttMs": [
+          11.1
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 50,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.97421937399051,
+      "deltaMs": -0.019961626725489623,
+      "theory": {
+        "pctPerfect0": 99.99999999976525,
+        "pctPerfect1": 99.99999999962773
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2493.439581952794,
+          "deltaMs": -0.03958197663575902,
+          "pct": 99.97421937399051,
+          "tier": "god",
+          "moverIndex": 0,
+          "verdict": "onTime",
+          "frozen": [
+            true,
+            false
+          ],
+          "judged": 1,
+          "reconstructed": true
+        },
+        {
+          "idx": 1,
+          "target": 4787.919961602884,
+          "deltaMs": -0.019961626725489623,
+          "pct": 99.97421937399051,
+          "tier": "god",
+          "moverIndex": 1,
+          "verdict": "onTime",
+          "pressClock": 1335.8211888652295,
+          "t0": 4787.899999976158,
+          "frozen": [
+            true,
+            true
+          ],
+          "judged": 2,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L50_pass_repro.png",
+      "shotBytes": 415251,
+      "ms": 6752,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=50&lvl=50",
+      "def": {
+        "id": 50,
+        "name": "第4季·05",
+        "variant": "dual",
+        "phase2": 0.38,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1557,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "mug",
+        "shapeId2": "mecha_doll",
+        "prop": "马克杯",
+        "prop2": "小机甲玩偶"
+      },
+      "movers": [
+        {
+          "cycleMs": 1517.7394055435434,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 759.1001763854086
+        },
+        {
+          "cycleMs": 1517.7394055435434,
+          "speedStage": 1,
+          "offsetMs": 576.7409741065464,
+          "perfectMs": 1335.841150491955
+        }
+      ],
+      "isDesync": true,
+      "clock": {
+        "rttMin": 2.3994999999995343,
+        "rttMs": [
+          2.4,
+          20.7
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3,
+      "desyncAllFrozen": true,
+      "pressMovers": [
+        0,
+        1
+      ]
+    },
+    {
+      "level": 55,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.95084177031376,
+      "deltaMs": -0.04195276933933201,
+      "theory": {
+        "pctPerfect0": 99.99999999994824,
+        "pctPerfect1": 99.9999999999302
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2314.4419527454975,
+          "deltaMs": -0.04195276933933201,
+          "pct": 99.95084177031376,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 713.1718228665181,
+          "t0": 2314.399999976158,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L55_pass_repro.png",
+      "shotBytes": 396331,
+      "ms": 4301,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=55&lvl=55",
+      "def": {
+        "id": 55,
+        "name": "第4季·10",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1414,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "can_cola",
+        "shapeId2": "dino",
+        "prop": "可乐罐",
+        "prop2": "小恐龙"
+      },
+      "movers": [
+        {
+          "cycleMs": 1420.72817710964,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 713.2137756358574
+        },
+        {
+          "cycleMs": 1420.72817710964,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 713.2137756358574
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 24.17150000000038,
+        "rttMs": [
+          24.2
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 60,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 98.8310108620234,
+      "deltaMs": -0.33321748085177205,
+      "theory": {
+        "pctPerfect0": 99.99999999998518,
+        "pctPerfect1": 99.99999999997733
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1841.8909366770076,
+          "deltaMs": 0.8090632514667959,
+          "pct": 98.8310108620234,
+          "tier": "god",
+          "moverIndex": 0,
+          "verdict": "onTime",
+          "frozen": [
+            true,
+            false
+          ],
+          "judged": 1,
+          "reconstructed": true
+        },
+        {
+          "idx": 1,
+          "target": 3546.0332174093264,
+          "deltaMs": -0.33321748085177205,
+          "pct": 98.8310108620234,
+          "tier": "god",
+          "moverIndex": 1,
+          "verdict": "onTime",
+          "pressClock": 969.0253131918612,
+          "t0": 3545.6999999284744,
+          "frozen": [
+            true,
+            true
+          ],
+          "judged": 2,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L60_pass_repro.png",
+      "shotBytes": 391333,
+      "ms": 5483,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=60&lvl=60",
+      "def": {
+        "id": 60,
+        "name": "第4季·15",
+        "variant": "dual",
+        "phase2": 0.4,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1144,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "slipper",
+        "shapeId2": "cactus",
+        "prop": "拖鞋",
+        "prop2": "仙人掌"
+      },
+      "movers": [
+        {
+          "cycleMs": 1074.3873433802275,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 539.6035933206219
+        },
+        {
+          "cycleMs": 1074.3873433802275,
+          "speedStage": 1,
+          "offsetMs": 429.754937352091,
+          "perfectMs": 969.358530672713
+        }
+      ],
+      "isDesync": true,
+      "clock": {
+        "rttMin": 4.376600000003236,
+        "rttMs": [
+          4.4,
+          13
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3,
+      "desyncAllFrozen": true,
+      "pressMovers": [
+        0,
+        1
+      ]
+    },
+    {
+      "level": 1,
+      "run": 1,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.96985466609671,
+      "deltaMs": -0.10000002237075023,
+      "theory": {
+        "pctPerfect0": 99.99999999955953,
+        "pctPerfect1": null
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1796.499999998529,
+          "deltaMs": -0.10000002237075023,
+          "pct": 99.96985466609671,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1617.3999999761581,
+          "t0": 1796.3999999761581,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L01_pass_r1_repro.png",
+      "shotBytes": 374457,
+      "ms": 3678,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=1&lvl=1",
+      "def": {
+        "id": 1,
+        "name": "第一次定格",
+        "variant": "single",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.93,
+        "cycleMs": 3235,
+        "turns": 1,
+        "season": 1,
+        "shapeId": "cup_tumbler",
+        "shapeId2": null,
+        "prop": "保温杯",
+        "prop2": null
+      },
+      "movers": [
+        {
+          "cycleMs": 3235,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1617.499999998529
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 20.63249999999971,
+        "rttMs": [
+          20.6
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 10,
+      "run": 1,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.88388081957939,
+      "deltaMs": -0.15877050819790384,
+      "theory": {
+        "pctPerfect0": 99.99999999961202,
+        "pctPerfect1": 99.99999999939088
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2911.8587705558816,
+          "deltaMs": -0.15877050819790384,
+          "pct": 99.88388081957939,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 911.2941530098767,
+          "t0": 2911.7000000476837,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L10_pass_r1_repro.png",
+      "shotBytes": 396994,
+      "ms": 4741,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=10&lvl=10",
+      "def": {
+        "id": 10,
+        "name": "双轮廓",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.94,
+        "cycleMs": 1788,
+        "turns": 2,
+        "season": 1,
+        "shapeId": "car_hatch",
+        "shapeId2": "toilet",
+        "prop": "小汽车",
+        "prop2": "马桶"
+      },
+      "movers": [
+        {
+          "cycleMs": 1822.905847037807,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 911.4529235180746
+        },
+        {
+          "cycleMs": 1822.905847037807,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 911.4529235180746
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 12.036999999996624,
+        "rttMs": [
+          12
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 25,
+      "run": 1,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.99490496452313,
+      "deltaMs": -0.008456962922537059,
+      "theory": {
+        "pctPerfect0": 99.99999999985658,
+        "pctPerfect1": 99.99999999982877
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 3709.208456891397,
+          "deltaMs": -0.008456962922537059,
+          "pct": 99.99490496452313,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1167.7297084244901,
+          "t0": 3709.1999999284744,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L25_pass_r1_repro.png",
+      "shotBytes": 400211,
+      "ms": 5760,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=25&lvl=25",
+      "def": {
+        "id": 25,
+        "name": "第2季·10",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.62,
+        "star3Rate": 0.94,
+        "cycleMs": 2318,
+        "turns": 2,
+        "season": 2,
+        "shapeId": "can_cola",
+        "shapeId2": "toilet",
+        "prop": "可乐罐",
+        "prop2": "马桶"
+      },
+      "movers": [
+        {
+          "cycleMs": 2349.570291527826,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1167.738165387413
+        },
+        {
+          "cycleMs": 2349.570291527826,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1167.738165387413
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 7.670200000000477,
+        "rttMs": [
+          7.7
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 50,
+      "run": 1,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.87021426671627,
+      "deltaMs": -0.11996153135805798,
+      "theory": {
+        "pctPerfect0": 99.99999999976525,
+        "pctPerfect1": 99.99999999962773
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2485.539581976636,
+          "deltaMs": -0.03958197663575902,
+          "pct": 99.97421937399051,
+          "tier": "god",
+          "moverIndex": 0,
+          "verdict": "onTime",
+          "frozen": [
+            true,
+            false
+          ],
+          "judged": 1,
+          "reconstructed": true
+        },
+        {
+          "idx": 1,
+          "target": 4780.0199616267255,
+          "deltaMs": -0.11996153135805798,
+          "pct": 99.87021426671627,
+          "tier": "god",
+          "moverIndex": 1,
+          "verdict": "onTime",
+          "pressClock": 1335.721188960597,
+          "t0": 4779.900000095367,
+          "frozen": [
+            true,
+            true
+          ],
+          "judged": 2,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L50_pass_r1_repro.png",
+      "shotBytes": 415206,
+      "ms": 6787,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=50&lvl=50",
+      "def": {
+        "id": 50,
+        "name": "第4季·05",
+        "variant": "dual",
+        "phase2": 0.38,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1557,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "mug",
+        "shapeId2": "mecha_doll",
+        "prop": "马克杯",
+        "prop2": "小机甲玩偶"
+      },
+      "movers": [
+        {
+          "cycleMs": 1517.7394055435434,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 759.1001763854086
+        },
+        {
+          "cycleMs": 1517.7394055435434,
+          "speedStage": 1,
+          "offsetMs": 576.7409741065464,
+          "perfectMs": 1335.841150491955
+        }
+      ],
+      "isDesync": true,
+      "clock": {
+        "rttMin": 4.351500000004307,
+        "rttMs": [
+          33.1,
+          4.4
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3,
+      "desyncAllFrozen": true,
+      "pressMovers": [
+        0,
+        1
+      ]
+    },
+    {
+      "level": 55,
+      "run": 1,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.95084177031376,
+      "deltaMs": -0.04195276933933201,
+      "theory": {
+        "pctPerfect0": 99.99999999994824,
+        "pctPerfect1": 99.9999999999302
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2313.641952793181,
+          "deltaMs": -0.04195276933933201,
+          "pct": 99.95084177031376,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 713.1718228665181,
+          "t0": 2313.600000023842,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L55_pass_r1_repro.png",
+      "shotBytes": 396296,
+      "ms": 4267,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=55&lvl=55",
+      "def": {
+        "id": 55,
+        "name": "第4季·10",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1414,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "can_cola",
+        "shapeId2": "dino",
+        "prop": "可乐罐",
+        "prop2": "小恐龙"
+      },
+      "movers": [
+        {
+          "cycleMs": 1420.72817710964,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 713.2137756358574
+        },
+        {
+          "cycleMs": 1420.72817710964,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 713.2137756358574
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 2.47439999999915,
+        "rttMs": [
+          2.5
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 60,
+      "run": 1,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.86666977288075,
+      "deltaMs": -0.03321740932619832,
+      "theory": {
+        "pctPerfect0": 99.99999999998518,
+        "pctPerfect1": 99.99999999997733
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1837.5909367246913,
+          "deltaMs": -0.09093672469134617,
+          "pct": 99.86666977288075,
+          "tier": "god",
+          "moverIndex": 0,
+          "verdict": "onTime",
+          "frozen": [
+            true,
+            false
+          ],
+          "judged": 1,
+          "reconstructed": true
+        },
+        {
+          "idx": 1,
+          "target": 3541.73321745701,
+          "deltaMs": -0.03321740932619832,
+          "pct": 99.86666977288075,
+          "tier": "god",
+          "moverIndex": 1,
+          "verdict": "onTime",
+          "pressClock": 969.3253132633868,
+          "t0": 3541.7000000476837,
+          "frozen": [
+            true,
+            true
+          ],
+          "judged": 2,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L60_pass_r1_repro.png",
+      "shotBytes": 391813,
+      "ms": 5456,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=60&lvl=60",
+      "def": {
+        "id": 60,
+        "name": "第4季·15",
+        "variant": "dual",
+        "phase2": 0.4,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1144,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "slipper",
+        "shapeId2": "cactus",
+        "prop": "拖鞋",
+        "prop2": "仙人掌"
+      },
+      "movers": [
+        {
+          "cycleMs": 1074.3873433802275,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 539.6035933206219
+        },
+        {
+          "cycleMs": 1074.3873433802275,
+          "speedStage": 1,
+          "offsetMs": 429.754937352091,
+          "perfectMs": 969.358530672713
+        }
+      ],
+      "isDesync": true,
+      "clock": {
+        "rttMin": 5.29030000000057,
+        "rttMs": [
+          5.5,
+          5.3
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3,
+      "desyncAllFrozen": true,
+      "pressMovers": [
+        0,
+        1
+      ]
+    },
+    {
+      "level": 1,
+      "run": 2,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.93972084817962,
+      "deltaMs": -0.20000004621260814,
+      "theory": {
+        "pctPerfect0": 99.99999999955953,
+        "pctPerfect1": null
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1756.499999998529,
+          "deltaMs": -0.20000004621260814,
+          "pct": 99.93972084817962,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1617.2999999523163,
+          "t0": 1756.2999999523163,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L01_pass_r2_repro.png",
+      "shotBytes": 367136,
+      "ms": 3743,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=1&lvl=1",
+      "def": {
+        "id": 1,
+        "name": "第一次定格",
+        "variant": "single",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.93,
+        "cycleMs": 3235,
+        "turns": 1,
+        "season": 1,
+        "shapeId": "cup_tumbler",
+        "shapeId2": null,
+        "prop": "保温杯",
+        "prop2": null
+      },
+      "movers": [
+        {
+          "cycleMs": 3235,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1617.499999998529
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 10.623300000006566,
+        "rttMs": [
+          10.6
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 10,
+      "run": 2,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.96980953853829,
+      "deltaMs": 0.04122942027652243,
+      "theory": {
+        "pctPerfect0": 99.99999999961202,
+        "pctPerfect1": 99.99999999939088
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2911.658770508198,
+          "deltaMs": 0.04122942027652243,
+          "pct": 99.96980953853829,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 911.4941529383511,
+          "t0": 2911.6999999284744,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L10_pass_r2_repro.png",
+      "shotBytes": 390798,
+      "ms": 4912,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=10&lvl=10",
+      "def": {
+        "id": 10,
+        "name": "双轮廓",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.94,
+        "cycleMs": 1788,
+        "turns": 2,
+        "season": 1,
+        "shapeId": "car_hatch",
+        "shapeId2": "toilet",
+        "prop": "小汽车",
+        "prop2": "马桶"
+      },
+      "movers": [
+        {
+          "cycleMs": 1822.905847037807,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 911.4529235180746
+        },
+        {
+          "cycleMs": 1822.905847037807,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 911.4529235180746
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 11.662399999986519,
+        "rttMs": [
+          11.7
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 25,
+      "run": 2,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.97701015231186,
+      "deltaMs": -0.03816545893823786,
+      "theory": {
+        "pctPerfect0": 99.99999999985658,
+        "pctPerfect1": 99.99999999982877
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1324.9381654350966,
+          "deltaMs": -0.03816545893823786,
+          "pct": 99.97701015231186,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1167.6999999284744,
+          "t0": 1324.8999999761581,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L25_pass_r2_repro.png",
+      "shotBytes": 393643,
+      "ms": 3227,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=25&lvl=25",
+      "def": {
+        "id": 25,
+        "name": "第2季·10",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.62,
+        "star3Rate": 0.94,
+        "cycleMs": 2318,
+        "turns": 2,
+        "season": 2,
+        "shapeId": "can_cola",
+        "shapeId2": "toilet",
+        "prop": "可乐罐",
+        "prop2": "马桶"
+      },
+      "movers": [
+        {
+          "cycleMs": 2349.570291527826,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1167.738165387413
+        },
+        {
+          "cycleMs": 2349.570291527826,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1167.738165387413
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 5.187699999994948,
+        "rttMs": [
+          5.2
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 50,
+      "run": 2,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.87021413803724,
+      "deltaMs": -0.11996165056734753,
+      "theory": {
+        "pctPerfect0": 99.99999999976525,
+        "pctPerfect1": 99.99999999962773
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2466.7395820243196,
+          "deltaMs": -0.13958200047761693,
+          "pct": 99.90916234311177,
+          "tier": "god",
+          "moverIndex": 0,
+          "verdict": "onTime",
+          "frozen": [
+            true,
+            false
+          ],
+          "judged": 1,
+          "reconstructed": true
+        },
+        {
+          "idx": 1,
+          "target": 4761.219961674409,
+          "deltaMs": -0.11996165056734753,
+          "pct": 99.87021413803724,
+          "tier": "god",
+          "moverIndex": 1,
+          "verdict": "onTime",
+          "pressClock": 1335.7211888413876,
+          "t0": 4761.100000023842,
+          "frozen": [
+            true,
+            true
+          ],
+          "judged": 2,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L50_pass_r2_repro.png",
+      "shotBytes": 414441,
+      "ms": 6750,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=50&lvl=50",
+      "def": {
+        "id": 50,
+        "name": "第4季·05",
+        "variant": "dual",
+        "phase2": 0.38,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1557,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "mug",
+        "shapeId2": "mecha_doll",
+        "prop": "马克杯",
+        "prop2": "小机甲玩偶"
+      },
+      "movers": [
+        {
+          "cycleMs": 1517.7394055435434,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 759.1001763854086
+        },
+        {
+          "cycleMs": 1517.7394055435434,
+          "speedStage": 1,
+          "offsetMs": 576.7409741065464,
+          "perfectMs": 1335.841150491955
+        }
+      ],
+      "isDesync": true,
+      "clock": {
+        "rttMin": 4.388000000006286,
+        "rttMs": [
+          4.4,
+          5.2
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3,
+      "desyncAllFrozen": true,
+      "pressMovers": [
+        0,
+        1
+      ]
+    },
+    {
+      "level": 55,
+      "run": 2,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.95084177031376,
+      "deltaMs": -0.04195276933933201,
+      "theory": {
+        "pctPerfect0": 99.99999999994824,
+        "pctPerfect1": 99.9999999999302
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 2321.3419527216556,
+          "deltaMs": -0.04195276933933201,
+          "pct": 99.95084177031376,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 713.1718228665181,
+          "t0": 2321.2999999523163,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L55_pass_r2_repro.png",
+      "shotBytes": 396155,
+      "ms": 4237,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=55&lvl=55",
+      "def": {
+        "id": 55,
+        "name": "第4季·10",
+        "variant": "dual",
+        "phase2": 0,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1414,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "can_cola",
+        "shapeId2": "dino",
+        "prop": "可乐罐",
+        "prop2": "小恐龙"
+      },
+      "movers": [
+        {
+          "cycleMs": 1420.72817710964,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 713.2137756358574
+        },
+        {
+          "cycleMs": 1420.72817710964,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 713.2137756358574
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 4.282000000006519,
+        "rttMs": [
+          4.3
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    },
+    {
+      "level": 60,
+      "run": 2,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.7240159034602,
+      "deltaMs": -0.13321743316805623,
+      "theory": {
+        "pctPerfect0": 99.99999999998518,
+        "pctPerfect1": 99.99999999997733
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1762.7909366531658,
+          "deltaMs": -0.09093672469134617,
+          "pct": 99.86666977288075,
+          "tier": "god",
+          "moverIndex": 0,
+          "verdict": "onTime",
+          "frozen": [
+            true,
+            false
+          ],
+          "judged": 1,
+          "reconstructed": true
+        },
+        {
+          "idx": 1,
+          "target": 3466.9332173854846,
+          "deltaMs": -0.13321743316805623,
+          "pct": 99.7240159034602,
+          "tier": "god",
+          "moverIndex": 1,
+          "verdict": "onTime",
+          "pressClock": 969.2253132395449,
+          "t0": 3466.7999999523163,
+          "frozen": [
+            true,
+            true
+          ],
+          "judged": 2,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L60_pass_r2_repro.png",
+      "shotBytes": 390365,
+      "ms": 5164,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=60&lvl=60",
+      "def": {
+        "id": 60,
+        "name": "第4季·15",
+        "variant": "dual",
+        "phase2": 0.4,
+        "passRate": 0.7,
+        "star3Rate": 0.94,
+        "cycleMs": 1144,
+        "turns": 3,
+        "season": 4,
+        "shapeId": "slipper",
+        "shapeId2": "cactus",
+        "prop": "拖鞋",
+        "prop2": "仙人掌"
+      },
+      "movers": [
+        {
+          "cycleMs": 1074.3873433802275,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 539.6035933206219
+        },
+        {
+          "cycleMs": 1074.3873433802275,
+          "speedStage": 1,
+          "offsetMs": 429.754937352091,
+          "perfectMs": 969.358530672713
+        }
+      ],
+      "isDesync": true,
+      "clock": {
+        "rttMin": 5.388500000000931,
+        "rttMs": [
+          5.4,
+          10.6
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3,
+      "desyncAllFrozen": true,
+      "pressMovers": [
+        0,
+        1
+      ]
+    }
+  ]
+}

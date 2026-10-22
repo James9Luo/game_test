@@ -143,14 +143,28 @@ function readProgress() {
         var raw = window.localStorage.getItem(SAVE_KEY);
         var o = raw ? JSON.parse(raw) : null;
         if (o && typeof o === 'object') {
+            /* v0.9：cleared / godTotal 是收集系统的两个输入量（只增不减）。
+               · cleared = 已通关的挑战关数。旧存档没有这个字段：unlocked 只表示"下一关"，
+                 清完 L60 与停在 L60 都是 60，所以旧档按 unlocked≥60 视为已全通（宁多点亮、不少点亮）。
+               · godTotal = 累计神级次数（挑战）。旧档只有单局最高 god，按它迁移。 */
+            var unlocked = o.unlocked || 1;
+            var cleared = (typeof o.cleared === 'number' && isFinite(o.cleared))
+                ? Math.max(0, Math.min(60, o.cleared))
+                : (unlocked >= 60 ? 60 : Math.max(0, unlocked - 1));
             return {
-                unlocked: o.unlocked || 1,
+                unlocked: unlocked,
                 bestScore: o.bestScore || 0,
-                god: o.god || 0
+                god: o.god || 0,
+                cleared: cleared,
+                godTotal: Math.max(0, o.godTotal || o.god || 0),
+                /* v0.9.1：还没被玩家"看过详情"的新道具（NEW 点的持久状态）。只存 id，最多 36。 */
+                newIds: (Object.prototype.toString.call(o.newIds) === '[object Array]')
+                    ? o.newIds.filter(function (x) { return typeof x === 'string'; }).slice(0, 36)
+                    : []
             };
         }
     } catch (e) { /* file:// 下 localStorage 可能被禁，静默降级 */ }
-    return { unlocked: 1, bestScore: 0, god: 0 };
+    return { unlocked: 1, bestScore: 0, god: 0, cleared: 0, godTotal: 0, newIds: [] };
 }
 function writeProgress() {
     try {
@@ -378,8 +392,22 @@ function readScenePref() {
 function writeScenePref(v) {
     try { window.localStorage.setItem(SCENE_KEY, v); } catch (e) { /* 吃掉 */ }
 }
-/** 手动优先；手动项不存在时回落自动 */
+/** D-094：渲染期覆盖（瓶子卡 sceneId 用）。**只影响这一次渲染/这一张卡，不写 pref**。 */
+var SCENE_OVERRIDE = null;
+function setSceneOverride(id) {
+    SCENE_OVERRIDE = (id && sceneById(id)) ? id : null;
+    if (typeof app !== 'undefined' && app) app.sceneOverride = SCENE_OVERRIDE;
+    return SCENE_OVERRIDE;
+}
+function clearSceneOverride() {
+    SCENE_OVERRIDE = null;
+    if (typeof app !== 'undefined' && app) app.sceneOverride = null;
+}
+function getSceneOverride() { return SCENE_OVERRIDE; }
+/** 手动 pref > 自动；**渲染期覆盖优先于手动 pref**（D-099：看别人的瓶子卡就该看到那张卡的背景）。
+ *  覆盖只活一关、不写 localStorage['dista.scene']，所以不会改掉玩家自己的设置。 */
 function resolveSceneId() {
+    if (SCENE_OVERRIDE && sceneById(SCENE_OVERRIDE)) return SCENE_OVERRIDE;
     var pref = readScenePref();
     if (pref && pref !== 'auto' && sceneById(pref)) return pref;
     return autoSceneId();
@@ -460,6 +488,198 @@ function shapeOf(id) {
     return { id: 'fallback', name: '占位', size: 150, fill: '#8FA3BF', stroke: '#EAF2FF', pts: [{ x: -0.5, y: -0.5 }, { x: 0.5, y: -0.5 }, { x: 0.5, y: 0.5 }, { x: -0.5, y: 0.5 }] };
 }
 
+/* ================================================================
+ * v0.9 道具收集（mock 图鉴）· D-091/D-092/D-095/D-096/D-097
+ *
+ * 边界（三条硬约束，见 v0.9 §5）：
+ *   ① 不参与 judge / stars / bestScore / 星级 / 连击——本段只读 progress 与 LEVELS；
+ *   ② 不设每日任务（S35 会扫代码）；
+ *   ③ 助眠零收集：无图鉴入口、无 collect_* 事件（S32）。
+ *
+ * 解锁状态是**纯函数**（cleared + godTotal → 已点亮集合），不额外存一份可漂移的解锁表：
+ *   主线 = 已通关关卡的主物体去重（21 个）；
+ *   稀有 = 累计神级次数 ≥ thresholds[i] 时点亮 rare[i]（15 个）。
+ * 状态可重算 = 存档坏了也能自愈，断言也能直接喂合成存档（S30）。
+ * ================================================================ */
+var COLLECTION = (function normalizeCollection(raw) {
+    var out = {
+        thresholds: [], pools: { mainline: [], rare: [] }, order: [], items: {},
+        rules: { collectInRelax: false, dailyTasks: false, affectsJudge: false },
+        relaxCycle2: { fromRound: 2, stepPerRound: 12, orders: {} }
+    };
+    if (!raw || typeof raw !== 'object') return out;
+    if (raw.thresholds && raw.thresholds.length) out.thresholds = raw.thresholds.slice();
+    if (raw.pools) {
+        out.pools.mainline = (raw.pools.mainline || []).slice();
+        out.pools.rare = (raw.pools.rare || []).slice();
+    }
+    if (raw.order && raw.order.length) out.order = raw.order.slice();
+    if (raw.items && typeof raw.items === 'object') out.items = raw.items;
+    if (raw.rules) {
+        out.rules.collectInRelax = !!raw.rules.collectInRelax;
+        out.rules.dailyTasks = !!raw.rules.dailyTasks;
+        out.rules.affectsJudge = !!raw.rules.affectsJudge;
+    }
+    if (raw.relaxCycle2) {
+        out.relaxCycle2.fromRound = raw.relaxCycle2.fromRound || 2;
+        out.relaxCycle2.stepPerRound = raw.relaxCycle2.stepPerRound || 12;
+        out.relaxCycle2.orders = raw.relaxCycle2.orders || {};
+    }
+    return out;
+})(CFG.collection);
+
+/** 图鉴格子的展示顺序 = collection.json 的 order（主线按首次通关顺序，其后稀有按阈值顺序） */
+function collectionItem(id) {
+    var it = COLLECTION.items[id];
+    if (it) return it;
+    return { name: shapeOf(id).name, k: 0, band: '', source: 'main', rareIndex: -1, levelIds: [], firstLevel: 0, hint: '' };
+}
+
+/** 已通关的挑战关数（旧存档没有 cleared 时按 unlocked 推断） */
+function clearedCount(src) {
+    var p = src || progress;
+    if (typeof p.cleared === 'number' && isFinite(p.cleared)) {
+        return Math.max(0, Math.min(LEVELS.length, Math.floor(p.cleared)));
+    }
+    var u = p.unlocked || 1;
+    return u >= LEVELS.length ? LEVELS.length : Math.max(0, u - 1);
+}
+
+function godTotalOf(src) {
+    var p = src || progress;
+    var g = Math.max(0, Math.floor(p.godTotal || 0));
+    return isFinite(g) ? g : 0;
+}
+
+/**
+ * 解锁状态（纯函数）。返回 map[id] = 'main' | 'rare'，以及计数与下一档阈值。
+ * @param {{cleared?:number, unlocked?:number, godTotal?:number}} [src] 缺省读 progress
+ */
+function collectionState(src) {
+    var p = src || progress;
+    var cleared = clearedCount(p);
+    var god = godTotalOf(p);
+    var map = {};
+    var main = [];
+    for (var i = 0; i < cleared && i < LEVELS.length; i++) {
+        var id = LEVELS[i] && LEVELS[i].shapeId;
+        if (id && !map[id]) { map[id] = 'main'; main.push(id); }
+    }
+    var rare = [];
+    for (var t = 0; t < COLLECTION.thresholds.length && t < COLLECTION.pools.rare.length; t++) {
+        if (god >= COLLECTION.thresholds[t]) {
+            var rid = COLLECTION.pools.rare[t];
+            if (rid && !map[rid]) { map[rid] = 'rare'; rare.push(rid); }
+        }
+    }
+    var nextAt = 0;
+    for (var q = 0; q < COLLECTION.thresholds.length; q++) {
+        if (god < COLLECTION.thresholds[q]) { nextAt = COLLECTION.thresholds[q]; break; }
+    }
+    return {
+        cleared: cleared, godTotal: god, main: main, rare: rare, map: map,
+        mainCount: main.length, rareCount: rare.length,
+        unlockedCount: main.length + rare.length,
+        total: COLLECTION.order.length || 36,
+        nextRareAt: nextAt
+    };
+}
+
+/** 解锁来源文案（图鉴详情用） */
+function unlockLabel(id) {
+    var it = collectionItem(id);
+    if (it.source === 'rare') {
+        var th = COLLECTION.thresholds[it.rareIndex];
+        return '累计神级 ' + th + ' 次点亮';
+    }
+    return it.firstLevel ? '通关第 ' + it.firstLevel + ' 关点亮' : '通关主线点亮';
+}
+
+/** 解锁事件：只在挑战模式、且真的新增时上报（relax 不产生 collect_*，S32） */
+function emitUnlockEvents(before, fb) {
+    if (isRelax()) return [];
+    var after = collectionState();
+    var ids = [];
+    for (var i = 0; i < COLLECTION.order.length; i++) {
+        var id = COLLECTION.order[i];
+        if (!after.map[id] || (before && before.map[id])) continue;
+        ids.push(id);
+        if (progress.newIds.indexOf(id) < 0) progress.newIds.push(id);
+        var it = collectionItem(id);
+        track('collect_unlock', {
+            id: id, source: it.source, cleared: after.cleared, god_total: after.godTotal
+        });
+        if (it.source === 'rare') {
+            track('rare_unlock', {
+                id: id, threshold: COLLECTION.thresholds[it.rareIndex], god_total: after.godTotal
+            });
+        }
+    }
+    if (ids.length) {
+        if (fb) fb.unlocks = ids;
+        writeProgress(); /* newIds 要立刻落盘：玩家关掉页面也不丢 NEW 点 */
+        track('unlock_card_shown', { ids: ids, count: ids.length });
+    }
+    return ids;
+}
+
+/** 看过详情 = 清掉这一件的 NEW（只清这一件） */
+function markGallerySeen(id) {
+    if (!id) return;
+    var i = progress.newIds.indexOf(id);
+    if (i >= 0) {
+        progress.newIds.splice(i, 1);
+        writeProgress();
+    }
+}
+
+/* ---------------- 助眠第 2 圈：36 池轮换（D-093） ---------------- */
+/** 当前场景的顺序表；场景无表时回落 minimal 表 */
+function relaxOrderForScene(sceneId) {
+    var orders = COLLECTION.relaxCycle2.orders || {};
+    var sid = sceneId || resolveSceneId();
+    var arr = orders[sid] || orders.minimal || [];
+    return (arr && arr.length) ? arr : [];
+}
+
+/**
+ * 第 2 圈起把一关的 shapeId/outlineId 换成 36 池里的下一个；其余字段一律照抄
+ * （cycleMs/turns/path/passRate/variant 不动 = 不动难度阶梯，只换内容）。
+ * 撞上该关第二件时顺延，避免同一关两个物体同形。
+ */
+function relaxRotatedDef(def, idx, round, sceneId) {
+    if (!def) return def;
+    var arr = relaxOrderForScene(sceneId);
+    if (!arr.length) return def;
+    var from = COLLECTION.relaxCycle2.fromRound || 2;
+    var base = Math.max(0, (round || from) - from);
+    var offset = base * (COLLECTION.relaxCycle2.stepPerRound || 12) + idx;
+    var start = ((offset % arr.length) + arr.length) % arr.length;
+    var pick = arr[start];
+    var guard = 0;
+    while (def.shapeId2 && pick === def.shapeId2 && guard < arr.length) {
+        guard++;
+        pick = arr[(start + guard) % arr.length];
+    }
+    if (!pick) return def;
+    var out = {};
+    for (var k in def) if (Object.prototype.hasOwnProperty.call(def, k)) out[k] = def[k];
+    out.shapeId = pick;
+    out.outlineId = pick;
+    return out;
+}
+
+/** 给断言用：某场景第 N 圈的 60 关映射（只返回 shapeId/outlineId/shapeId2，便于独立核对） */
+function relaxRotationForScene(sceneId, round) {
+    var list = RELAX_LEVELS || [];
+    var out = [];
+    for (var i = 0; i < list.length; i++) {
+        var d = relaxRotatedDef(list[i], i, round || 2, sceneId);
+        out.push({ level: i + 1, shapeId: d.shapeId, outlineId: d.outlineId, shapeId2: d.shapeId2 || null });
+    }
+    return out;
+}
+
 /* ---------------- 应用状态 ---------------- */
 var app = {
     scene: 'home', /* home | play | feedback | complete */
@@ -502,7 +722,15 @@ var app = {
     /* v0.7 分享（B1·D-080）：只存"点了之后有什么变化"，链接本身每次现算（见 shareLinkUrl） */
     shareCopiedAt: -1e9, /* 复制成功的时刻：按钮显示「链接已复制」1.6s，之后复原 */
     shareFailed: false,  /* 复制失败：链接以文本形式留在通关页上，不许"点了没反应" */
-    shareUrl: ''         /* 失败时要显示的那行链接（成功/未点过时为空） */
+    shareUrl: '',        /* 失败时要显示的那行链接（成功/未点过时为空） */
+    /* v0.9 道具收集（mock 图鉴） */
+    galleryFrom: 'home', /* 从哪个画面进的图鉴（返回时回到那里） */
+    gallerySel: null,    /* 图鉴里选中的道具 id（详情区） */
+    galleryDetail: null, /* v0.9.1：全屏详情看的是哪一件（null = 分页大格总览） */
+    galleryPage: 0,      /* v0.9.1：4×3 分页，当前页（0 基） */
+    galleryStart: 0,     /* 进图鉴的时刻（剪影摆动的相位零点） */
+    fbHeldAt: 0,         /* 进图鉴时结算面板的暂停时刻（返回时把面板时钟推后，别让 auto-next 偷跑） */
+    sceneOverride: null  /* D-094：渲染期场景覆盖（瓶子卡用，不写 pref） */
 };
 
 function cycleMs() {
@@ -565,6 +793,9 @@ function startLevel(i) {
     var list = curLevels();
     if (!list.length) { onErr(new Error('没有关卡数据：__CONFIG__.levels 为空')); return; }
     app.lvl = Math.max(0, Math.min(list.length - 1, i));
+    /* D-093：助眠第 2 圈起按 36 池 + 场景顺序表换 shapeId/outlineId；第 1 圈用原表（S2/S3 不动）。
+       只换内容、不换难度：cycleMs/turns/path/passRate/variant 全部照抄原关。
+       注意：必须在 applySceneForLevel() 之后再换（顺序表按"这一关实际生效的场景"取）。 */
     app.def = list[app.lvl];
     app.attempts = app.def.attempts || 3;
     app.levelScore = 0;
@@ -577,6 +808,11 @@ function startLevel(i) {
         app.seasonIntroAt = nowMs();
     }
     applySceneForLevel(); /* 只在关卡之间换背景（D-039） */
+    /* D-093：场景定下来之后再取这一关的顺序表（第 2 圈起 36 池轮换；第 1 圈用原表）。
+       只换内容、不换难度：cycleMs/turns/path/passRate/variant 全部照抄原关（S36 逐字段核）。 */
+    if (isRelax() && (app.round || 1) >= (COLLECTION.relaxCycle2.fromRound || 2)) {
+        app.def = relaxRotatedDef(app.def, app.lvl, app.round);
+    }
     try {
         app.rt = CORE.buildLevel(app.def, SHAPES, 1337 + app.lvl * 97);
     } catch (e) {
@@ -604,8 +840,24 @@ function beginAttempt() {
     app.timerStopAt = null;
     /* v0.6 错拍关：每次尝试/重试都把"已定格"标记清零（S21 要求失败后两个 mover 全部重置） */
     app.phase = 'aim';
-    app.frozen = null;
+    /* D-136：必须按 mover 数重建长度正确的 frozen 数组（原本清成 null → 第一次按下会把数组长度变成 1
+       → desyncAllFrozen() 误判"都定住了" → 一次点击就结算。首次进关正常、重玩就坏，正是这个 bug） */
+    if (typeof isDesync === 'function' && isDesync()) {
+        var _n = (app.rt && app.rt.movers) ? app.rt.movers.length : 2;
+        var _fz = [];
+        for (var _i = 0; _i < _n; _i++) _fz.push(false);
+        app.frozen = _fz;
+        app.desyncJudged = [];
+        app.desyncLast = null;
+    } else {
+        app.frozen = null;
+    }
     app.desyncResolve = null;
+    app.desyncFirstAt = 0;   /* D-131：连击保护基准清零 */
+    app.desyncTooFastAt = 0;
+    app.frozenPose = null;   /* D-134：定格姿态清零 */
+    app.desyncFlashAt = 0;
+    app.desyncFlashIdx = -1;
 }
 
 function restartLevel() {
@@ -653,6 +905,7 @@ function triggerTimeout() {
 }
 
 function nextLevel() {
+    clearSceneOverride(); /* D-094：渲染期覆盖只活一关，关卡结束即失效 */
     var list = curLevels();
     var done = app.lvl + 1;
     /* 催眠：每 15 关给一次轻提示「已完成 N 段」（不分季展示） */
@@ -676,6 +929,7 @@ function showToast(text) {
 
 function showComplete() {
     var t = nowMs();
+    clearSceneOverride();
     app.scene = 'complete';
     var ms = Math.max(0, t - (app.runStartAt || t));
     /* 最高分只在挑战模式记录（relax 不参与，别让助眠玩家被分数绑架） */
@@ -706,6 +960,7 @@ function goHome() {
     app.homeStart = nowMs();
     app.mode = 'challenge';
     app.timeLimitMs = null;
+    clearSceneOverride(); /* 回首页 = 一局结束，卡片覆盖不许带出来 */
     hideShareTextOverlay();
     applyModeAudio();
 }
@@ -715,11 +970,15 @@ function inRect(x, y, r) {
     return !!r && x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h;
 }
 
-/** 把屏幕坐标换算到设计坐标（letterbox） */
+/** 把屏幕坐标换算到设计坐标（letterbox）。
+ *  ⚠️ clientX 是 **CSS 像素**；view.scale / view.ox / view.oy 也都是 CSS 像素。
+ *  canvas 的 backing store 才乘 dpr（见 applyTransform）。这里**绝不能再除 dpr**——
+ *  2026-10-20 实测：1440×900 @dpr2 上多除一次会把首页图鉴卡点到 (-260,44)，落进"点屏幕任意处=开局"。
+ */
 function toDesign(clientX, clientY) {
     return {
-        x: (clientX / view.dpr - view.ox) / view.scale,
-        y: (clientY / view.dpr - view.oy) / view.scale
+        x: (clientX - view.ox) / view.scale,
+        y: (clientY - view.oy) / view.scale
     };
 }
 
@@ -751,8 +1010,9 @@ function sceneHitRect() {
     var h = b.hit || 88;
     return { x: b.x + s / 2 - h / 2, y: b.y + s / 2 - h / 2, w: h, h: h };
 }
-/** relax HUD 的「退出」与「换一个」热区 */
-var EXIT_BTN = { x: 24, y: 44, w: 88, h: 88 };
+/** relax HUD 的「退出」热区（视觉胶囊 88×44 @(24,136)，热区外扩成 88 高：expandRect 0,22）
+ *  v0.9.1 修：原来的 (24,44) 88×88 视觉胶囊压在「第 N / 60 关」上，下移到关卡名/门数点下方。 */
+var EXIT_BTN = { x: 24, y: 136, w: 88, h: 44 };
 var SWAP_BTN = { x: 36, y: 1040, w: 168, h: 64 };
 
 /**
@@ -772,6 +1032,124 @@ var HOME_SUB = {
     relax: { y: 992, text: '无倒计时，随时可停' }
 };
 
+/* ---------------- v0.9.1 图鉴入口（首页卡片 / 局内图标 / 结算按钮 / 通关页卡片；助眠全无） ---------------- */
+var HOME_GALLERY_BTN = { x: 24, y: 44, w: 240, h: 88 };     /* 首页卡片：最近 3 个剪影 + 计数 */
+var PLAY_GALLERY_BTN = { x: 24, y: 1166, w: 118, h: 44 };   /* 挑战局内左下胶囊：书本 + 「图鉴 数」（热区 162×88） */
+var COMPLETE_GALLERY_BTN = { x: 24, y: 44, w: 200, h: 44 };  /* 通关页左上卡片 */
+var PANEL_GALLERY_BTN = { x: 516, y: 894, w: 116, h: 34 }; /* 结算面板右上角，与居中标题水平错开 */
+var UNLOCK_CARD_RECT = { x: 120, y: 812, w: 480, h: 56 };  /* v0.9.1 新图鉴卡（面板上方，D-105） */
+var GALLERY_BACK = { x: 24, y: 44, w: 120, h: 44 };        /* 返回 / 返回列表共用（v0.9.1：96→120，四字不再挤） */
+/* v0.9.1 用户拍板：4×3 分页大格（12 件/页，共 3 页）；点格子再进 240px 详情 */
+var GALLERY_GRID = { cols: 4, rows: 3, perPage: 12, cw: 150, ch: 190, gx: 18, gy: 18, x0: 33, y0: 240 };
+var GALLERY_PAGE_PREV = { x: 36, y: 924, w: 88, h: 64 };
+var GALLERY_PAGE_NEXT = { x: 596, y: 924, w: 88, h: 64 };
+/* 全屏详情：剪影 240px，左右翻页热区，底部信息三行 */
+var GALLERY_BIG = { cx: 360, cy: 548, size: 240 };
+var GALLERY_PREV = { x: 20, y: 488, w: 80, h: 120 };
+var GALLERY_NEXT = { x: 620, y: 488, w: 80, h: 120 };
+
+function galleryCellRect(slot) {
+    var col = slot % GALLERY_GRID.cols;
+    var row = Math.floor(slot / GALLERY_GRID.cols);
+    return {
+        x: GALLERY_GRID.x0 + col * (GALLERY_GRID.cw + GALLERY_GRID.gx),
+        y: GALLERY_GRID.y0 + row * (GALLERY_GRID.ch + GALLERY_GRID.gy),
+        w: GALLERY_GRID.cw, h: GALLERY_GRID.ch
+    };
+}
+/** 总页数（36 / 12 = 3） */
+function galleryPageCount() { return Math.max(1, Math.ceil(COLLECTION.order.length / GALLERY_GRID.perPage)); }
+/** 某道具在哪一页（0 基） */
+function galleryPageOf(id) {
+    var i = COLLECTION.order.indexOf(id);
+    return i < 0 ? 0 : Math.floor(i / GALLERY_GRID.perPage);
+}
+
+/** 热区外扩：视觉可以小，手不能要求准（项目既有惯例：图标视觉 44 / 热区 88） */
+function expandRect(r, px, py) {
+    var dx = px || 0, dy = py || 0;
+    return { x: r.x - dx, y: r.y - dy, w: r.w + dx * 2, h: r.h + dy * 2 };
+}
+/** 首页图鉴卡片热区：卡片 240×88，热区 268×132 */
+function homeGalleryHitRect() { return expandRect(HOME_GALLERY_BTN, 14, 22); }
+/** 局内书本图标热区：视觉 118×44，热区 162×88（项目惯例：热区 88 高） */
+function playGalleryHitRect() { return expandRect(PLAY_GALLERY_BTN, 22, 22); }
+/** 助眠「退出」热区：视觉 88×44，热区 88 高（expandRect 0,22） */
+function exitHitRect() { return expandRect(EXIT_BTN, 0, 22); }
+/** 通关页卡片热区 */
+function completeGalleryHitRect() { return expandRect(COMPLETE_GALLERY_BTN, 14, 22); }
+
+/** 结算面板滑入位移（与 drawPanel 的 slide 同源）：面板 200ms 上滑 70px */
+function panelSlidePx(fb) {
+    var e = (fb && fb.elapsed) || 0;
+    var dt = Math.max(0, e - LAY.FEEDBACK_MS.panel);
+    return (1 - easeOut(dt / 200)) * 70;
+}
+/** 结算面板图鉴入口热区：外扩到 88 高 + 跟随滑入位移（动画中点到视觉位置也能进） */
+function panelGalleryHitRect(fb) {
+    var r = expandRect(PANEL_GALLERY_BTN, 14, 27);
+    r.y += panelSlidePx(fb);
+    return r;
+}
+
+/** 图鉴入口是否可见：助眠模式永远没有（v0.9 §4 硬条款） */
+function galleryEntryVisible() { return !isRelax(); }
+
+/** 打开图鉴。返回 false = 当前模式没有图鉴（relax）。 */
+function openGallery(from) {
+    if (!galleryEntryVisible()) return false;
+    app.galleryFrom = from || app.scene || 'home';
+    app.galleryStart = nowMs();
+    app.gallerySel = app.gallerySel || null;
+    app.galleryDetail = null;
+    app.galleryPage = progress.newIds.length ? galleryPageOf(progress.newIds[0]) : 0;
+    app.scene = 'gallery';
+    if (app.galleryFrom === 'feedback') app.fbHeldAt = nowMs(); /* 面板时钟暂停，返回时补回来 */
+    var st = collectionState();
+    track('gallery_view', { from: app.galleryFrom, lit: st.unlockedCount, total: st.total });
+    try { renderFrame(); } catch (e) { /* 吃掉 */ }
+    return true;
+}
+
+/** 关闭图鉴：回到进来的那个画面；从结算面板进来的要把面板时钟补回去（别让 auto-next 偷跑） */
+function closeGallery() {
+    if (app.scene !== 'gallery') return;
+    app.galleryDetail = null;
+    var back = app.galleryFrom || 'home';
+    if (back === 'feedback' && app.fb) {
+        var held = Math.max(0, nowMs() - (app.fbHeldAt || nowMs()));
+        app.fb.t0 += held;
+        if (app.fb.resolveAt) app.fb.resolveAt += held;
+    }
+    app.scene = back;
+    if (back === 'home') app.homeStart = nowMs();
+    try { renderFrame(); } catch (e) { /* 吃掉 */ }
+}
+
+/** v0.9.1：打开某一件的全屏详情（看过 = 清掉这一件的 NEW，D-105） */
+function openGalleryDetail(id) {
+    if (!id || !collectionItem(id)) return false;
+    app.galleryDetail = id;
+    app.gallerySel = id;
+    markGallerySeen(id);
+    var st = collectionState();
+    track('gallery_tile_tap', { id: id, unlocked: !!st.map[id], source: collectionItem(id).source });
+    track('gallery_detail_view', { id: id, unlocked: !!st.map[id], source: collectionItem(id).source });
+    try { renderFrame(); } catch (e) { /* 吃掉 */ }
+    return true;
+}
+
+/** 详情里左右翻页（循环，不会翻到空） */
+function stepGalleryDetail(dir) {
+    var id = app.galleryDetail;
+    if (!id) return false;
+    var list = COLLECTION.order;
+    var i = list.indexOf(id);
+    if (i < 0) return false;
+    var next = list[((i + (dir || 1)) % list.length + list.length) % list.length];
+    return openGalleryDetail(next);
+}
+
 /** 循环切换场景（手动选择，存 localStorage，优先于自动） */
 function cycleScene() {
     var cur = app.sceneId || resolveSceneId();
@@ -788,7 +1166,28 @@ function cycleScene() {
 
 function handlePressAt(dx, dy) {
     var t = nowMs();
+    /* 浏览器只允许在用户手势里恢复音频。?start=N 试玩入口是"无手势直接开局"，
+       所以第一次点击先把音频拉起来；正常从首页进入时这里已是 playing，等于 no-op。 */
+    var _unlocked = false;
+    if (AUDIO) { try { _unlocked = audioUnlock(); } catch (e) { /* 吃掉 */ } }
+    /* D-133：撤销 D-128 的"首击只解锁"——那会让所有关卡的第一下点击毫无反应。
+       现在点击**照常解锁音频、同时照常判定**（浏览器允许在同一手势里做两件事）。 */
+    app.audioGestureDone = !!_unlocked;
     app.pressGlow = t;
+
+    /* D-132：选关面板打开时，点格子跳关、点空白关闭（不进入任何玩法分支） */
+    if (app.showPicker) {
+        var idx = pickerIndexAt(dx, dy);
+        if (idx >= 0) {
+            app.showPicker = false;
+            startRun('challenge', idx);
+        } else {
+            app.showPicker = false;
+        }
+        return;
+    }
+    /* D-129：玩法总览打开时，点任意处关闭（不进入任何玩法分支） */
+    if (app.showLabels) { app.showLabels = false; return; }
 
     /* 静音 / 场景两个图标在所有画面都可用（不算玩法按钮） */
     if (inRect(dx, dy, muteHitRect())) {
@@ -803,6 +1202,8 @@ function handlePressAt(dx, dy) {
     }
 
     if (app.scene === 'home') {
+        /* v0.9：左上角图鉴入口（助眠没有入口，且 goHome 回挑战，所以这里恒可见） */
+        if (galleryEntryVisible() && inRect(dx, dy, homeGalleryHitRect())) { openGallery('home'); return; }
         if (canContinue() && inRect(dx, dy, HOME_BTN.cont)) {
             startRun('challenge', (progress.unlocked || 1) - 1); /* 「继续 · 第 N 关」 */
             return;
@@ -821,6 +1222,7 @@ function handlePressAt(dx, dy) {
     }
     if (app.scene === 'complete') {
         if (inRect(dx, dy, COMPLETE_BTN)) { hideShareTextOverlay(); startRun('challenge', 0); return; } /* 「再玩一次」 */
+        if (inRect(dx, dy, completeGalleryHitRect())) { openGallery('complete'); return; } /* v0.9.1 通关页图鉴 */
         /* v0.7 B1：复制链接。这里必须 return —— 否则"点复制"会顺带回首页（点了就跑，比没反应更糟） */
         if (inRect(dx, dy, SHARE_BTN)) { copyShareLink(); return; }
         hideShareTextOverlay();
@@ -828,14 +1230,58 @@ function handlePressAt(dx, dy) {
         app.homeStart = t;
         return;
     }
+    if (app.scene === 'gallery') {
+        if (app.galleryDetail) {
+            if (inRect(dx, dy, GALLERY_BACK)) { app.galleryDetail = null; try { renderFrame(); } catch (e) { /* 吃掉 */ } return; }
+            if (inRect(dx, dy, GALLERY_PREV)) { stepGalleryDetail(-1); return; }
+            if (inRect(dx, dy, GALLERY_NEXT)) { stepGalleryDetail(1); return; }
+            return;
+        }
+        if (inRect(dx, dy, GALLERY_BACK)) { closeGallery(); return; }
+        var pageNow = Math.min(Math.max(0, app.galleryPage || 0), galleryPageCount() - 1);
+        if (inRect(dx, dy, GALLERY_PAGE_PREV) && pageArrowEnabled(-1)) {
+            app.galleryPage = pageNow - 1;
+            try { renderFrame(); } catch (e) { /* 吃掉 */ }
+            return;
+        }
+        if (inRect(dx, dy, GALLERY_PAGE_NEXT) && pageArrowEnabled(1)) {
+            app.galleryPage = pageNow + 1;
+            try { renderFrame(); } catch (e) { /* 吃掉 */ }
+            return;
+        }
+        var startIdx2 = pageNow * GALLERY_GRID.perPage;
+        for (var gi = 0; gi < GALLERY_GRID.perPage; gi++) {
+            var gidx = startIdx2 + gi;
+            if (gidx >= COLLECTION.order.length) break;
+            if (!inRect(dx, dy, galleryCellRect(gi))) continue;
+            openGalleryDetail(COLLECTION.order[gidx]);
+            return;
+        }
+        return; /* 图鉴里点空白不做任何事（避免误触回上一屏） */
+    }
     if (app.scene === 'play') {
+        /* D-106：助眠局内「退出」与挑战局内「图鉴」都必须先于判定——否则点 UI 会被当成一次按下 */
+        if (isRelax() && inRect(dx, dy, exitHitRect())) { goHome(); return; }
+        if (!isRelax() && inRect(dx, dy, playGalleryHitRect())) { openGallery('play'); return; }
         doPress(t);
         return;
     }
     if (app.scene === 'feedback') {
-        if (isRelax() && inRect(dx, dy, EXIT_BTN)) { goHome(); return; }
+        if (isRelax() && inRect(dx, dy, exitHitRect())) { goHome(); return; }
+        /* v0.9：结算面板上的图鉴入口（只在面板已滑出后可点；助眠没有）。先于"重试"判断，
+           否则失败且没次数时点这个位置会被当作"重试本关"。 */
+        if (app.fb && app.fb.revealed && galleryEntryVisible() && inRect(dx, dy, panelGalleryHitRect(app.fb))) {
+            openGallery('feedback');
+            return;
+        }
         if (app.fb && app.fb.revealed && !app.fb.pass && app.fb.attemptsLeft <= 0) {
             restartLevel(); /* 结算「重试本关」：同关卡号重来，不改进度 */
+        }
+        /* D-127（回退队列）：错拍关冻结的 400ms 里按下**不判**——
+           实测"排队到解冻再判"会把玩家的连点提前判掉（多半判失败还扣机会），比静默丢弃更糟。
+           现在只把"输入锁着"这件事画出来（drawDesyncFreezeRing）。 */
+        if (app.fb && app.fb.desync && !app.fb.settled && app.fb.resolveAt) {
+            app.pressGlow = nowMs();
         }
     }
     /* 暂停/结算展示期间的其余点击一律丢弃（连点只取第一次） */
@@ -928,7 +1374,10 @@ function doPress(t) {
  *        → 全部已定格：本关结算（评级取较差者、分数只算一次）
  *   任一 mover 不合格 → 本关失败：扣 1 次机会、两个 mover 全部重置（S21）
  * ================================================================ */
-var DESYNC_FREEZE_MS = 400;
+var DESYNC_FREEZE_MS = 200;
+/* D-131：两次定格之间的最小间隔（连击保护）。实测两件合格窗起点差 L50=489ms / L60=427ms，
+   常见双击 80–150ms → 取 220ms，既不误伤真实第二按，又能拦住连点 */
+var DESYNC_MIN_SECOND_MS = 220;  /* D-128b：400→200。原来这 400ms 里玩家第二下点击常被吞掉（观感是"按了没反应"），死区减半 */
 
 function desyncFrozenIdx() {
     var out = [];
@@ -944,6 +1393,13 @@ function desyncAllFrozen() {
 function desyncPress(t) {
     var pressMs = pressMsAt(t);
     var skip = desyncFrozenIdx();
+    /* D-131 连击保护：已经有定格过的物体时，距离上次定格不足 DESYNC_MIN_SECOND_MS 的按下
+       **不判定、不扣机会**，只提示"太快了"。避免双击把第二件用错误时机判掉。 */
+    if (skip.length > 0 && app.desyncFirstAt && (t - app.desyncFirstAt) < DESYNC_MIN_SECOND_MS) {
+        app.desyncTooFastAt = t;
+        app.pressGlow = t;
+        return;
+    }
     var r = null;
     try {
         r = CORE.judgeNearest(app.rt, pressMs, skip, app.combo);
@@ -958,20 +1414,33 @@ function desyncPress(t) {
     for (var i = 0; i < app.desyncJudged.length; i++) if (app.desyncJudged[i].moverIndex === r.moverIndex) existed = true;
     if (!existed) app.desyncJudged.push({ moverIndex: r.moverIndex, pct: r.pct });
 
-    app.freezeT = pressMs;
     app.desyncLast = r;
-    app.phase = 'frozen';
-    app.fb = {
-        t0: t, pressMs: pressMs, res: r, elapsed: 0, revealed: false, settled: true,
-        pass: false, stars: 0, attemptsLeft: app.attempts,
-        tier: r.rating, sfxPlayed: true,
-        desync: true, moverIndex: r.moverIndex,   /* 热力图只画这一个 mover */
-        resolveAt: t + DESYNC_FREEZE_MS
-    };
-    app.scene = 'feedback';
-    if (AUDIO && MODES[app.mode] && MODES[app.mode].ratingSfx) {
-        try { AUDIO.playSfx(r.rating); } catch (e) { /* 吃掉 */ }
+    app.freezeT = pressMs;      /* D-137：feedback 场景按这个时刻绘制/画热力图，漏设会被画在 t=0（出发位置） */
+    app.desyncFirstAt = t;      /* D-131：连击保护的时间基准（每次成功定格都会刷新） */
+    /* D-134：**真的把物体定住** —— 记住此刻姿态，之后 drawObjects 用它画，物体就停住不动 */
+    if (!app.frozenPose) app.frozenPose = [];
+    try {
+        app.frozenPose[r.moverIndex] = CORE.poseAt(app.rt.movers[r.moverIndex], pressMs);
+    } catch (e) { app.frozenPose[r.moverIndex] = null; }
+    app.desyncFlashAt = t;
+    app.desyncFlashIdx = r.moverIndex;
+    if (AUDIO) { try { AUDIO.playSfx('good'); } catch (e) { /* 吃掉 */ } }
+
+    if (desyncAllFrozen()) {
+        /* 两个都定住了 → 这时才出评级（合格/神级） */
+        app.phase = 'result';
+        app.fb = {
+            t0: t, pressMs: pressMs, res: r, elapsed: 0, revealed: false, settled: true,
+            pass: false, stars: 0, attemptsLeft: app.attempts,
+            tier: r.rating, sfxPlayed: true,
+            desync: true, moverIndex: r.moverIndex,
+            resolveAt: t
+        };
+        app.scene = 'feedback';
+        finalizeDesync(app.fb);
+        return;
     }
+    app.phase = 'aim';   /* 还差一个：留在 play，时间轴继续走，已定格的停住 */
 }
 
 /**
@@ -1023,12 +1492,18 @@ function finalizeDesync(fb) {
     var r = fb.res;
     fb.stars = fb.pass ? starsFor(dv.worstPct, app.def) : 0;
     fb.gain = fb.pass ? (dv.score || 0) : 0;
+    var collBefore = collectionState();
     if (fb.pass) {
         app.combo += 1;
         app.totalScore += fb.gain;
         app.levelScore += fb.gain;
         if (dv.rating === 'god') app.godCount += 1;
-        if (!isRelax()) progress.unlocked = Math.max(progress.unlocked || 1, Math.min(LEVELS.length, app.lvl + 2));
+        if (!isRelax()) {
+            progress.unlocked = Math.max(progress.unlocked || 1, Math.min(LEVELS.length, app.lvl + 2));
+            progress.cleared = Math.max(progress.cleared || 0, Math.min(LEVELS.length, app.lvl + 1));
+            if (dv.rating === 'god') progress.godTotal = godTotalOf() + 1;
+            emitUnlockEvents(collBefore, fb);
+        }
         writeProgress();
     } else {
         app.combo = 0;
@@ -1039,7 +1514,7 @@ function finalizeDesync(fb) {
     fb.totalScore = app.totalScore;
     /* S21：失败后两个 mover 必须全部重置（不允许"一个已定格、一个重来"） */
     if (!fb.pass) {
-        app.frozen = null;
+        /* D-137：不要在结算时清 frozen —— drawObjects 还要用它挑「定格姿态」；清理由 beginAttempt 负责 */
         app.desyncJudged = null;
     }
     void r;
@@ -1079,6 +1554,7 @@ function settle(fb) {
     fb.stars = starsForResult(app.rt, r);
     fb.gain = fb.pass ? r.score || 0 : 0;
     fb.tier = r.rating;
+    var collBefore = collectionState(); /* 解锁事件用：结算前的点亮集合 */
 
     /* §2 特效音：按评级触发（god/perfect/good/ok/fail 五档，全部在五声音阶内）。
        触发时 BGM ×0.55、250ms 恢复 —— ducking 在 audio.js 里统一做。 */
@@ -1092,10 +1568,16 @@ function settle(fb) {
         app.totalScore += fb.gain;
         app.levelScore += fb.gain;
         if (r.rating === 'god') app.godCount += 1;
-        if (!isRelax()) progress.unlocked = Math.max(progress.unlocked || 1, Math.min(LEVELS.length, app.lvl + 2));
+        if (!isRelax()) {
+            progress.unlocked = Math.max(progress.unlocked || 1, Math.min(LEVELS.length, app.lvl + 2));
+            /* v0.9 收集：已通关关数 + 累计神级（只挑战）。两个量都只增不减。 */
+            progress.cleared = Math.max(progress.cleared || 0, Math.min(LEVELS.length, app.lvl + 1));
+            if (r.rating === 'god') progress.godTotal = godTotalOf() + 1;
+        }
         /* 最高分**只在一处写**：showComplete() 里带 MODES[app.mode].recordBest 门控。
            这里以前裸写过一次 → relax 也能写进去（M20 抓到）。删掉，别再长回来。 */
         writeProgress();
+        if (!isRelax()) emitUnlockEvents(collBefore, fb);
         fb.attemptsLeft = app.attempts;
     } else {
         app.combo = 0;
@@ -1136,8 +1618,9 @@ function update() {
     if (app.scene !== 'feedback' || !app.fb) return;
     var fb = app.fb;
 
-    /* v0.6 错拍关：400ms 冻结结束 → 要么解冻继续（时间轴推后 400ms），要么本关结算 */
-    if (fb.desync && !fb.desyncDone && nowMs() >= fb.resolveAt) {
+    /* D-134：不再有"冻结 200ms 后解冻"——第一次点击直接把物体定住、时间轴不停。
+       这里只做旧状态兜底（若还有 resolveAt 的旧路径就在此结算）。 */
+    if (fb.desync && !fb.desyncDone && fb.resolveAt && nowMs() >= fb.resolveAt) {
         desyncResolveFrozen();
         fb = app.fb;
         if (!fb || app.scene !== 'feedback') return; /* 解冻回到 play：本帧不再走结算逻辑 */
@@ -1159,7 +1642,9 @@ function update() {
     if (!fb.settled) return;
 
     if (fb.pass) {
-        if (e >= LAY.FEEDBACK_MS.panel + 1000) nextLevel(); /* 通关 1 秒后自动进下一关 */
+        /* D-105：神级专属停留 1000→1800ms（只改 god；其它评级不动）——给"新图鉴卡"与三道环留出可感知时间 */
+        var holdMs = feedbackHoldMs(fb.tier);
+        if (e >= LAY.FEEDBACK_MS.panel + holdMs) nextLevel(); /* 通关后停留，再自动进下一关 */
     } else if (fb.attemptsLeft > 0) {
         if (e >= Math.max(LAY.RETRY_DELAY_MS, LAY.FEEDBACK_MS.panel + 300)) beginAttempt(); /* 失败自动重试 */
     }
@@ -1286,8 +1771,13 @@ function renderFrame() {
     drawBg(app.bgWarm || 0);
     if (app.scene === 'home') drawHome();
     else if (app.scene === 'complete') drawComplete();
+    else if (app.scene === 'gallery') drawGallery();
     else drawPlayLayers();
     drawWatermark();
+    /* D-129：?labels=1 打开"60 关玩法总览"（只读，点任意处关闭） */
+    if (app.showLabels) drawLevelLabelsSheet();
+    /* D-132：调试用选关面板 */
+    if (app.showPicker) drawLevelPicker();
     drawDiag();
 }
 
@@ -1595,7 +2085,7 @@ function drawTarget(pts, strokeAlpha, strokeW) {
     var w = strokeW === undefined ? 6 : strokeW;
     ctx.save();
     polyPath(pts);
-    ctx.fillStyle = 'rgba(43,255,176,0.08)';
+    ctx.fillStyle = 'rgba(43,255,176,0.16)';  /* D-126：0.08→0.16，细长/多腿形状的轮廓线会糊成一团，提亮填充让「形状」读得出来 */
     ctx.fill();
     ctx.lineJoin = 'round';
     ctx.shadowColor = 'rgba(43,255,176,' + targetBreathAlpha().toFixed(3) + ')';
@@ -1966,8 +2456,70 @@ function drawSceneButton() {
  * 装饰绘制。注意：shapes.json 里 details 的 w 是**设计分辨率像素**，
  * 而这里已经 scale(k) 到局部单位（长边=1），所以线宽必须除以 k。
  */
-function drawDetails(shape, k) {
+
+/* ── v11 图鉴贴图：只在图鉴/详情里用（局内仍是多边形，判定不变） ── */
+var SPRITE_IMG = {};
+var SPRITE_GREY = {};   /* 未点亮：同一张图灰化后的剪影，保证锁定格与点亮格轮廓一致 */
+function buildGreySprite(id, im) {
+    try {
+        var c = document.createElement('canvas');
+        c.width = im.naturalWidth;
+        c.height = im.naturalHeight;
+        var g = c.getContext('2d');
+        g.drawImage(im, 0, 0);
+        g.globalCompositeOperation = 'source-in';
+        g.fillStyle = '#8FA3BF';
+        g.fillRect(0, 0, c.width, c.height);
+        SPRITE_GREY[id] = c;
+    } catch (e) { /* 画不出来就退回多边形 */ }
+}
+(function preloadGallerySprites() {
+    /* 无 DOM 环境（node 断言 VM）里没有 Image：直接跳过，调用方会回退到多边形 */
+    if (typeof Image !== 'function') return;
+    var map = (CFG && CFG.gallerySprites) || {};
+    for (var id in map) {
+        if (!Object.prototype.hasOwnProperty.call(map, id)) continue;
+        (function (sid, src) {
+            var im = new Image();
+            im.onload = function () { buildGreySprite(sid, im); };
+            im.src = src;
+            SPRITE_IMG[sid] = im;
+        })(id, map[id]);
+    }
+})();
+function galleryGreyReady(id) {
+    return !!SPRITE_GREY[id];
+}
+function drawGalleryGreySprite(id, cx, cy, longPx) {
+    var c = SPRITE_GREY[id];
+    if (!c) return false;
+    var f = longPx / Math.max(c.width, c.height);
+    ctx.save();
+    ctx.globalAlpha = 0.55;
+    ctx.drawImage(c, cx - c.width * f / 2, cy - c.height * f / 2, c.width * f, c.height * f);
+    ctx.restore();
+    return true;
+}
+function gallerySpriteReady(id) {
+    var im = SPRITE_IMG[id];
+    return !!(im && im.complete && im.naturalWidth > 0);
+}
+/* 按"长边 = longPx"等比画在 (cx,cy)，保持生成图的原始比例 */
+function drawGallerySprite(id, cx, cy, longPx) {
+    var im = SPRITE_IMG[id];
+    if (!im) return false;
+    var w = im.naturalWidth, h = im.naturalHeight;
+    var f = longPx / Math.max(w, h);
+    var dw = w * f, dh = h * f;
+    ctx.drawImage(im, cx - dw / 2, cy - dh / 2, dw, dh);
+    return true;
+}
+
+function drawDetails(shape, k, wScale) {
     var px = k > 1e-6 ? 1 / k : 1;
+    /* v10：details 的 w 是**设计 px**（size≈250 时写的）。图鉴按 100 / 240 显示时要等比缩，
+       否则线宽相对物体变粗一倍（100px 格子里 3.2px 就相当于 250px 的 8px）。 */
+    var ws = (typeof wScale === 'number' && isFinite(wScale) && wScale > 0) ? wScale : 1;
     var ds = shape.details || [];
     for (var i = 0; i < ds.length; i++) {
         var d = ds[i];
@@ -1983,7 +2535,7 @@ function drawDetails(shape, k) {
                 ctx.fillStyle = d.color || '#08111C';
                 ctx.fill();
             } else {
-                ctx.lineWidth = Math.max(0.5 / k, (d.w || 2) * px);
+                ctx.lineWidth = Math.max(0.5 / k, (d.w || 2) * px * ws);
                 ctx.strokeStyle = d.color || '#08111C';
                 ctx.lineCap = 'round';
                 ctx.stroke();
@@ -2003,6 +2555,70 @@ function drawDetails(shape, k) {
     }
 }
 
+
+/* v10：图鉴用。画 details 时临时建立与 drawObject 相同的变换（translate→rotate→scale）。 */
+function drawDetailsWorld(shape, cx, cy, rotDeg, k) {
+    if (!shape || !shape.details || !shape.details.length) return;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate((isFinite(rotDeg) ? rotDeg : 0) * Math.PI / 180);
+    ctx.scale(k, k);
+    var design = shape.size > 0 ? shape.size : 250;
+    drawDetails(shape, k, k / design);
+    drawAttach(shape, k);
+    ctx.restore();
+}
+
+/** D-124：附件轮廓（分离部件）——与主体同变换绘制，不参与判定 */
+/* ── D-125 局内贴图：与图鉴同一张图；判定与绿框仍用多边形 ── */
+var GAME_IMG = {};
+var ART_POLY_ONLY = /[?&]art=poly/.test(window.location.search || '');
+(function preloadGameSprites() {
+    if (typeof Image !== 'function') return;
+    var map = (CFG && CFG.gameSprites) || {};
+    for (var id in map) {
+        if (!Object.prototype.hasOwnProperty.call(map, id)) continue;
+        var im = new Image();
+        im.src = map[id];
+        GAME_IMG[id] = im;
+    }
+})();
+function gameSpriteOf(shape) {
+    if (ART_POLY_ONLY || !shape) return null;
+    var im = GAME_IMG[shape.id];
+    return (im && im.complete && im.naturalWidth > 0) ? im : null;
+}
+/** 以「长边 = shape.size × scale」画贴图（与多边形同一套尺寸/旋转） */
+function drawSpriteObject(im, shape, pose, scale) {
+    var k = (shape.size || 160) * (scale || 1);
+    var w = im.naturalWidth, h = im.naturalHeight;
+    var f = k / Math.max(w, h);
+    ctx.save();
+    ctx.translate(pose.x, pose.y);
+    ctx.rotate((pose.rotDeg || 0) * Math.PI / 180);
+    ctx.drawImage(im, -w * f / 2, -h * f / 2, w * f, h * f);
+    ctx.restore();
+}
+
+function drawAttach(shape, k) {
+    var list = shape.attach || [];
+    if (!list.length) return;
+    var lw = 3.2 / (k > 1e-6 ? k : 1);
+    for (var i = 0; i < list.length; i++) {
+        var a = list[i];
+        if (!a || !a.pts || a.pts.length < 3) continue;
+        polyPath(a.pts);
+        ctx.lineWidth = lw * 2;
+        ctx.strokeStyle = COL.ink;
+        ctx.stroke();
+        ctx.fillStyle = a.fill || shape.fill || '#8FA3BF';
+        ctx.fill();
+        ctx.lineWidth = lw;
+        ctx.strokeStyle = a.stroke || shape.stroke || COL.text;
+        ctx.stroke();
+    }
+}
+
 function drawObject(shape, pose, scale) {
     var k = (shape.size || 160) * (scale || 1);
     if (!(k > 1)) k = 160;
@@ -2016,7 +2632,7 @@ function drawObject(shape, pose, scale) {
     ctx.rotate((pose.rotDeg || 0) * Math.PI / 180);
     ctx.scale(k, k);
     ctx.lineJoin = 'round';
-    var lw = 2 / k; /* 深色描边 2px（设计分辨率） */
+    var lw = 3.2 / k; /* 深色描边 3.2px（设计分辨率）——参考样张的插画感靠厚描边，D-112 */
     polyPath(shape.pts);
     ctx.lineWidth = lw * 2;
     ctx.strokeStyle = COL.ink;
@@ -2027,6 +2643,7 @@ function drawObject(shape, pose, scale) {
     ctx.strokeStyle = shape.stroke || COL.text;
     ctx.stroke();
     drawDetails(shape, k);
+    drawAttach(shape, k);
     ctx.restore();
 }
 
@@ -2147,9 +2764,470 @@ function drawHome() {
     ctx.fillStyle = th.sub;
     ctx.fillText('屏幕任意处都能按 · 唯一按键：暂停', 360, 1138);
     ctx.restore();
+
+    if (galleryEntryVisible()) drawHomeGalleryBtn();
 }
 
-/* ---------------- 闯关画面（z 序锁死，见风格圣经 §6.4） ---------------- */
+/** 首页左上角的图鉴卡片（常驻；助眠模式不画，S32）。D-106：240×88，最近 3 件剪影 + 计数。 */
+function drawHomeGalleryBtn() {
+    var st = collectionState();
+    var th = sceneTheme();
+    var b = HOME_GALLERY_BTN;
+    ctx.save();
+    roundRectPath(b.x, b.y, b.w, b.h, 20);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.26)' : 'rgba(232,241,255,0.22)';
+    ctx.stroke();
+    /* 左边两行字 */
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 18);
+    ctx.fillText('图鉴', b.x + 16, b.y + 34);
+    ctx.fillStyle = th.text;
+    ctx.font = font(800, 26);
+    ctx.fillText(st.unlockedCount + ' / ' + st.total, b.x + 16, b.y + 66);
+    /* 右边三件最近获得的剪影（有 NEW 的排在前面）。v0.9.1 修：30→26px、间距 30→32、
+       右对齐留 16px 内边距 —— 旧写法 cx = b.w-86+i*30 会让第 3 件中心落在 262（卡右沿 264），
+       半个剪影压在卡片描边上。现在最右件右沿 = b.x+b.w-16，三件都完整在卡内。 */
+    var ids = recentGalleryIds(3);
+    var kg = 26, gap = 32, nIds = ids.length;
+    for (var i = 0; i < nIds; i++) {
+        var sh = shapeOf(ids[i]);
+        var cx = b.x + b.w - 16 - kg / 2 - (nIds - 1 - i) * gap;
+        var pts = CORE.place(CORE.scaleLocal(sh.pts, kg), cx, b.y + b.h * 0.5, 0);
+        polyPath(pts);
+        ctx.globalAlpha = 0.95;
+        ctx.fillStyle = sh.fill;
+        ctx.fill();
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = sh.stroke;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+    }
+    if (progress.newIds.length) {
+        ctx.beginPath();
+        ctx.arc(b.x + b.w - 12, b.y + 12, 5, 0, Math.PI * 2);
+        ctx.fillStyle = COL.gold;
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
+/** 最近获得的道具 id：NEW 优先，其次按图鉴顺序倒序（最多 n 个） */
+function recentGalleryIds(n) {
+    var st = collectionState();
+    var out = [];
+    var i;
+    for (i = 0; i < progress.newIds.length && out.length < n; i++) {
+        if (st.map[progress.newIds[i]] && out.indexOf(progress.newIds[i]) < 0) out.push(progress.newIds[i]);
+    }
+    for (i = COLLECTION.order.length - 1; i >= 0 && out.length < n; i--) {
+        var id = COLLECTION.order[i];
+        if (st.map[id] && out.indexOf(id) < 0) out.push(id);
+    }
+    return out.slice(0, n);
+}
+
+/** 挑战局内左下角的图鉴胶囊（书本 20px + 「图鉴 数」；视觉 118×44 / 热区 162×88；助眠不画）
+ *  v0.9.1 修：44×44 纯图标辨识度太低（像电池/卡片），改成带字的胶囊；只在 play 画——
+ *  结算/解锁卡出现时（feedback）左下角会被面板压住，且那条点击路径本来也不通。 */
+function drawPlayGalleryBtn() {
+    if (isRelax() || app.scene !== 'play') return;
+    var b = PLAY_GALLERY_BTN;
+    var th = sceneTheme();
+    var st = collectionState();
+    ctx.save();
+    roundRectPath(b.x, b.y, b.w, b.h, b.h * 0.5);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.26)' : 'rgba(232,241,255,0.22)';
+    ctx.stroke();
+    /* 书本：两页 + 中缝，视觉宽 20px（cx 左侧 24px 处） */
+    var cx = b.x + 24, cy = b.y + b.h * 0.5, hw = 10, hh = 7.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - hw, cy - hh + 1.5);
+    ctx.quadraticCurveTo(cx - hw * 0.45, cy - hh - 0.5, cx, cy - hh + 2);
+    ctx.quadraticCurveTo(cx + hw * 0.45, cy - hh - 0.5, cx + hw, cy - hh + 1.5);
+    ctx.lineTo(cx + hw, cy + hh - 1);
+    ctx.quadraticCurveTo(cx + hw * 0.45, cy + hh - 2.5, cx, cy + hh);
+    ctx.quadraticCurveTo(cx - hw * 0.45, cy + hh - 2.5, cx - hw, cy + hh - 1);
+    ctx.closePath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = th.sub;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - hh + 2);
+    ctx.lineTo(cx, cy + hh);
+    ctx.stroke();
+    /* 文字：图鉴 + 计数（14px，左对齐在图标右侧 4px） */
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 14);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('图鉴 ' + st.unlockedCount + '/' + st.total, b.x + 42, b.y + b.h * 0.54);
+    if (progress.newIds.length) {
+        ctx.beginPath();
+        ctx.arc(b.x + b.w - 10, b.y + 9, 4, 0, Math.PI * 2);
+        ctx.fillStyle = COL.gold;
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
+/** 助眠局内「退出」：可见胶囊（D-100 落地）。挑战模式不画（挑战的出口是关卡结算）。 */
+function drawExitButton() {
+    if (!isRelax()) return;
+    var b = EXIT_BTN;
+    var th = sceneTheme();
+    ctx.save();
+    roundRectPath(b.x, b.y, b.w, b.h, b.h * 0.5);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.26)' : 'rgba(232,241,255,0.22)';
+    ctx.stroke();
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 20);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('退出', b.x + b.w / 2, b.y + b.h * 0.53);
+    ctx.restore();
+}
+
+/** 通关页左上角的图鉴卡片（D-106） */function drawCompleteGalleryBtn() {
+    var b = COMPLETE_GALLERY_BTN;
+    var st = collectionState();
+    var th = sceneTheme();
+    ctx.save();
+    roundRectPath(b.x, b.y, b.w, b.h, b.h * 0.5);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.26)' : 'rgba(232,241,255,0.22)';
+    ctx.stroke();
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 19);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('图鉴 ' + st.unlockedCount + ' / ' + st.total, b.x + b.w / 2, b.y + b.h * 0.54);
+    if (progress.newIds.length) {
+        ctx.beginPath();
+        ctx.arc(b.x + b.w - 8, b.y + 8, 5, 0, Math.PI * 2);
+        ctx.fillStyle = COL.gold;
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
+/* ---------------- v0.9 图鉴页（36 格；未点亮 = 灰色剪影 + ±15° 慢摆，不用锁图标） ---------------- */
+function drawGallery() {
+    var st = collectionState();
+    var th = sceneTheme();
+    var t = nowMs() - (app.galleryStart || nowMs());
+
+    if (app.galleryDetail) { drawGalleryDetail(app.galleryDetail); return; }
+
+    /* 返回 */
+    var bk = GALLERY_BACK;
+    ctx.save();
+    roundRectPath(bk.x, bk.y, bk.w, bk.h, bk.h * 0.5);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.26)' : 'rgba(232,241,255,0.22)';
+    ctx.stroke();
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 20);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('返回', bk.x + bk.w / 2, bk.y + bk.h * 0.53);
+    ctx.restore();
+
+    /* 顶栏两个全局图标（静音 / 换场景）在**所有**画面都要画：handlePressAt 里这两个热区是先于
+       app.scene 分支判定的，图鉴里若只画不点/只点不画，就会出现"点右上角静音却没有任何视觉反馈"。
+       图鉴是看图的画面，静音与换背景同样是合法操作。 */
+    drawMuteButton();
+    drawSceneButton();
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = th.text;
+    ctx.font = font(800, 42);
+    ctx.fillText('道具图鉴', 360, 142);
+    ctx.font = font(500, 22);
+    ctx.fillStyle = th.sub;
+    var pg = Math.min(Math.max(0, app.galleryPage || 0), galleryPageCount() - 1);
+    ctx.fillText('已点亮 ' + st.unlockedCount + ' / ' + st.total + '　·　第 ' + (pg + 1) + ' / ' + galleryPageCount() + ' 页', 360, 188);
+    ctx.restore();
+
+    var startIdx = pg * GALLERY_GRID.perPage;
+    for (var slot = 0; slot < GALLERY_GRID.perPage; slot++) {
+        var i = startIdx + slot;
+        if (i >= COLLECTION.order.length) break;
+        var id = COLLECTION.order[i];
+        if (!id) continue;
+        var r = galleryCellRect(slot);
+        var unlocked = !!st.map[id];
+        var sel = app.gallerySel === id;
+        ctx.save();
+        roundRectPath(r.x, r.y, r.w, r.h, 18);
+        ctx.fillStyle = th.light ? 'rgba(27,43,69,0.045)' : 'rgba(232,241,255,0.045)';
+        ctx.fill();
+        if (sel) {
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = COL.main;
+            ctx.stroke();
+        }
+        var sh = shapeOf(id);
+        /* 未点亮：灰色剪影 + ±15° 慢摆（v0.9 §3.2） */
+        var rot = unlocked ? 0 : 15 * Math.sin((t / 4000) * Math.PI * 2 + i * 0.7);
+        /* 100px 大格：pts 是 ±0.5 归一化坐标，直接给像素系数；旋转半展 50·(cos15+sin15)≈61 < 半格宽 75 */
+        var k = 100;
+        var cx = r.x + r.w / 2;
+        var cy = r.y + 72;
+        if (!unlocked && galleryGreyReady(id)) {
+            drawGalleryGreySprite(id, cx, cy, 104);
+            ctx.globalAlpha = 1;
+            ctx.restore();
+            continue;
+        }
+        if (unlocked && gallerySpriteReady(id)) {
+            drawGallerySprite(id, cx, cy, 104);
+            ctx.globalAlpha = 1;
+            if (unlocked) {
+                ctx.fillStyle = th.text;
+                ctx.font = font(600, 20);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'alphabetic';
+                ctx.fillText(collectionItem(id).name, cx, r.y + 162);
+                ctx.fillStyle = th.sub;
+                ctx.font = font(500, 14);
+                ctx.fillText(collectionItem(id).band || '', cx, r.y + 181);
+            }
+            if (unlocked) {
+                ctx.beginPath();
+                ctx.arc(r.x + r.w - 14, r.y + 14, 4, 0, Math.PI * 2);
+                ctx.fillStyle = collectionItem(id).source === 'rare' ? COL.gold : COL.main;
+                ctx.fill();
+            }
+            if (progress.newIds.indexOf(id) >= 0) {
+                ctx.beginPath();
+                ctx.arc(r.x + r.w - 14, r.y + 30, 7, 0, Math.PI * 2);
+                ctx.fillStyle = COL.gold;
+                ctx.fill();
+                ctx.fillStyle = '#3A2A00';
+                ctx.font = font(800, 10);
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('N', r.x + r.w - 14, r.y + 30);
+            }
+            ctx.restore();
+            continue;
+        }
+        var pts = CORE.place(CORE.scaleLocal(sh.pts, k), cx, cy, isFinite(rot) ? rot : 0);
+        polyPath(pts);
+        ctx.globalAlpha = unlocked ? 1 : 0.9;
+        ctx.fillStyle = unlocked ? sh.fill : (th.light ? 'rgba(27,43,69,0.22)' : 'rgba(232,241,255,0.16)');
+        ctx.fill();
+        if (unlocked) drawDetailsWorld(sh, cx, cy, rot, k);
+        ctx.lineWidth = 2.4;
+        ctx.strokeStyle = unlocked ? sh.stroke : (th.light ? 'rgba(27,43,69,0.40)' : 'rgba(232,241,255,0.34)');
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+        if (unlocked) {
+            ctx.fillStyle = th.text;
+            ctx.font = font(600, 20);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillText(collectionItem(id).name, cx, r.y + 162);
+            ctx.fillStyle = th.sub;
+            ctx.font = font(500, 14);
+            ctx.fillText(collectionItem(id).band || '', cx, r.y + 181);
+        }
+        /* 稀有/主线小标记：右上角一个 6px 圆点（金=稀有，mint=主线；不让锁形泄密，只标已点亮的） */
+        if (unlocked) {
+            ctx.beginPath();
+            ctx.arc(r.x + r.w - 14, r.y + 14, 4, 0, Math.PI * 2);
+            ctx.fillStyle = collectionItem(id).source === 'rare' ? COL.gold : COL.main;
+            ctx.fill();
+        }
+        /* NEW 点：没看过详情的解锁项（D-105） */
+        if (progress.newIds.indexOf(id) >= 0) {
+            ctx.beginPath();
+            ctx.arc(r.x + r.w - 14, r.y + 30, 7, 0, Math.PI * 2);
+            ctx.fillStyle = COL.gold;
+            ctx.fill();
+            ctx.fillStyle = '#3A2A00';
+            ctx.font = font(800, 10);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('N', r.x + r.w - 14, r.y + 30);
+        }
+        ctx.restore();
+    }
+
+    /* 分页控件：左右箭头 + 页码；点格子进 240px 详情（D-107 用户拍板 4×3） */
+    var pgN = galleryPageCount();
+    drawPageArrow(GALLERY_PAGE_PREV, -1);
+    drawPageArrow(GALLERY_PAGE_NEXT, 1);
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 20);
+    ctx.fillText((pg + 1) + ' / ' + pgN, 360, GALLERY_PAGE_PREV.y + 32);
+    ctx.font = font(500, 16);
+    ctx.fillText('点格子看大图 · 左右翻页', 360, 1040);
+    ctx.restore();
+}
+
+/** 当前页在 dir 方向是否可翻（dir=-1 左 / +1 右）：第 0 页不能左、末页不能右（不循环）。
+ *  v0.9.1：从 drawPageArrow 抽出来做**单一真源**——灰显（画）与"点了没反应"（handlePressAt）
+ *  必须同源，否则会出现"箭头看着能点、点了没反应"或反之。断言（S42 硬门禁）也直接调这个。 */
+function pageArrowEnabled(dir) {
+    var pgN = galleryPageCount();
+    var pg = Math.min(Math.max(0, app.galleryPage || 0), pgN - 1);
+    return dir < 0 ? pg > 0 : pg < pgN - 1;
+}
+
+/** 分页箭头：到首页/末页时变灰且不可点（不循环，避免"翻回第 1 页却以为漏了"） */
+function drawPageArrow(r, dir) {
+    var th = sceneTheme();
+    var enabled = pageArrowEnabled(dir);
+    ctx.save();
+    roundRectPath(r.x, r.y, r.w, r.h, r.h * 0.5);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.24)' : 'rgba(232,241,255,0.20)';
+    ctx.stroke();
+    ctx.beginPath();
+    var cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+    /* 尖角必须朝**翻页方向**：dir=-1（上一页）指左、dir=+1（下一页）指右。
+       写法：开口在 -dir 侧、尖点在 +dir 侧 → 端点 = cx - dir*hw，顶点 = cx + dir*hw。
+       （v0.9.1 修：原写法两端反了，出现"左箭头指右、右箭头指左"。） */
+    ctx.moveTo(cx - dir * 8, cy - 11);
+    ctx.lineTo(cx + dir * 8, cy);
+    ctx.lineTo(cx - dir * 8, cy + 11);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = enabled ? th.sub : (th.light ? 'rgba(27,43,69,0.18)' : 'rgba(232,241,255,0.16)');
+    ctx.stroke();
+    ctx.restore();
+}
+
+/** 详情标题：未解锁不泄露名字（S41 用） */
+function galleryDetailTitle(id) {
+    return collectionState().map[id] ? collectionItem(id).name : '未点亮';
+}
+
+/* ---------------- v0.9.1 图鉴详情：240px 大图 + 左右翻页（D-104） ---------------- */
+function drawGalleryDetail(id) {
+    var st = collectionState();
+    var th = sceneTheme();
+    var it = collectionItem(id);
+    var unlocked = !!st.map[id];
+    var t = nowMs() - (app.galleryStart || nowMs());
+    var idx = COLLECTION.order.indexOf(id);
+
+    /* 顶栏：返回列表 / 页码 / 全局图标 */
+    var bk = GALLERY_BACK;
+    ctx.save();
+    roundRectPath(bk.x, bk.y, bk.w, bk.h, bk.h * 0.5);
+    ctx.fillStyle = th.light ? 'rgba(27,43,69,0.06)' : 'rgba(232,241,255,0.07)';
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.26)' : 'rgba(232,241,255,0.22)';
+    ctx.stroke();
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 20);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('返回列表', bk.x + bk.w / 2, bk.y + bk.h * 0.53);
+    ctx.restore();
+    drawMuteButton();
+    drawSceneButton();
+
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = th.sub;
+    ctx.font = font(500, 18);
+    ctx.fillText((idx + 1) + ' / ' + st.total, 360, 72);
+
+    /* 大剪影：解锁 = 完美姿态 + 缓慢呼吸（只改渲染缩放）；未解锁 = 灰剪影 ±15° 慢摆 */
+    var sh = shapeOf(id);
+    var rot = unlocked ? 0 : 15 * Math.sin((t / 4000) * Math.PI * 2 + idx * 0.7);
+    var breathe = unlocked ? 1 + 0.015 * Math.sin((t / 4000) * Math.PI * 2) : 1;
+    var size = GALLERY_BIG.size * breathe;
+    if (unlocked && gallerySpriteReady(id)) {
+        var spLong = GALLERY_BIG.size * 1.02 * breathe;
+        drawGallerySprite(id, GALLERY_BIG.cx, GALLERY_BIG.cy, spLong);
+    } else {
+    var pts = CORE.place(CORE.scaleLocal(sh.pts, size), GALLERY_BIG.cx, GALLERY_BIG.cy, isFinite(rot) ? rot : 0);
+    polyPath(pts);
+    ctx.fillStyle = unlocked ? sh.fill : (th.light ? 'rgba(27,43,69,0.20)' : 'rgba(232,241,255,0.14)');
+    ctx.fill();
+    if (unlocked) drawDetailsWorld(sh, GALLERY_BIG.cx, GALLERY_BIG.cy, rot, size);
+    ctx.lineWidth = 3;
+    }
+    ctx.strokeStyle = unlocked ? sh.stroke : (th.light ? 'rgba(27,43,69,0.42)' : 'rgba(232,241,255,0.34)');
+    ctx.stroke();
+
+    /* 名字 / 难度档 / 一句话 / 来源 */
+    ctx.fillStyle = th.text;
+    ctx.font = font(800, 38);
+    ctx.fillText(galleryDetailTitle(id), 360, 748);    ctx.font = font(500, 19);
+    ctx.fillStyle = th.sub;
+    if (unlocked) {
+        ctx.fillText((it.band || '') + (it.source === 'rare' ? '　·　稀有' : '　·　主线'), 360, 784);
+        ctx.font = font(500, 19);
+        wrapText(it.hint, 360, 824, 560, 28);
+        ctx.fillStyle = th.sub;
+        ctx.font = font(500, 17);
+        ctx.fillText(unlockLabel(id), 360, 892);
+    } else {
+        ctx.fillText('回到挑战里把它卡进绿框，这里就会亮。', 360, 796);
+        ctx.font = font(500, 17);
+        ctx.fillStyle = 'rgba(143,163,191,0.75)';
+        ctx.fillText('未点亮的剪影会慢慢摆——歪一点，就不给你满分。', 360, 840);
+    }
+
+    /* 左右翻页（循环）：画圆 + 三角；热区 80×120 */
+    var chev = [
+        { r: GALLERY_PREV, dir: -1, cx: GALLERY_PREV.x + GALLERY_PREV.w / 2, cy: 548 },
+        { r: GALLERY_NEXT, dir: 1, cx: GALLERY_NEXT.x + GALLERY_NEXT.w / 2, cy: 548 }
+    ];
+    for (var c = 0; c < chev.length; c++) {
+        var ch = chev[c];
+        ctx.beginPath();
+        ctx.arc(ch.cx, ch.cy, 26, 0, Math.PI * 2);
+        ctx.fillStyle = th.light ? 'rgba(27,43,69,0.07)' : 'rgba(232,241,255,0.08)';
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = th.light ? 'rgba(27,43,69,0.25)' : 'rgba(232,241,255,0.22)';
+        ctx.stroke();
+        ctx.beginPath();
+        /* 同 drawPageArrow：尖点朝翻页方向（prev 指左 / next 指右） */
+        ctx.moveTo(ch.cx - ch.dir * 6, ch.cy - 9);
+        ctx.lineTo(ch.cx + ch.dir * 6, ch.cy);
+        ctx.lineTo(ch.cx - ch.dir * 6, ch.cy + 9);
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = th.sub;
+        ctx.stroke();
+    }
+
+    ctx.fillStyle = th.sub;
+    ctx.font = font(500, 16);
+    ctx.fillText('点左右翻看 · 返回列表', 360, 968);
+    ctx.restore();
+}
+
+
 /** v0.6 错拍关判定：`phase_2`（或 `phase2`）> 0 即为错拍关；缺省/0 = 同步关，行为必须与 v0.5 逐位相同（S13/S20） */
 function desyncPhase(def) {
     if (!def) return 0;
@@ -2169,19 +3247,28 @@ function drawPlayLayers() {
     drawTimer();                                             /* 只有挑战模式会画（relax timeLimit=null） */
     drawSeasonIntro();                                       /* 「第 N 季」600ms 淡入（仅挑战） */
     drawDesyncHud();                                         /* v0.6：只在错拍关画（同步关零像素变化，S20） */
-    drawDesyncHint();                                        /* v0.6：本会话首次进错拍关的「这一关按两次」 */
+    /* D-129：进关玩法卡可见时不画旧提示（同一件事，避免文字压在一起） */
+    if (!(nowMs() - (app.lvlEnterAt || 0) < 1400)) drawDesyncHint();
 
     if (fb) drawGlow(e);                                    /* ① 柔光（绿框下方） */
     if (fb && fx && fx.rings > 0) drawRings(e, tier);        /* ② 评级环（绿框下方） */
     drawTargets(tier, e);                                    /* ③ 绿框 */
     drawObjects(tier, e);                                    /* ④ 物体 */
+    drawDesyncFreezeRing();                                  /* D-127：错拍关冻结倒计时环 */
+    drawDesyncTooFast();                                     /* D-131：连击保护提示 */
+    drawLevelPlayCard();                                     /* D-129：进关玩法卡 */
     if (fb && fx && fx.motes > 0) drawMotes(e, tier);        /* ⑤ 粒子（绿框上方） */
     if (fb) drawHeatmapLayer(fb, e);                         /* ⑥ 热力图（错拍关只画本次定格的那个 mover） */
     drawPauseButton();
     drawMuteButton();
     drawSceneButton();
+    drawPlayGalleryBtn();                                   /* v0.9.1：挑战局内图鉴入口（左下，D-106） */
+    drawExitButton();                                       /* D-100：助眠局内可见退出 */
     drawToast();
-    if (fb && e >= LAY.FEEDBACK_MS.panel) drawPanel(fb, e - LAY.FEEDBACK_MS.panel); /* ⑦ 面板 */
+    if (fb && e >= LAY.FEEDBACK_MS.panel) {
+        drawPanel(fb, e - LAY.FEEDBACK_MS.panel); /* ⑦ 面板 */
+        drawUnlockCard(fb, e - LAY.FEEDBACK_MS.panel); /* ⑧ 新图鉴卡（面板上方，D-105） */
+    }
 }
 
 /* ---------------- v0.6 错拍关的 HUD 与提示（同步关一个像素都不画） ---------------- */
@@ -2335,11 +3422,233 @@ function drawTargets(tier, e) {
             var tri = p < 0.5 ? lerp(1, 0.34, p / 0.5) : lerp(0.34, 1, (p - 0.5) / 0.5);
             a = tri;
         }
+        /* D-128：错拍关里"还没定格"的那个目标框轻微脉动（0.35→1，900ms 一周期） */
+        if (isDesync() && app.frozen && app.frozen.length > i && !app.frozen[i] && app.frozen.some(Boolean)) {
+            var pulse = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(nowMs() / 900 * Math.PI * 2));
+            a *= pulse;
+            w = Math.max(w, 6.5);
+        }
         drawTarget(movers[i].targetPts, a, w);
     }
 }
 
 /** 物体：失败（含超时）时 α→0.65（200ms）；两模式一致 */
+/** D-127：错拍关冻结期间的「解冻中」倒计时环——让"这 400ms 输入锁着"这件事可见 */
+/* ================================================================
+ * D-129 关卡玩法标注
+ *   标签规则（与 04_项目管理/关卡玩法标注表.md 一致）：
+ *   dual + phase2>0 → 错拍·双物体；dual → 双轮廓；cycle2Ms>0 → 变速；
+ *   sineAmp>0 → 正弦摆动；inertia* ≠0 → 惯性；note 含「提速」→ 提速；否则 基础·旋转
+ * ================================================================ */
+function levelPlayInfo(def) {
+    if (!def) return { tags: [], presses: 1, line: '' };
+    var note = String(def.note || '');
+    var dual = def.variant === 'dual';
+    var ph = def.phase2 || 0;
+    var sine = (def.sineAmp || 0) > 0;
+    var inert = (def.inertiaPx || 0) > 0;      /* P2：惯性看位移幅度 px，不看 hz（hz 60 关全非 0） */
+    var hit = {};
+    if (dual && ph > 0) hit['错拍·双物体'] = 1;
+    if (dual && ph === 0) hit['双轮廓'] = 1;
+    if (dual && sine && inert) hit['机制·综合'] = 1;                  /* P3 */
+    if (/全机制/.test(note)) hit['机制·综合'] = 1;
+    if (sine && /正弦/.test(note)) hit['正弦摆动'] = 1;
+    if (/变速/.test(note) || (def.cycle2Ms || 0) > 0) hit['变速'] = 1;
+    if (/提速/.test(note)) hit['提速'] = 1;
+    if (inert) hit['惯性'] = 1;
+    /* P1 优先级：错拍 > 综合 > 双轮廓 > 正弦 > 变速 > 提速 > 惯性 > 基础 */
+    var ORDER = ['错拍·双物体', '机制·综合', '双轮廓', '正弦摆动', '变速', '提速', '惯性'];
+    var tags = [];
+    for (var k = 0; k < ORDER.length; k++) if (hit[ORDER[k]]) tags.push(ORDER[k]);
+    if (!tags.length) tags.push('基础·旋转');
+    var presses = (dual && ph > 0) ? 2 : 1;
+    var line;
+    if (presses === 2) line = '一先一后，各按一次（共 2 次）';
+    else if (dual) line = '两个物体要同一帧一起卡进绿框（按 1 次）';
+    else if ((def.turns || 1) > 1) line = '转 ' + (def.turns || 1) + ' 圈，任意一圈对上就能按';
+    else line = '慢慢转一圈，对上绿框时按';
+    return { tags: tags, presses: presses, line: line };
+}
+
+/** 进关后的玩法卡（1.4s 淡出，不吃输入） */
+/* ================================================================
+ * D-132 关卡选择面板（调试用，覆盖层）
+ *   6 列 × 10 行 = 60 关；显示关号 + 主标签色点；点击直接跳到该关；点空白关闭
+ * ================================================================ */
+var PICKER = { cols: 6, rows: 10, x0: 24, y0: 132, cw: 108, chh: 100, gap: 6 };
+
+function pickerCellRect(i) {
+    var col = i % PICKER.cols, row = Math.floor(i / PICKER.cols);
+    return {
+        x: PICKER.x0 + col * (PICKER.cw + PICKER.gap),
+        y: PICKER.y0 + row * (PICKER.chh + PICKER.gap),
+        w: PICKER.cw,
+        h: PICKER.chh
+    };
+}
+
+function pickerIndexAt(dx, dy) {
+    var list = curLevels();
+    for (var i = 0; i < list.length && i < PICKER.cols * PICKER.rows; i++) {
+        var r = pickerCellRect(i);
+        if (dx >= r.x && dx <= r.x + r.w && dy >= r.y && dy <= r.y + r.h) return i;
+    }
+    return -1;
+}
+
+function drawLevelPicker() {
+    var list = curLevels();
+    ctx.save();
+    ctx.fillStyle = 'rgba(8,13,24,0.97)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#E8F1FF';
+    ctx.font = font(800, 30);
+    ctx.fillText('选关 · 60 关', PICKER.x0, 56);
+    ctx.font = font(500, 15);
+    ctx.fillStyle = '#8FA3C0';
+    ctx.fillText('点关卡直接跳 · 点空白关闭 · 键盘 L 也可开关', PICKER.x0, 88);
+
+    for (var i = 0; i < list.length && i < PICKER.cols * PICKER.rows; i++) {
+        var d = list[i];
+        var info = levelPlayInfo(d);
+        var r = pickerCellRect(i);
+        var cur = (d === app.def);
+        ctx.fillStyle = cur ? 'rgba(43,255,176,0.22)' : '#14203A';
+        roundRectPath(r.x, r.y, r.w, r.h, 12);
+        ctx.fill();
+        ctx.strokeStyle = cur ? '#2BFFB0' : '#22314E';
+        ctx.lineWidth = cur ? 2 : 1;
+        roundRectPath(r.x, r.y, r.w, r.h, 12);
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = cur ? '#2BFFB0' : '#E8F1FF';
+        ctx.font = font(800, 26);
+        ctx.fillText('L' + d.id, r.x + r.w / 2, r.y + 32);
+
+        ctx.font = font(500, 12);
+        ctx.fillStyle = '#8FA3C0';
+        var tag = info.tags[0] || '';
+        ctx.fillText(tag.length > 7 ? tag.slice(0, 7) : tag, r.x + r.w / 2, r.y + 58);
+        ctx.fillStyle = info.presses === 2 ? '#FFD24D' : 'rgba(143,163,191,0.75)';
+        ctx.font = font(600, 11);
+        ctx.fillText(info.presses === 2 ? '按2次' : ((d.turns || 1) + '圈'), r.x + r.w / 2, r.y + 78);
+        ctx.textAlign = 'left';
+    }
+    ctx.restore();
+}
+
+function drawLevelPlayCard() {
+    if (!app.def || app.scene !== 'play') return;
+    var born = app.lvlEnterAt || 0;
+    var e = nowMs() - born;
+    if (!(e >= 0 && e < 1400)) return;
+    var a = e < 1000 ? 1 : 1 - (e - 1000) / 400;
+    var info = levelPlayInfo(app.def);
+    var th = sceneTheme();
+    var W2 = 524, H2 = 72;
+    var x = (W - W2) / 2, y = 176;
+    ctx.save();
+    ctx.globalAlpha = a;
+    ctx.fillStyle = th.light ? 'rgba(255,255,255,0.72)' : 'rgba(14,22,38,0.62)';
+    roundRectPath(x, y, W2, H2, 16);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(43,255,176,0.45)';
+    ctx.lineWidth = 1.5;
+    roundRectPath(x, y, W2, H2, 16);
+    ctx.stroke();
+    /* 标签行 */
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    var tagText = info.tags.slice(0, 2).join(' · ');
+    ctx.fillStyle = COL.ring;
+    ctx.font = font(700, 20);
+    ctx.fillText(tagText, x + 22, y + 25);
+    /* 说明行 */
+    ctx.fillStyle = th.text;
+    ctx.font = font(500, 19);
+    ctx.fillText(info.line, x + 22, y + 51);
+    ctx.restore();
+}
+
+/** ?labels=1：60 关玩法总览（点任意处关闭） */
+function drawLevelLabelsSheet() {
+    var list = curLevels();
+    var cols = 2, rows = Math.ceil(list.length / cols);
+    var padX = 28, top = 96, rowH = 27;
+    ctx.save();
+    ctx.fillStyle = '#080D18';
+    ctx.fillRect(0, 0, W, H);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#E8F1FF';
+    ctx.font = font(800, 30);
+    ctx.fillText('60 关玩法总览', padX, 48);
+    ctx.font = font(500, 15);
+    ctx.fillStyle = '#8FA3C0';
+    ctx.fillText('标签：基础·旋转 / 提速 / 双轮廓 / 错拍·双物体 / 正弦摆动 / 变速 / 惯性　（点任意处关闭）', padX, 76);
+    for (var i = 0; i < list.length; i++) {
+        var d = list[i];
+        var info = levelPlayInfo(d);
+        var col = i % cols, row = Math.floor(i / cols);
+        var x = padX + col * ((W - padX * 2) / cols);
+        var y = top + row * rowH;
+        ctx.fillStyle = '#8FA3C0';
+        ctx.font = font(600, 15);
+        ctx.fillText('L' + d.id, x, y);
+        ctx.fillStyle = '#E8F1FF';
+        ctx.font = font(500, 15);
+        ctx.fillText(info.tags.join(' · ') + (info.presses === 2 ? '（按 2 次）' : ''), x + 44, y);
+    }
+    ctx.restore();
+}
+
+/** D-131：「太快了」提示（420ms 淡出）——被连击保护拦下的那次按下 */
+function drawDesyncTooFast() {
+    var at = app.desyncTooFastAt;
+    if (!at) return;
+    var e = nowMs() - at;
+    if (!(e >= 0 && e < 420)) return;
+    var a = e < 260 ? 1 : 1 - (e - 260) / 160;
+    var th = sceneTheme();
+    ctx.save();
+    ctx.globalAlpha = a;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = font(700, 22);
+    ctx.fillStyle = '#FFD24D';
+    ctx.fillText('太快了 · 等下一个物体现身', 360, 968);
+    ctx.restore();
+}
+
+function drawDesyncFreezeRing() {
+    var fb = app.fb;
+    if (!fb || !fb.desync || fb.settled || !fb.resolveAt) return;
+    var left = Math.max(0, fb.resolveAt - nowMs());
+    var p = 1 - left / DESYNC_FREEZE_MS;
+    var cx = 360, cy = 1122, r = 118;
+    ctx.save();
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'rgba(232,241,255,0.18)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = COL.ring;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * clamp01(p));
+    ctx.stroke();
+    var th = sceneTheme();
+    ctx.fillStyle = th.sub;
+    ctx.font = font(600, 18);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('还要定格 1 个', cx, cy - 150);
+    ctx.restore();
+}
+
 function drawObjects(tier, e) {
     if (!app.rt) return;
     var t = app.scene === 'feedback' ? app.freezeT : elapsed();
@@ -2350,7 +3659,9 @@ function drawObjects(tier, e) {
         var mv = movers[i];
         var pose;
         try {
-            pose = CORE.poseAt(mv, t);
+            /* D-134：已定格的物体用定格那一刻的姿态 → 看起来就是停住不动 */
+            if (app.frozen && app.frozen[i] && app.frozenPose && app.frozenPose[i]) pose = app.frozenPose[i];
+            else pose = CORE.poseAt(mv, t);
         } catch (err) {
             onErr(err);
             continue;
@@ -2360,8 +3671,12 @@ function drawObjects(tier, e) {
         var sc = objectDrawScale(mv);
         if (i === 0) app.diag = Object.assign(app.diag || {}, { t: t, u: CORE.uAt ? CORE.uAt(mv, t) : 0, x: pose.x, y: pose.y, rot: pose.rotDeg, k: mv.shape.size * sc });
         ctx.save();
-        ctx.globalAlpha = alpha;
-        drawObject(mv.shape, pose, sc);
+        /* D-128：错拍关已定格的物体压暗，剩下的那个保持亮（谁还要按，一眼看清） */
+        var _fz = app.frozen && app.frozen[i];
+        ctx.globalAlpha = _fz ? alpha * 0.32 : alpha;
+        var _im = gameSpriteOf(mv.shape);
+        if (_im) drawSpriteObject(_im, mv.shape, pose, sc);
+        else drawObject(mv.shape, pose, sc);
         ctx.restore();
     }
 }
@@ -2732,6 +4047,63 @@ function failSubText(fb) {
     return where + ' ' + objs[wi].pct.toFixed(0) + '%（需 ≥ ' + need + '%）';
 }
 
+/** 通关后的面板停留（D-105：神级 1800ms，其它 1000ms） */
+function feedbackHoldMs(tier) { return tier === 'god' ? 1800 : 1000; }
+
+/** 解锁卡是否会出现（断言用：无新增 → 不画） */
+function unlockCardVisible(fb) { return !!(fb && fb.unlocks && fb.unlocks.length); }
+
+/**
+ * v0.9.1 · D-105 新图鉴卡：面板上方一条，告诉玩家"刚刚得到了什么"。
+ * 时间轴：淡入 160 → 停 1000 → 淡出 200（从面板出现算）。不挡评级标题/徽章。
+ */
+function drawUnlockCard(fb, dt) {
+    if (!fb || !fb.unlocks || !fb.unlocks.length) return;
+    var alpha = Math.min(clamp01(dt / 160), 1 - clamp01((dt - 1000) / 200));
+    if (alpha <= 0.01) return;
+    var ids = fb.unlocks.slice(0, 2);
+    var rare = false;
+    for (var i = 0; i < ids.length; i++) if (collectionItem(ids[i]).source === 'rare') rare = true;
+    var box = UNLOCK_CARD_RECT;
+    var th = sceneTheme();
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    roundRectPath(box.x, box.y, box.w, box.h, box.h * 0.5);
+    ctx.fillStyle = 'rgba(22,36,56,0.94)';
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = rare ? COL.gold : 'rgba(46,229,157,0.85)';
+    ctx.stroke();
+    /* 左边一个 40px 剪影：让"得到的是哪一件"不靠文字才认得出 */
+    var sh = shapeOf(ids[0]);
+    var kk = 40 / 1.0;
+    var pts = CORE.place(CORE.scaleLocal(sh.pts, kk), box.x + 38, box.y + box.h * 0.5, 0);
+    polyPath(pts);
+    ctx.fillStyle = sh.fill;
+    ctx.fill();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = sh.stroke;
+    ctx.stroke();
+    /* 文案：名字最多两个；稀有金点 */
+    var label = '新图鉴 · ' + ids.map(function (id) { return collectionItem(id).name; }).join(' + ');
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.font = font(700, 20);
+    ctx.fillStyle = COL.text;
+    ctx.fillText(label, box.x + 70, box.y + 27);
+    var st = collectionState();
+    ctx.font = font(500, 15);
+    ctx.fillStyle = COL.sub;
+    ctx.fillText('已收集 ' + st.unlockedCount + ' / ' + st.total + (rare ? '　· 稀有' : ''), box.x + 70, box.y + 47);
+    if (rare) {
+        ctx.beginPath();
+        ctx.arc(box.x + box.w - 22, box.y + box.h * 0.5, 5, 0, Math.PI * 2);
+        ctx.fillStyle = COL.gold;
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
 function drawPanel(fb, dt) {
     var k = easeOut(dt / 200);
     var res = fb.res;
@@ -2880,6 +4252,25 @@ function drawPanel(fb, dt) {
             ctx.fillStyle = COL.sub;
             ctx.fillText('点击按钮或屏幕任意处', cx, box.y + 330);
         }
+    }
+
+    /* v0.9：结算面板右上角的图鉴入口（助眠没有，S32）。面板底色恒为深色，所以用浅色文字。
+       位置与居中的标题/徽章水平错开（标题最右 ≈ 464，按钮从 516 起），不会压字。 */
+    if (galleryEntryVisible()) {
+        var gb = PANEL_GALLERY_BTN;
+        var gst = collectionState();
+        roundRectPath(gb.x, gb.y, gb.w, gb.h, gb.h * 0.5);
+        ctx.fillStyle = 'rgba(232,241,255,0.08)';
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(46,229,157,0.45)';
+        ctx.stroke();
+        ctx.fillStyle = COL.sub;
+        ctx.font = font(600, 16);
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('图鉴 ' + gst.unlockedCount + ' / ' + gst.total, gb.x + gb.w / 2, gb.y + gb.h * 0.54);
+        ctx.textBaseline = 'alphabetic';
     }
     ctx.restore();
 }
@@ -3158,6 +4549,7 @@ function drawComplete() {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
     ctx.fillText('点其它任意处回首页', 360, 1082);
+    drawCompleteGalleryBtn(); /* v0.9.1：通关页也能进图鉴（D-106） */
     drawMuteButton();
     ctx.restore();
 }
@@ -3210,6 +4602,9 @@ var DBG = parseQuery();
 var DBG_SCREEN = DBG.screen || DBG.shot || '';
 var DBG_LVL = DBG.lvl ? parseInt(DBG.lvl, 10) : 0;
 var DBG_PRESS = DBG.press !== undefined && DBG.press !== '' ? parseFloat(DBG.press) : null;
+/* D-129：?labels=1 → 开局显示 60 关玩法总览 */
+app.showLabels = DBG.labels === '1';
+app.showPicker = DBG.levels === '1';   /* D-132：?levels=1 直接开选关面板 */
 var DBG_ATT = DBG.att ? parseInt(DBG.att, 10) : null;
 var DBG_FREEZE = DBG.freeze ? parseInt(DBG.freeze, 10) : 620;
 var DBG_FXAT = DBG.fxAt ? parseInt(DBG.fxAt, 10) : null;
@@ -3221,6 +4616,20 @@ function applyDebug() {
     if (DBG.progress) progress.unlocked = Math.max(1, Math.min(LEVELS.length, parseInt(DBG.progress, 10) || 1));
     if (DBG.unlocked) progress.unlocked = Math.max(1, Math.min(LEVELS.length, parseInt(DBG.unlocked, 10) || 1));
     if (DBG.best) progress.bestScore = parseInt(DBG.best, 10) || 0;
+    /* v0.9 图鉴截图用：?cleared=N 伪造已通关关数，?god=N 伪造累计神级（只影响点亮，不影响判定）。
+       播种是**覆盖式**的：同一份 file:// 画像里 localStorage 会跨次留存（上一张截图里的 judge
+       会写字），用 Math.max 保留旧值会让"同一个 URL 拍不出同一张图"，截图复核就不可复现了。 */
+    if (DBG.cleared !== undefined && DBG.cleared !== '') {
+        progress.cleared = Math.max(0, Math.min(LEVELS.length, parseInt(DBG.cleared, 10) || 0));
+        if (!(DBG.progress || DBG.unlocked)) {
+            progress.unlocked = Math.max(1, Math.min(LEVELS.length, (progress.cleared || 0) + 1));
+        }
+    } else if (DBG.progress || DBG.unlocked) {
+        progress.cleared = Math.max(0, (progress.unlocked || 1) - 1);
+    }
+    if (DBG.god !== undefined && DBG.god !== '') progress.godTotal = Math.max(0, parseInt(DBG.god, 10) || 0);
+    /* D-094：?cardScene=<id> 走"渲染期覆盖"通道——**不写 pref**（与 ?scene= 手动选择通道分开） */
+    if (DBG.cardScene) setSceneOverride(DBG.cardScene);
 
     /* v0.2：?scene=<id|auto> 走"手动选择"通道（存 localStorage，优先于自动）；
        ?hour=N 伪造本地时间（M5）；?mode=relax|challenge
@@ -3233,11 +4642,43 @@ function applyDebug() {
     if (DBG.mode === 'relax' || DBG.mode === 'challenge') app.mode = DBG.mode;
     applyModeAudio();
 
+    /* v0.9.1 试玩入口：?start=N 直接进第 N 关并**正常跑时钟**（不是截图冻结）。
+       与 ?screen=play 的区别：screen=play 会把 timeFreeze 钉在按下的某一帧，只能看不能玩。
+       challenge / relax 都支持：?start=31&mode=relax 即助眠第 31 关。 */
+    if (DBG.start !== undefined && DBG.start !== '') {
+        var startN = parseInt(DBG.start, 10);
+        if (isFinite(startN)) {
+            var startList = (app.mode === 'relax' && RELAX_LEVELS && RELAX_LEVELS.length) ? RELAX_LEVELS : LEVELS;
+            startN = Math.max(1, Math.min(startList.length, startN));
+            startRun(app.mode, startN - 1);
+            timeFreeze = null; /* 真试玩：时钟必须走 */
+            return;
+        }
+    }
+
     if (s === 'home') {
         app.scene = 'home';
         app.homeStart = 0;
         app.sceneId = resolveSceneId();
         timeFreeze = HOME_CYCLE * 0.42; /* 物体在绿框左侧，一眼看出「要套进去」 */
+        return;
+    }
+    if (s === 'gallery') {
+        /* 图鉴截图/验收入口。?mode=relax 时 openGallery 会拒绝（scene 仍是 home）——
+           这正是 S32 要的证据：助眠没有图鉴入口。 */
+        app.galleryStart = 0;
+        app.homeStart = 0;
+        app.sceneId = resolveSceneId();
+        if (DBG.sel) app.gallerySel = DBG.sel;
+        openGallery('home');
+        if (app.scene === 'gallery') {
+            if (DBG.page !== undefined && DBG.page !== '') {
+                app.galleryPage = Math.max(0, Math.min(galleryPageCount() - 1, parseInt(DBG.page, 10) || 0));
+            }
+            if (DBG.detail) openGalleryDetail(DBG.detail);
+            try { renderFrame(); } catch (e) { /* 吃掉 */ }
+        }
+        timeFreeze = 0;
         return;
     }
     if (s === 'complete') {
@@ -3417,6 +4858,12 @@ function bindInput() {
         cv.addEventListener('touchstart', handler, false);
     }
     window.addEventListener('keydown', function (ev) {
+        /* D-132：L 键开关选关面板（调试用） */
+        if (ev.key === 'l' || ev.key === 'L') {
+            if (ev.preventDefault) ev.preventDefault();
+            app.showPicker = !app.showPicker;
+            return;
+        }
         if (ev.key === ' ' || ev.key === 'Enter' || ev.keyCode === 32) {
             if (ev.preventDefault) ev.preventDefault();
             handlePress();
@@ -3442,6 +4889,8 @@ function boot() {
         CFG: CFG,
         app: app,
         DBG: DBG,
+        view: view,
+        toDesign: toDesign,
         levels: LEVELS,
         shapes: SHAPES,
         progress: progress,
@@ -3476,6 +4925,7 @@ function boot() {
         moverPerfectMs: moverPerfectMs,
         perfectPressClockMs: perfectPressClockMs,
         DESYNC_FREEZE_MS: DESYNC_FREEZE_MS,
+        DESYNC_MIN_SECOND_MS: DESYNC_MIN_SECOND_MS,   /* D-131：两次定格最小间隔，给断言用 */
         ringCfg: ringCfg,
         moteCfg: moteCfg,
         isSeasonEndIdx: isSeasonEndIdx,
@@ -3493,6 +4943,55 @@ function boot() {
         readScenePref: readScenePref,
         localHour: localHour,
         cycleScene: cycleScene,
+        /* D-094：场景两条通道（瓶子卡 = 渲染期覆盖，不写 pref；?scene= = 手动选择，写 pref） */
+        setSceneOverride: setSceneOverride,
+        clearSceneOverride: clearSceneOverride,
+        getSceneOverride: getSceneOverride,
+        /* v0.9 道具收集（mock 图鉴）：状态是纯函数，断言可直接喂合成存档（S30/S31/S34） */
+        COLLECTION: COLLECTION,
+        collectionState: collectionState,
+        collectionItem: collectionItem,
+        unlockCardVisible: unlockCardVisible,
+        feedbackHoldMs: feedbackHoldMs,
+        clearedCount: clearedCount,
+        godTotalOf: godTotalOf,
+        unlockLabel: unlockLabel,
+        galleryEntryVisible: galleryEntryVisible,
+        openGallery: openGallery,
+        closeGallery: closeGallery,
+        galleryCellRect: galleryCellRect,
+        galleryPageCount: galleryPageCount,
+        galleryPageOf: galleryPageOf,
+        pageArrowEnabled: pageArrowEnabled,
+        openGalleryDetail: openGalleryDetail,
+        stepGalleryDetail: stepGalleryDetail,
+        galleryDetailTitle: galleryDetailTitle,
+        recentGalleryIds: recentGalleryIds,
+        markGallerySeen: markGallerySeen,
+        homeGalleryHitRect: homeGalleryHitRect,
+        playGalleryHitRect: playGalleryHitRect,
+        completeGalleryHitRect: completeGalleryHitRect,
+        panelGalleryHitRect: panelGalleryHitRect,
+        panelSlidePx: panelSlidePx,
+        /* D-100：relax 退出的视觉矩形（(24,136,88,44)）与热区（expandRect 0,22 → 88 高）都从这里取，
+           断言用 EXIT_BTN / exitHitRect 即可，不用在测试里另抄一份坐标 */
+        EXIT_BTN: EXIT_BTN,
+        exitHitRect: exitHitRect,
+        HOME_GALLERY_BTN: HOME_GALLERY_BTN,
+        PLAY_GALLERY_BTN: PLAY_GALLERY_BTN,
+        COMPLETE_GALLERY_BTN: COMPLETE_GALLERY_BTN,
+        PANEL_GALLERY_BTN: PANEL_GALLERY_BTN,
+        UNLOCK_CARD_RECT: UNLOCK_CARD_RECT,
+        GALLERY_BACK: GALLERY_BACK,
+        GALLERY_GRID: GALLERY_GRID,
+        GALLERY_PAGE_PREV: GALLERY_PAGE_PREV,
+        GALLERY_PAGE_NEXT: GALLERY_PAGE_NEXT,
+        GALLERY_BIG: GALLERY_BIG,
+        GALLERY_PREV: GALLERY_PREV,
+        GALLERY_NEXT: GALLERY_NEXT,
+        relaxOrderForScene: relaxOrderForScene,
+        relaxRotatedDef: relaxRotatedDef,
+        relaxRotationForScene: relaxRotationForScene,
         /* v0.7：场景→曲（A3）与分享（B1）。明天验 A3-a/b/c、B-a/b/d 时直接用这几个符号，
            不用在浏览器里手点：__PROTO__.bgmTrackForScene('night_station') === 'lofi' */
         BGM_BY_SCENE: BGM_BY_SCENE,

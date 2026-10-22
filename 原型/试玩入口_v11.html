@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>试玩入口 v11 · 定向关卡</title>
+<style>
+    :root { --bg:#0E1626; --panel:#14203A; --line:#22314E; --green:#2BFFB0; --text:#E8F1FF; --sub:#8FA3C0; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif; }
+    .bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding:14px 18px; border-bottom:1px solid var(--line); }
+    .title { font-weight:700; font-size:16px; margin-right:8px; }
+    .chip { border:1px solid var(--line); background:var(--panel); color:var(--text); border-radius:999px;
+            padding:8px 14px; font-size:14px; cursor:pointer; transition:.15s; }
+    .chip:hover { border-color:var(--green); }
+    .chip.on { background:var(--green); color:#06231A; border-color:var(--green); font-weight:700; }
+    .chip small { opacity:.7; font-weight:400; }
+    .spacer { flex:1; }
+    .hint { color:var(--sub); font-size:12px; }
+    .stage { display:flex; justify-content:center; padding:14px; }
+    iframe { width:720px; height:1280px; max-width:100%; border:1px solid var(--line); border-radius:14px; background:#000; }
+    .note { color:var(--sub); font-size:12px; padding:0 18px 18px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="bar">
+    <span class="title">定向试玩</span>
+    <button class="chip" data-lvl="1">L1 保温杯</button>
+    <button class="chip" data-lvl="3">L3 小汽车</button>
+    <button class="chip" data-lvl="5">L5 可乐罐</button>
+    <button class="chip" data-lvl="6">L6 拖鞋</button>
+    <button class="chip" data-lvl="7">L7 吉他</button>
+    <button class="chip on" data-lvl="8">L8 扳手</button>
+    <button class="chip" data-lvl="9">L9 火箭</button>
+    <button class="chip" data-lvl="10">L10 双轮廓</button>
+    <button class="chip" data-lvl="15">L15 压轴</button>
+    <button class="chip" data-lvl="25">L25 双轮廓</button>
+    <button class="chip" data-lvl="50">L50 错拍</button>
+    <select id="pick" title="直接选 1–60 关">
+        <option value="">选关 1–60…</option>
+    </select>
+    <span class="spacer"></span>
+    <span class="hint">点关卡名即切换 · 也可直接用 <code>?start=N</code> · 游戏内按 <code>L</code> 开选关面板</span>
+</div>
+<div class="stage"><iframe id="play" src="dista_prototype.html?start=8"></iframe></div>
+<div class="note">
+    ⚠️ <b>本页用 <code>?start=N</code>（真跑时钟）。<code>?screen=play</code> 是「截图冻结」分支——物体不会动，不能用来试玩。</b><br>
+    <b>第一下点击只用来开声音、不算按下</b>（浏览器限制），从第二下开始才算判定。<br>
+    错拍关（L50）：一关按两次，第一次定格的物体变暗、剩下的绿框在脉动。<br>
+    反馈格式：<code>L8：等太久 / 刚好 / 太赶</code>
+</div>
+<script>
+    var frame = document.getElementById('play');
+    /* v0.9.1：真可玩入口用 ?start=；?screen=play 是冻结帧（物体不会动） */
+    function goto(lvl) {
+        frame.src = 'dista_prototype.html?start=' + lvl;
+    }
+    document.querySelectorAll('.chip').forEach(function (b) {
+        b.addEventListener('click', function () {
+            document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); });
+            b.classList.add('on');
+            goto(b.dataset.lvl);
+        });
+    });
+    /* D-132：1–60 全关卡下拉（调试用） */
+    var pick = document.getElementById('pick');
+    for (var i = 1; i <= 60; i++) {
+        var o = document.createElement('option');
+        o.value = String(i);
+        o.textContent = 'L' + i;
+        pick.appendChild(o);
+    }
+    pick.addEventListener('change', function () {
+        if (!pick.value) return;
+        document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); });
+        goto(pick.value);
+    });
+</script>
+</body>
+</html>

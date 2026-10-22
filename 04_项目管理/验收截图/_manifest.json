@@ -1,0 +1,273 @@
+{
+ "capturedAt": "2026-10-22 21:50:58",
+ "prototype": "原型/dista_prototype.html",
+ "prototypeBytes": 671431,
+ "note": "2026-10-22 D-126：9 关道具轮廓重描（覆盖全部有效像素）。",
+ "count": 44,
+ "shots": [
+  {
+   "name": "proto_advance.png",
+   "bytes": 312114,
+   "sha256": "c3f9122d2245a34e",
+   "mtime": "2026-10-21 21:13:50"
+  },
+  {
+   "name": "proto_beat_season4.png",
+   "bytes": 329977,
+   "sha256": "a8b01a64e25c7c4d",
+   "mtime": "2026-10-21 21:15:18"
+  },
+  {
+   "name": "proto_cardscene.png",
+   "bytes": 221362,
+   "sha256": "6957c04fddb03019",
+   "mtime": "2026-10-21 21:17:01"
+  },
+  {
+   "name": "proto_challenge.png",
+   "bytes": 319727,
+   "sha256": "b02c716a85b754c5",
+   "mtime": "2026-10-21 21:13:15"
+  },
+  {
+   "name": "proto_complete.png",
+   "bytes": 313311,
+   "sha256": "0fc67d5be02bc6e6",
+   "mtime": "2026-10-21 21:12:31"
+  },
+  {
+   "name": "proto_desync.png",
+   "bytes": 377001,
+   "sha256": "3c35d26961df3e6d",
+   "mtime": "2026-10-21 21:22:19"
+  },
+  {
+   "name": "proto_fail.png",
+   "bytes": 330753,
+   "sha256": "1a7bbed45e36e773",
+   "mtime": "2026-10-21 21:12:22"
+  },
+  {
+   "name": "proto_fx_season.png",
+   "bytes": 372686,
+   "sha256": "d3f604817654f546",
+   "mtime": "2026-10-21 21:15:16"
+  },
+  {
+   "name": "proto_gallery.png",
+   "bytes": 373642,
+   "sha256": "bb1ebe39e9a6e268",
+   "mtime": "2026-10-22 06:41:56"
+  },
+  {
+   "name": "proto_gallery_detail.png",
+   "bytes": 317855,
+   "sha256": "9e86b6110af41e11",
+   "mtime": "2026-10-22 06:42:08"
+  },
+  {
+   "name": "proto_gallery_locked.png",
+   "bytes": 310034,
+   "sha256": "83e26ca79b559ba0",
+   "mtime": "2026-10-22 06:42:06"
+  },
+  {
+   "name": "proto_gallery_p1.png",
+   "bytes": 373642,
+   "sha256": "bb1ebe39e9a6e268",
+   "mtime": "2026-10-22 06:41:59"
+  },
+  {
+   "name": "proto_gallery_p2.png",
+   "bytes": 391956,
+   "sha256": "34f9a12be1e9edf5",
+   "mtime": "2026-10-22 06:42:01"
+  },
+  {
+   "name": "proto_gallery_p3.png",
+   "bytes": 341279,
+   "sha256": "7e511128ecf92c90",
+   "mtime": "2026-10-22 06:42:04"
+  },
+  {
+   "name": "proto_god.png",
+   "bytes": 393419,
+   "sha256": "6035fba594583026",
+   "mtime": "2026-10-21 21:10:44"
+  },
+  {
+   "name": "proto_god_diag.png",
+   "bytes": 403625,
+   "sha256": "31d3789b7d54a4a0",
+   "mtime": "2026-10-21 21:21:39"
+  },
+  {
+   "name": "proto_god_noon.png",
+   "bytes": 298916,
+   "sha256": "5e29762b90371743",
+   "mtime": "2026-10-20 06:23:12"
+  },
+  {
+   "name": "proto_home.png",
+   "bytes": 349596,
+   "sha256": "7e67ed7b837c7a53",
+   "mtime": "2026-10-22 06:29:11"
+  },
+  {
+   "name": "proto_home_card.png",
+   "bytes": 355423,
+   "sha256": "69381648374e839b",
+   "mtime": "2026-10-21 21:17:04"
+  },
+  {
+   "name": "proto_home_continue.png",
+   "bytes": 355252,
+   "sha256": "0becf0124fd8e231",
+   "mtime": "2026-10-21 21:09:37"
+  },
+  {
+   "name": "proto_home_diag.png",
+   "bytes": 359441,
+   "sha256": "faa0ad6e4baffcd1",
+   "mtime": "2026-10-21 21:09:41"
+  },
+  {
+   "name": "proto_hud_challenge.png",
+   "bytes": 320134,
+   "sha256": "526abd9befda18af",
+   "mtime": "2026-10-21 21:14:05"
+  },
+  {
+   "name": "proto_hud_relax.png",
+   "bytes": 315448,
+   "sha256": "6cd9c159810676d9",
+   "mtime": "2026-10-21 21:14:19"
+  },
+  {
+   "name": "proto_l10_dual.png",
+   "bytes": 358414,
+   "sha256": "b07af1126da31e7a",
+   "mtime": "2026-10-18 13:55:32"
+  },
+  {
+   "name": "proto_l15_dual.png",
+   "bytes": 350130,
+   "sha256": "15d6dcc67f80a8f4",
+   "mtime": "2026-10-18 13:51:41"
+  },
+  {
+   "name": "proto_play.png",
+   "bytes": 328795,
+   "sha256": "0fc2f272075f84a8",
+   "mtime": "2026-10-22 06:29:16"
+  },
+  {
+   "name": "proto_play_gallery.png",
+   "bytes": 320134,
+   "sha256": "526abd9befda18af",
+   "mtime": "2026-10-21 21:18:08"
+  },
+  {
+   "name": "proto_relax.png",
+   "bytes": 315448,
+   "sha256": "6cd9c159810676d9",
+   "mtime": "2026-10-21 21:13:13"
+  },
+  {
+   "name": "proto_relax60.png",
+   "bytes": 318123,
+   "sha256": "3e28bcaff57e5186",
+   "mtime": "2026-10-21 21:14:36"
+  },
+  {
+   "name": "proto_relax_no_gallery.png",
+   "bytes": 339999,
+   "sha256": "f21e02eabef4b301",
+   "mtime": "2026-10-21 21:16:59"
+  },
+  {
+   "name": "proto_result.png",
+   "bytes": 381765,
+   "sha256": "1d949217e7a7d14b",
+   "mtime": "2026-10-22 06:29:41"
+  },
+  {
+   "name": "proto_result_dual.png",
+   "bytes": 352741,
+   "sha256": "c96ada8c434edb0e",
+   "mtime": "2026-10-21 21:09:56"
+  },
+  {
+   "name": "proto_result_early.png",
+   "bytes": 341835,
+   "sha256": "036626ed1e2435c4",
+   "mtime": "2026-10-22 06:29:49"
+  },
+  {
+   "name": "proto_scene_minimal.png",
+   "bytes": 270058,
+   "sha256": "3032f66db622d4df",
+   "mtime": "2026-10-21 21:12:40"
+  },
+  {
+   "name": "proto_scene_night.png",
+   "bytes": 322751,
+   "sha256": "4eb7e4b58da1ebc0",
+   "mtime": "2026-10-21 21:12:34"
+  },
+  {
+   "name": "proto_scene_noon.png",
+   "bytes": 221362,
+   "sha256": "6957c04fddb03019",
+   "mtime": "2026-10-21 21:12:37"
+  },
+  {
+   "name": "proto_season2.png",
+   "bytes": 320463,
+   "sha256": "5a05b5d06ffefc26",
+   "mtime": "2026-10-21 21:14:33"
+  },
+  {
+   "name": "proto_tap_challenge.png",
+   "bytes": 324230,
+   "sha256": "af85a9ebe3501bf4",
+   "mtime": "2026-10-21 21:13:53"
+  },
+  {
+   "name": "proto_tap_continue.png",
+   "bytes": 325392,
+   "sha256": "712be2f680da0b2c",
+   "mtime": "2026-10-21 21:12:29"
+  },
+  {
+   "name": "proto_tap_relax.png",
+   "bytes": 324040,
+   "sha256": "527b87781f70aff9",
+   "mtime": "2026-10-21 21:13:56"
+  },
+  {
+   "name": "proto_tap_start.png",
+   "bytes": 321561,
+   "sha256": "6aa22a55ad2c5220",
+   "mtime": "2026-10-22 06:29:43"
+  },
+  {
+   "name": "proto_timeout.png",
+   "bytes": 301601,
+   "sha256": "424bbb0f27fecbcc",
+   "mtime": "2026-10-21 21:14:02"
+  },
+  {
+   "name": "proto_timer.png",
+   "bytes": 322363,
+   "sha256": "b0fe4e82315eaf72",
+   "mtime": "2026-10-21 21:13:59"
+  },
+  {
+   "name": "proto_unlock_card.png",
+   "bytes": 361827,
+   "sha256": "9dc180dbcf78d679",
+   "mtime": "2026-10-21 21:17:45"
+  }
+ ]
+}

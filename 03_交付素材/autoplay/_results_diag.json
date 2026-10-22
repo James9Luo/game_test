@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "startedAt": "2026-10-22T14:30:40.063Z",
+    "levels": [
+      1
+    ],
+    "repeat": 1,
+    "edge": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "headless": true,
+    "click": {
+      "x": 360,
+      "y": 640
+    },
+    "html": {
+      "path": "原型/dista_prototype.html",
+      "sha1": "ba074f887ce9fee0f50f0eede8a463c0f56c1939",
+      "bytes": 679355,
+      "mtime": "2026-10-22T14:15:03.630Z"
+    },
+    "node": "v24.21.0",
+    "platform": "win32 10.0.19041",
+    "htmlUnchangedDuringRun": true
+  },
+  "preflight": {
+    "viewport": {
+      "w": 720,
+      "h": 1280,
+      "dpr": 1,
+      "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+    },
+    "screenPlay": {
+      "note": "?screen=play&lvl=N 是截图冻结分支：timeFreeze 被钉住 → 时钟不走、点击时刻与画面无关",
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?screen=play&lvl=1",
+      "now1": 1779.2500000000002,
+      "now2": 1779.2500000000002,
+      "clockFrozen": true,
+      "scene": "play",
+      "gestureDoneBefore": false,
+      "pressJudged": true,
+      "pressClock": 1779.25,
+      "frozenClock": 1779.2500000000002,
+      "pressAtFrozenFrame": true,
+      "tier": "ok",
+      "pct": 54.29423606475029
+    },
+    "fps": 31.3,
+    "autoplay": {
+      "note": "?autoplay=1 分支要求 app.scene==='play'，但无 ?screen= 时 applyDebug 走首页开场 → 观察它是否真的按过一次",
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?autoplay=1&press=0.5&lvl=1",
+      "scene": "home",
+      "lvl": 0,
+      "pressGlow": -1000000000,
+      "fb": null,
+      "judgedOrNot": false
+    },
+    "fpsOnLevel": 29.9
+  },
+  "summary": {
+    "trials": 1,
+    "pass": 1,
+    "fail": 0,
+    "notOk": 0,
+    "tierCount": {
+      "god": 1
+    },
+    "timing": {
+      "samples": 1,
+      "meanAbsMs": 0.1,
+      "p50AbsMs": 0.1,
+      "p95AbsMs": 0.1,
+      "minMs": -0.09999990316146068,
+      "maxMs": -0.09999990316146068
+    },
+    "failLevels": [],
+    "notOkLevels": []
+  },
+  "trials": [
+    {
+      "level": 1,
+      "run": 0,
+      "ok": true,
+      "outcome": "pass",
+      "pass": true,
+      "tier": "god",
+      "pct": 99.96985470202577,
+      "deltaMs": -0.09999990316146068,
+      "theory": {
+        "pctPerfect0": 99.99999999955953,
+        "pctPerfect1": null
+      },
+      "presses": [
+        {
+          "idx": 0,
+          "target": 1792.2999999508452,
+          "deltaMs": -0.09999990316146068,
+          "pct": 99.96985470202577,
+          "tier": "god",
+          "moverIndex": null,
+          "verdict": "onTime",
+          "pressClock": 1617.4000000953674,
+          "t0": 1792.2000000476837,
+          "frozen": null,
+          "judged": 0,
+          "reconstructed": false
+        }
+      ],
+      "shot": "L01_pass_diagchk.png",
+      "shotBytes": 371811,
+      "ms": 3498,
+      "warmupJudged": false,
+      "warmupSwallowed": true,
+      "retries": 0,
+      "anomalies": [],
+      "errors": [],
+      "url": "file:///E:/game_design/dista/原型/dista_prototype.html?start=1&lvl=1",
+      "def": {
+        "id": 1,
+        "name": "第一次定格",
+        "variant": "single",
+        "phase2": 0,
+        "passRate": 0.6,
+        "star3Rate": 0.93,
+        "cycleMs": 3235,
+        "turns": 1,
+        "season": 1,
+        "shapeId": "cup_tumbler",
+        "shapeId2": null,
+        "prop": "保温杯",
+        "prop2": null
+      },
+      "movers": [
+        {
+          "cycleMs": 3235,
+          "speedStage": 1,
+          "offsetMs": 0,
+          "perfectMs": 1617.499999998529
+        }
+      ],
+      "isDesync": false,
+      "clock": {
+        "rttMin": 8.549600000000282,
+        "rttMs": [
+          8.5
+        ]
+      },
+      "stars": 3,
+      "attemptsLeft": 3
+    }
+  ]
+}

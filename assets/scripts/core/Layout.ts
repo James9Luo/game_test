@@ -31,8 +31,8 @@ export const TARGET_SINGLE = { cx: 360, cy: 596 };
  * 第二个物体错在哪，「双轮廓」就变成了盲猜。改这两个数前先看结算截图。
  */
 export const TARGET_DUAL = [
-    { cx: 360, cy: 330, scale: 0.62 },
-    { cx: 360, cy: 640, scale: 0.62 },
+    { cx: 360, cy: 318, scale: 0.70 },   // D-122：0.62→0.70（玩家反馈双物体关「小了点」）
+    { cx: 360, cy: 618, scale: 0.70 },
 ];
 
 /** 美术/程序都要用的判定文案（不含数字，数字由 judge 返回） */

@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-10-22",
+  "note": "本批为**新增**资产，未改动任何既有文件；BGM 与 SFX 共用 audio.js 的音色族与混响。",
+  "sampleRate": 44100,
+  "format": "16-bit PCM mono",
+  "bgm": [
+    {
+      "id": "spring",
+      "label": "V4 春日微风 · 79BPM",
+      "mood": "白天 / 春天 / 明亮",
+      "bpm": 79,
+      "bars": 8,
+      "loopSeconds": 24.3,
+      "file": "bgm_v4_spring_79bpm.wav",
+      "previewFile": "bgm_v4_spring_79bpm_preview.wav",
+      "melodyNotes": 24,
+      "chimeNotes": 4,
+      "noiseEvents": 0,
+      "metrics": {
+        "dynamic500msDb": 6,
+        "seamJumpDb": 2.2,
+        "lowFreqCrestDb": 6.4
+      }
+    },
+    {
+      "id": "rain",
+      "label": "V5 雨落窗台 · 76BPM",
+      "mood": "雨天窗边 / 最安静",
+      "bpm": 76,
+      "bars": 8,
+      "loopSeconds": 25.26,
+      "file": "bgm_v5_rain_76bpm.wav",
+      "previewFile": "bgm_v5_rain_76bpm_preview.wav",
+      "melodyNotes": 16,
+      "chimeNotes": 0,
+      "noiseEvents": 13,
+      "metrics": {
+        "dynamic500msDb": 5.2,
+        "seamJumpDb": 1.6,
+        "lowFreqCrestDb": 5.6
+      }
+    },
+    {
+      "id": "night",
+      "label": "V6 夜行列车 · 77BPM",
+      "mood": "长夜 / 助眠",
+      "bpm": 77,
+      "bars": 8,
+      "loopSeconds": 24.94,
+      "file": "bgm_v6_night_77bpm.wav",
+      "previewFile": "bgm_v6_night_77bpm_preview.wav",
+      "melodyNotes": 8,
+      "chimeNotes": 4,
+      "noiseEvents": 0,
+      "metrics": {
+        "dynamic500msDb": 5.4,
+        "seamJumpDb": 1.3,
+        "lowFreqCrestDb": 5.8
+      }
+    }
+  ],
+  "sfx": [
+    {
+      "id": "cue",
+      "label": "预备拍",
+      "file": "sfx_cue.wav",
+      "dur": 0.3,
+      "tone": "mallet",
+      "notes": [
+        "D5"
+      ],
+      "peakDbfs": -21.99,
+      "rmsDbfs": -35.49
+    },
+    {
+      "id": "collect",
+      "label": "拾取道具",
+      "file": "sfx_collect.wav",
+      "dur": 0.75,
+      "tone": "mallet",
+      "notes": [
+        "A4",
+        "D5",
+        "F#5"
+      ],
+      "peakDbfs": -14.41,
+      "rmsDbfs": -29.04
+    },
+    {
+      "id": "bottle",
+      "label": "漂流瓶",
+      "file": "sfx_bottle.wav",
+      "dur": 0.9,
+      "tone": "mallet",
+      "notes": [
+        "D5",
+        "F#5"
+      ],
+      "peakDbfs": -20.02,
+      "rmsDbfs": -36.42
+    },
+    {
+      "id": "unlock",
+      "label": "解锁新道具",
+      "file": "sfx_unlock.wav",
+      "dur": 1.1,
+      "tone": "mallet",
+      "notes": [
+        "D5",
+        "F#5",
+        "A5",
+        "D5"
+      ],
+      "peakDbfs": -10.5,
+      "rmsDbfs": -25.87
+    },
+    {
+      "id": "season",
+      "label": "季节更替",
+      "file": "sfx_season.wav",
+      "dur": 2.4,
+      "tone": "pad",
+      "notes": [
+        "D4",
+        "A4"
+      ],
+      "peakDbfs": -20.2,
+      "rmsDbfs": -31.31
+    },
+    {
+      "id": "combo",
+      "label": "连击达成",
+      "file": "sfx_combo.wav",
+      "dur": 0.6,
+      "tone": "mallet",
+      "notes": [
+        "E5",
+        "A5",
+        "B5"
+      ],
+      "peakDbfs": -13.55,
+      "rmsDbfs": -27.98
+    },
+    {
+      "id": "ui",
+      "label": "界面轻触",
+      "file": "sfx_ui.wav",
+      "dur": 0.05,
+      "tone": "noise",
+      "notes": [],
+      "peakDbfs": -22.06,
+      "rmsDbfs": -42.73
+    }
+  ]
+}

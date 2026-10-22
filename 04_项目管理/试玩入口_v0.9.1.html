@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>《定格瞬间》v0.9.1 · 分档试玩入口</title>
+<style>
+  :root { --bg:#0B1424; --card:#141F33; --line:#2A3A52; --text:#E8F1FF; --sub:#8FA3BF; --mint:#2BFFB0; --gold:#FFD24D; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px 20px 60px; background: var(--bg); color: var(--text);
+         font: 16px/1.6 system-ui, "Microsoft YaHei", "PingFang SC", sans-serif; }
+  h1 { margin: 0 0 6px; font-size: 26px; }
+  p.note { color: var(--sub); margin: 0 0 22px; font-size: 14px; }
+  .warn { background: rgba(255,210,77,.10); border: 1px solid rgba(255,210,77,.35);
+          border-radius: 10px; padding: 10px 14px; margin: 0 0 22px; color: #E8D9A8; font-size: 14px; }
+  h2 { margin: 26px 0 10px; font-size: 18px; color: var(--mint); }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }
+  th { color: var(--sub); font-weight: 600; font-size: 13px; }
+  td.lvl { font-variant-numeric: tabular-nums; color: var(--gold); font-weight: 700; white-space: nowrap; }
+  td.name { white-space: nowrap; }
+  td.desc { color: var(--sub); font-size: 14px; }
+  a.go { display: inline-block; padding: 7px 14px; border-radius: 999px; background: rgba(43,255,176,.12);
+         border: 1px solid rgba(43,255,176,.5); color: var(--mint); text-decoration: none; font-weight: 700; white-space: nowrap; }
+  a.go:hover { background: rgba(43,255,176,.22); }
+  a.plain { color: var(--sub); }
+  footer { margin-top: 28px; color: var(--sub); font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>《定格瞬间》v0.9.1 · 分档试玩</h1>
+  <p class="note">构建：506046 B · sha <code>B3B90AC2…</code> · 2026-10-20 22:07（D-109 高 DPI 热修 + <code>?start=N</code>）</p>
+  <div class="warn">
+    这些链接用 <code>?start=N</code> 直接从第 N 关开始，<b>时钟正常走</b>（不是截图冻结）。<br>
+    试玩会真实写入本地进度（通关会推进存档）；想保持干净存档，请用<b>无痕窗口</b>打开本页。<br>
+    若画面还是旧版：Ctrl+F5 强制刷新，或关掉标签页重开。
+  </div>
+
+  <h2>闯关挑战 · 难度阶梯（每关 15 秒）</h2>
+  <table>
+    <thead><tr><th>关</th><th>名字</th><th>难度点</th><th>试玩</th></tr></thead>
+    <tbody>
+      <tr><td class="lvl">L1</td><td class="name">第一次定格</td><td class="desc">慢转一圈（3.78s）· 建立因果</td><td><a class="go" href="../原型/dista_prototype.html?start=1&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L3</td><td class="name">致敬原片</td><td class="desc">小汽车 · 2 圈 / 2.4s</td><td><a class="go" href="../原型/dista_prototype.html?start=3&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L5</td><td class="name">忽然变速</td><td class="desc">两档变速（切换点 40%）</td><td><a class="go" href="../原型/dista_prototype.html?start=5&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L8</td><td class="name">扳手不好惹</td><td class="desc">细长 + 两头不对称 · 偏敏感</td><td><a class="go" href="../原型/dista_prototype.html?start=8&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L10</td><td class="name">双轮廓</td><td class="desc">两个物体同帧卡位（1.64s/2 圈）</td><td><a class="go" href="../原型/dista_prototype.html?start=10&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L11</td><td class="name">锤子落点</td><td class="desc">3 圈慢速 · 靠节奏不靠反应</td><td><a class="go" href="../原型/dista_prototype.html?start=11&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L13</td><td class="name">马桶起飞</td><td class="desc">3 圈 + 微扰上限 0.10</td><td><a class="go" href="../原型/dista_prototype.html?start=13&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L15</td><td class="name">最后一下</td><td class="desc">季 1 终局：双轮廓 + 3 圈</td><td><a class="go" href="../原型/dista_prototype.html?start=15&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L20</td><td class="name">第 2 季 · 05</td><td class="desc">季 2 中段 · 双物体 + 2.0s/2 圈</td><td><a class="go" href="../原型/dista_prototype.html?start=20&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L31</td><td class="name">第 3 季 · 01</td><td class="desc">季 3 首关 · 1.9s/2 圈</td><td><a class="go" href="../原型/dista_prototype.html?start=31&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L40</td><td class="name">第 3 季 · 10</td><td class="desc">季 3 双物体 · 1.59s/2 圈</td><td><a class="go" href="../原型/dista_prototype.html?start=40&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L46</td><td class="name">第 4 季 · 01</td><td class="desc">季 4 最快 · 3 圈 / 1.7s</td><td><a class="go" href="../原型/dista_prototype.html?start=46&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L50</td><td class="name">第 4 季 · 05</td><td class="desc">双物体错拍 · <b>要按两次</b>（phase2=0.38）</td><td><a class="go" href="../原型/dista_prototype.html?start=50&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L55</td><td class="name">第 4 季 · 10</td><td class="desc">双物体 · 3 圈 / 1.41s</td><td><a class="go" href="../原型/dista_prototype.html?start=55&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">L60</td><td class="name">第 4 季 · 15</td><td class="desc">终局 · 3 圈 / 1.2s + 错拍 0.40</td><td><a class="go" href="../原型/dista_prototype.html?start=60&scene=night_station">开始</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>助眠放松（无倒计时）</h2>
+  <table>
+    <thead><tr><th>关</th><th>难度点</th><th>试玩</th></tr></thead>
+    <tbody>
+      <tr><td class="lvl">R1</td><td class="desc">最慢 · 5.2s/圈 · 适合先看手感</td><td><a class="go" href="../原型/dista_prototype.html?mode=relax&start=1&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">R20</td><td class="desc">密集中段 · 双物体</td><td><a class="go" href="../原型/dista_prototype.html?mode=relax&start=20&scene=night_station">开始</a></td></tr>
+      <tr><td class="lvl">R60</td><td class="desc">季末 · 双物体</td><td><a class="go" href="../原型/dista_prototype.html?mode=relax&start=60&scene=night_station">开始</a></td></tr>
+    </tbody>
+  </table>
+
+  <footer>
+    返回 <a class="plain" href="../原型/dista_prototype.html?screen=home&scene=night_station">首页</a> ·
+    图鉴 <a class="plain" href="../原型/dista_prototype.html?screen=gallery&progress=12&god=3&scene=night_station">入口</a> ·
+    完整验收：<code>04_项目管理/验收记录_v0.9.1.md</code>
+  </footer>
+</body>
+</html>

@@ -17,7 +17,7 @@ import { polyArea, polyBounds, polyCentroid } from './Geometry';
 export const SHAPE_LIMITS = {
     /** 12 边形以下看起来像「用直尺画的圈」，48 以上判定开销翻倍而肉眼无差别 */
     minVerts: 12,
-    maxVerts: 48,
+    maxVerts: 80,          // D-119：44→80 实测 k 只变 0.1–0.3%（窗口 ≤0.6ms），视觉更顺；上限仍由自交检查兜底
     /** 归一化长边目标值与容差（±2%） */
     longSide: 1,
     longSideTol: 0.02,
@@ -136,6 +136,32 @@ function validateOne(shape: ShapeDef, index: number, seen: Set<string>, errors: 
         if (q && Math.abs(p.x - q.x) < 1e-9 && Math.abs(p.y - q.y) < 1e-9) {
             errors.push(`${tag}: pts[${i}] 与下一点重合`);
             return;
+        }
+    }
+    /* D-124：附件轮廓校验（只画不判，但仍要求是合法简单多边形） */
+    if (shape.attach !== undefined) {
+        if (!Array.isArray(shape.attach)) errors.push(`${tag}: attach 必须是数组`);
+        else {
+            for (let ai = 0; ai < shape.attach.length; ai++) {
+                const a = shape.attach[ai];
+                const at = `${tag} attach[${ai}]`;
+                if (!a || !Array.isArray(a.pts)) { errors.push(`${at}: pts 必须是数组`); continue; }
+                if (a.pts.length < 3 || a.pts.length > SHAPE_LIMITS.maxVerts) {
+                    errors.push(`${at}: 顶点数 ${a.pts.length} 超出 3–${SHAPE_LIMITS.maxVerts}`);
+                    continue;
+                }
+                let bad = false;
+                for (const q of a.pts) {
+                    if (!q || !isFinite(q.x) || !isFinite(q.y)) { errors.push(`${at}: 坐标非有限数`); bad = true; break; }
+                }
+                if (bad) continue;
+                if (typeof a.fill !== 'string' || !HEX6.test(a.fill)) errors.push(`${at}: fill 必须是 #RRGGBB`);
+                if (a.stroke !== undefined && (typeof a.stroke !== 'string' || !HEX6.test(a.stroke))) {
+                    errors.push(`${at}: stroke 必须是 #RRGGBB`);
+                }
+                if (!isSimplePolygon(a.pts)) errors.push(`${at}: 自交（必须简单多边形）`);
+                if (!(polyArea(a.pts) > SHAPE_LIMITS.minUnitArea)) errors.push(`${at}: 面积过小（退化）`);
+            }
         }
     }
     if (pts.length < 3) return;

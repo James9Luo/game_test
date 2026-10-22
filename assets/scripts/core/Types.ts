@@ -32,6 +32,21 @@ export interface ShapeDef {
     pts: Vec2[];
     /** 仅用于绘制的装饰（不参与判定） */
     details?: ShapeDetail[];
+    /**
+     * 附件轮廓（D-124）：分离部件（龙虾钳、卫星太阳能板、掌机按钮）画在这里。
+     * **不参与判定**——判定只用 pts 主体；渲染时与主体同变换（缩放/旋转）。
+     * 坐标口径与 pts 相同：长边 = 1、形心≈原点（附件可以离原点很远，只要落在主体尺寸范围内）。
+     */
+    attach?: ShapeAttachment[];
+}
+
+export interface ShapeAttachment {
+    /** 附件轮廓（简单多边形，3–80 顶点） */
+    pts: Vec2[];
+    /** 填充色 #RRGGBB */
+    fill: string;
+    /** 描边色 #RRGGBB（缺省用主体 stroke） */
+    stroke?: string;
 }
 
 export type ShapeDetail =

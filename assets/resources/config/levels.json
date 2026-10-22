@@ -13,7 +13,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 3776,
+      "cycleMs": 3235,
       "turns": 1,
       "jitter": 0,
       "toleranceDeg": 15,
@@ -36,28 +36,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        286,
-        286
+        333.8,
+        333.8
       ],
       "angSpeed": [
-        95.3,
-        95.3
+        111.3,
+        111.3
       ],
-      "tolDegActual": 13.3,
-      "tolPxActual": 40,
+      "tolDegActual": 15.6,
+      "tolPxActual": 46.6,
       "hitWindow": {
         "earlyMs": -140.4,
-        "lateMs": 140
+        "lateMs": 140.8
       },
       "godWindow": {
         "earlyMs": -17,
         "lateMs": 17
       },
       "starWindow": {
-        "earlyMs": -23.9,
-        "lateMs": 23.9
+        "earlyMs": -23.7,
+        "lateMs": 23.7
       },
-      "windowDriftPct": 0.3
+      "windowDriftPct": 0.6
     },
     {
       "id": 2,
@@ -67,7 +67,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 3453,
+      "cycleMs": 2959,
       "turns": 1,
       "jitter": 0,
       "toleranceDeg": 15,
@@ -90,28 +90,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        312.8,
-        312.8
+        365,
+        365
       ],
       "angSpeed": [
-        104.3,
-        104.3
+        121.7,
+        121.7
       ],
-      "tolDegActual": 13.3,
-      "tolPxActual": 40,
+      "tolDegActual": 15.6,
+      "tolPxActual": 46.6,
       "hitWindow": {
-        "earlyMs": -128.4,
-        "lateMs": 128
+        "earlyMs": -128.5,
+        "lateMs": 128.8
       },
       "godWindow": {
-        "earlyMs": -15.6,
-        "lateMs": 15.6
+        "earlyMs": -15.5,
+        "lateMs": 15.5
       },
       "starWindow": {
-        "earlyMs": -21.9,
-        "lateMs": 21.9
+        "earlyMs": -21.7,
+        "lateMs": 21.7
       },
-      "windowDriftPct": 0.3
+      "windowDriftPct": 0.6
     },
     {
       "id": 3,
@@ -121,7 +121,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 2398,
+      "cycleMs": 2349,
       "turns": 2,
       "jitter": 0,
       "toleranceDeg": 12,
@@ -144,28 +144,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        450.4,
-        450.4
+        459.8,
+        459.8
       ],
       "angSpeed": [
-        300.3,
-        300.3
+        306.5,
+        306.5
       ],
-      "tolDegActual": 33.6,
-      "tolPxActual": 50.4,
+      "tolDegActual": 32,
+      "tolPxActual": 47.9,
       "hitWindow": {
-        "earlyMs": -122.2,
-        "lateMs": 112
+        "earlyMs": -120,
+        "lateMs": 104.3
       },
       "godWindow": {
-        "earlyMs": -10.5,
-        "lateMs": 10.5
+        "earlyMs": -11.5,
+        "lateMs": 11.5
       },
       "starWindow": {
-        "earlyMs": -14.9,
-        "lateMs": 15.2
+        "earlyMs": -16.3,
+        "lateMs": 16.3
       },
-      "windowDriftPct": 9.1
+      "windowDriftPct": 7.2
     },
     {
       "id": 4,
@@ -175,7 +175,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 2330,
+      "cycleMs": 2276,
       "turns": 2,
       "jitter": 0,
       "toleranceDeg": 12,
@@ -198,28 +198,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        463.5,
-        463.5
+        474.5,
+        474.5
       ],
       "angSpeed": [
-        309,
-        309
+        316.3,
+        316.3
       ],
-      "tolDegActual": 31.5,
-      "tolPxActual": 47.3,
+      "tolDegActual": 30.2,
+      "tolPxActual": 45.3,
       "hitWindow": {
-        "earlyMs": -110.8,
-        "lateMs": 102
+        "earlyMs": -108.8,
+        "lateMs": 95.5
       },
       "godWindow": {
-        "earlyMs": -10.2,
-        "lateMs": 10.2
+        "earlyMs": -11.1,
+        "lateMs": 11.1
       },
       "starWindow": {
-        "earlyMs": -12.5,
-        "lateMs": 12.5
+        "earlyMs": -13.6,
+        "lateMs": 13.3
       },
-      "windowDriftPct": 8.6
+      "windowDriftPct": 6.7
     },
     {
       "id": 5,
@@ -229,7 +229,7 @@
       "variant": "single",
       "motion": "组合",
       "path": "h_line_rl",
-      "cycleMs": 2694,
+      "cycleMs": 2259,
       "turns": 2,
       "jitter": 0,
       "toleranceDeg": 10,
@@ -252,28 +252,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        286.4,
-        477.3
+        341.5,
+        569.2
       ],
       "angSpeed": [
-        267.3,
-        267.3
+        318.7,
+        318.7
       ],
-      "tolDegActual": 24.6,
-      "tolPxActual": 43.9,
+      "tolDegActual": 29.3,
+      "tolPxActual": 52.3,
       "hitWindow": {
         "earlyMs": -92,
-        "lateMs": 92.3
+        "lateMs": 92
       },
       "godWindow": {
-        "earlyMs": -11.2,
-        "lateMs": 11.2
+        "earlyMs": -11.8,
+        "lateMs": 11.8
       },
       "starWindow": {
-        "earlyMs": -13.5,
-        "lateMs": 13.5
+        "earlyMs": -14,
+        "lateMs": 14
       },
-      "windowDriftPct": 0.3
+      "windowDriftPct": 0
     },
     {
       "id": 6,
@@ -283,7 +283,7 @@
       "variant": "single",
       "motion": "抛物",
       "path": "diag_dl",
-      "cycleMs": 2858,
+      "cycleMs": 2068,
       "turns": 2,
       "jitter": 0.04,
       "toleranceDeg": 10,
@@ -306,28 +306,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        295.2,
-        295.2
+        408,
+        408
       ],
       "angSpeed": [
-        251.9,
-        251.9
+        348.2,
+        348.2
       ],
-      "tolDegActual": 20.9,
-      "tolPxActual": 24.5,
+      "tolDegActual": 27.6,
+      "tolPxActual": 32.5,
       "hitWindow": {
-        "earlyMs": -82,
-        "lateMs": 88.2
+        "earlyMs": -82.8,
+        "lateMs": 78.3
       },
       "godWindow": {
-        "earlyMs": -10.3,
-        "lateMs": 10.3
+        "earlyMs": -10,
+        "lateMs": 10
       },
       "starWindow": {
-        "earlyMs": -12.4,
-        "lateMs": 12.4
+        "earlyMs": -12,
+        "lateMs": 12
       },
-      "windowDriftPct": 7.6
+      "windowDriftPct": 4.5
     },
     {
       "id": 7,
@@ -337,7 +337,7 @@
       "variant": "single",
       "motion": "抛物",
       "path": "arc_up",
-      "cycleMs": 3909,
+      "cycleMs": 2777,
       "turns": 2,
       "jitter": 0.04,
       "toleranceDeg": 8,
@@ -360,28 +360,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        293.7,
-        293.7
+        413.5,
+        413.5
       ],
       "angSpeed": [
-        184.2,
-        184.2
+        259.3,
+        259.3
       ],
-      "tolDegActual": 13.8,
-      "tolPxActual": 21.9,
+      "tolDegActual": 19.1,
+      "tolPxActual": 30.2,
       "hitWindow": {
-        "earlyMs": -74,
-        "lateMs": 74
+        "earlyMs": -72.7,
+        "lateMs": 72.7
       },
       "godWindow": {
-        "earlyMs": -7.5,
-        "lateMs": 7.5
+        "earlyMs": -5,
+        "lateMs": 5
       },
       "starWindow": {
-        "earlyMs": -9,
-        "lateMs": 9
+        "earlyMs": -6.4,
+        "lateMs": 6.4
       },
-      "windowDriftPct": 0
+      "windowDriftPct": 1.8
     },
     {
       "id": 8,
@@ -391,7 +391,7 @@
       "variant": "single",
       "motion": "抛物",
       "path": "diag_ur",
-      "cycleMs": 3268,
+      "cycleMs": 3806,
       "turns": 2,
       "jitter": 0.05,
       "toleranceDeg": 8,
@@ -414,28 +414,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        258.2,
-        258.2
+        221.7,
+        221.7
       ],
       "angSpeed": [
-        220.3,
-        220.3
+        189.2,
+        189.2
       ],
-      "tolDegActual": 14.8,
-      "tolPxActual": 17.3,
+      "tolDegActual": 12.4,
+      "tolPxActual": 14,
       "hitWindow": {
-        "earlyMs": -68,
-        "lateMs": 66
+        "earlyMs": -64.5,
+        "lateMs": 64.5
       },
       "godWindow": {
-        "earlyMs": -7.1,
-        "lateMs": 7.1
+        "earlyMs": -7.8,
+        "lateMs": 7.8
       },
       "starWindow": {
-        "earlyMs": -8.6,
-        "lateMs": 8.3
+        "earlyMs": -9.6,
+        "lateMs": 9.6
       },
-      "windowDriftPct": 3
+      "windowDriftPct": 2.2
     },
     {
       "id": 9,
@@ -445,7 +445,7 @@
       "variant": "single",
       "motion": "弹跳",
       "path": "bounce_floor",
-      "cycleMs": 5107,
+      "cycleMs": 2908,
       "turns": 2,
       "jitter": 0.06,
       "toleranceDeg": 8,
@@ -468,28 +468,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        398.4,
-        398.4
+        699.6,
+        699.6
       ],
       "angSpeed": [
-        141,
-        141
+        247.6,
+        247.6
       ],
-      "tolDegActual": 8.6,
-      "tolPxActual": 24.4,
+      "tolDegActual": 14.1,
+      "tolPxActual": 40.6,
       "hitWindow": {
-        "earlyMs": -60.3,
-        "lateMs": 62.4
+        "earlyMs": -56.1,
+        "lateMs": 60.7
       },
       "godWindow": {
-        "earlyMs": -8.3,
-        "lateMs": 8
+        "earlyMs": -7.3,
+        "lateMs": 7.3
       },
       "starWindow": {
-        "earlyMs": -10.1,
-        "lateMs": 9.8
+        "earlyMs": -9.1,
+        "lateMs": 8.7
       },
-      "windowDriftPct": 4.1
+      "windowDriftPct": 6.5
     },
     {
       "id": 10,
@@ -499,7 +499,7 @@
       "variant": "dual",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 1636,
+      "cycleMs": 1788,
       "turns": 2,
       "jitter": 0.03,
       "toleranceDeg": 5,
@@ -523,28 +523,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        660.1,
-        660.1
+        604,
+        604
       ],
       "angSpeed": [
-        440.1,
-        440.1
+        402.7,
+        402.7
       ],
-      "tolDegActual": 24.4,
-      "tolPxActual": 36.6,
+      "tolDegActual": 21.6,
+      "tolPxActual": 32.5,
       "hitWindow": {
-        "earlyMs": -55,
-        "lateMs": 59.7
+        "earlyMs": -55.3,
+        "lateMs": 53.2
       },
       "godWindow": {
-        "earlyMs": -5.9,
-        "lateMs": 5.9
+        "earlyMs": -6.9,
+        "lateMs": 6.9
       },
       "starWindow": {
-        "earlyMs": -7.1,
-        "lateMs": 7.1
+        "earlyMs": -8.2,
+        "lateMs": 8.2
       },
-      "windowDriftPct": 8.6
+      "windowDriftPct": 3.3
     },
     {
       "id": 11,
@@ -554,7 +554,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 4153,
+      "cycleMs": 4408,
       "turns": 3,
       "jitter": 0.08,
       "toleranceDeg": 5,
@@ -577,28 +577,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        260.1,
-        260.1
+        245,
+        245
       ],
       "angSpeed": [
-        260.1,
-        260.1
+        245,
+        245
       ],
-      "tolDegActual": 13.3,
-      "tolPxActual": 13.3,
+      "tolDegActual": 11.9,
+      "tolPxActual": 11.4,
       "hitWindow": {
-        "earlyMs": -50,
-        "lateMs": 51.5
+        "earlyMs": -47.3,
+        "lateMs": 49.1
       },
       "godWindow": {
-        "earlyMs": -7.4,
-        "lateMs": 7.4
+        "earlyMs": -6.8,
+        "lateMs": 7.1
       },
       "starWindow": {
-        "earlyMs": -8.9,
-        "lateMs": 8.9
+        "earlyMs": -8.4,
+        "lateMs": 8.4
       },
-      "windowDriftPct": 3
+      "windowDriftPct": 5.4
     },
     {
       "id": 12,
@@ -608,7 +608,7 @@
       "variant": "single",
       "motion": "抛物",
       "path": "diag_dl",
-      "cycleMs": 3138,
+      "cycleMs": 2658,
       "turns": 3,
       "jitter": 0.08,
       "toleranceDeg": 5,
@@ -631,28 +631,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        268.9,
-        268.9
+        317.5,
+        317.5
       ],
       "angSpeed": [
-        344.2,
-        344.2
+        406.3,
+        406.3
       ],
-      "tolDegActual": 16.2,
-      "tolPxActual": 12.7,
+      "tolDegActual": 17.1,
+      "tolPxActual": 13.4,
       "hitWindow": {
-        "earlyMs": -46,
-        "lateMs": 47.1
+        "earlyMs": -41.2,
+        "lateMs": 47.5
       },
       "godWindow": {
-        "earlyMs": -6,
-        "lateMs": 6
+        "earlyMs": -4.4,
+        "lateMs": 4.4
       },
       "starWindow": {
-        "earlyMs": -7.1,
-        "lateMs": 7.1
+        "earlyMs": -5.4,
+        "lateMs": 5.4
       },
-      "windowDriftPct": 2.5
+      "windowDriftPct": 10.5
     },
     {
       "id": 13,
@@ -662,7 +662,7 @@
       "variant": "single",
       "motion": "抛物",
       "path": "arc_down",
-      "cycleMs": 2881,
+      "cycleMs": 1820,
       "turns": 3,
       "jitter": 0.1,
       "toleranceDeg": 5,
@@ -685,28 +685,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        398.6,
-        398.6
+        630.9,
+        630.9
       ],
       "angSpeed": [
-        374.9,
-        374.9
+        593.4,
+        593.4
       ],
-      "tolDegActual": 16.2,
-      "tolPxActual": 17.2,
+      "tolDegActual": 25,
+      "tolPxActual": 26.5,
       "hitWindow": {
-        "earlyMs": -44.7,
-        "lateMs": 42
+        "earlyMs": -41,
+        "lateMs": 42.7
       },
       "godWindow": {
-        "earlyMs": -6.5,
-        "lateMs": 6.1
+        "earlyMs": -5.6,
+        "lateMs": 6
       },
       "starWindow": {
-        "earlyMs": -7.5,
-        "lateMs": 7.5
+        "earlyMs": -6.9,
+        "lateMs": 7.3
       },
-      "windowDriftPct": 6.5
+      "windowDriftPct": 2.4
     },
     {
       "id": 14,
@@ -716,7 +716,7 @@
       "variant": "single",
       "motion": "组合",
       "path": "bounce_floor",
-      "cycleMs": 4135,
+      "cycleMs": 2606,
       "turns": 3,
       "jitter": 0.12,
       "toleranceDeg": 4,
@@ -739,28 +739,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        388.4,
-        647.4
+        616.3,
+        1027.2
       ],
       "angSpeed": [
-        261.2,
-        261.2
+        414.4,
+        414.4
       ],
-      "tolDegActual": 10.3,
-      "tolPxActual": 15.3,
+      "tolDegActual": 15.9,
+      "tolPxActual": 24.3,
       "hitWindow": {
-        "earlyMs": -38,
-        "lateMs": 39
+        "earlyMs": -37.2,
+        "lateMs": 39.3
       },
       "godWindow": {
-        "earlyMs": -5.8,
-        "lateMs": 5.8
+        "earlyMs": -5.5,
+        "lateMs": 5.5
       },
       "starWindow": {
-        "earlyMs": -7.3,
-        "lateMs": 7.3
+        "earlyMs": -6.8,
+        "lateMs": 6.8
       },
-      "windowDriftPct": 2.6
+      "windowDriftPct": 3.4
     },
     {
       "id": 15,
@@ -770,7 +770,7 @@
       "variant": "dual",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 3586,
+      "cycleMs": 3729,
       "turns": 3,
       "jitter": 0.1,
       "toleranceDeg": 3,
@@ -794,28 +794,28 @@
       "inertiaHz": 1,
       "inertiaPhase": 0,
       "linSpeed": [
-        301.2,
-        301.2
+        289.6,
+        289.6
       ],
       "angSpeed": [
-        301.2,
-        301.2
+        289.6,
+        289.6
       ],
-      "tolDegActual": 10.5,
-      "tolPxActual": 10.5,
+      "tolDegActual": 9.6,
+      "tolPxActual": 9.8,
       "hitWindow": {
-        "earlyMs": -34,
-        "lateMs": 34
+        "earlyMs": -32.7,
+        "lateMs": 32.3
       },
       "godWindow": {
-        "earlyMs": -5.1,
-        "lateMs": 5.1
+        "earlyMs": -5.7,
+        "lateMs": 5.7
       },
       "starWindow": {
-        "earlyMs": -5.9,
-        "lateMs": 5.9
+        "earlyMs": -7.1,
+        "lateMs": 7.1
       },
-      "windowDriftPct": 0
+      "windowDriftPct": 5.1
     },
     {
       "id": 16,
@@ -855,19 +855,19 @@
         327.3,
         327.3
       ],
-      "tolDegActual": 47.5,
-      "tolPxActual": 72.1,
+      "tolDegActual": 52.1,
+      "tolPxActual": 78.8,
       "hitWindow": {
-        "earlyMs": -148.1,
-        "lateMs": 143.1
+        "earlyMs": -161.6,
+        "lateMs": 156.8
       },
       "godWindow": {
-        "earlyMs": -13.2,
-        "lateMs": 13.2
+        "earlyMs": -14.5,
+        "lateMs": 14.3
       },
       "starWindow": {
-        "earlyMs": -16.1,
-        "lateMs": 16.1
+        "earlyMs": -17.5,
+        "lateMs": 17.5
       },
       "windowDriftPct": null
     },
@@ -909,19 +909,19 @@
         334.9,
         334.9
       ],
-      "tolDegActual": 34.9,
-      "tolPxActual": 52.7,
+      "tolDegActual": 42.2,
+      "tolPxActual": 63.3,
       "hitWindow": {
-        "earlyMs": -109.9,
-        "lateMs": 102.6
+        "earlyMs": -126.4,
+        "lateMs": 124.3
       },
       "godWindow": {
-        "earlyMs": -11.1,
-        "lateMs": 11.1
-      },
-      "starWindow": {
         "earlyMs": -13.4,
         "lateMs": 13.4
+      },
+      "starWindow": {
+        "earlyMs": -16,
+        "lateMs": 16
       },
       "windowDriftPct": null
     },
@@ -963,19 +963,19 @@
         342.9,
         342.9
       ],
-      "tolDegActual": 33.5,
-      "tolPxActual": 50.7,
+      "tolDegActual": 52.6,
+      "tolPxActual": 79.9,
       "hitWindow": {
-        "earlyMs": -100.2,
-        "lateMs": 96.4
+        "earlyMs": -157.8,
+        "lateMs": 151.2
       },
       "godWindow": {
-        "earlyMs": -5.3,
-        "lateMs": 5.3
+        "earlyMs": -18.2,
+        "lateMs": 18.4
       },
       "starWindow": {
-        "earlyMs": -6.6,
-        "lateMs": 6.6
+        "earlyMs": -22,
+        "lateMs": 22.2
       },
       "windowDriftPct": null
     },
@@ -1017,19 +1017,19 @@
         342.9,
         342.9
       ],
-      "tolDegActual": 34.1,
-      "tolPxActual": 51.9,
+      "tolDegActual": 46.8,
+      "tolPxActual": 70.9,
       "hitWindow": {
-        "earlyMs": -105.3,
-        "lateMs": 98
+        "earlyMs": -141.4,
+        "lateMs": 134.6
       },
       "godWindow": {
-        "earlyMs": -8.8,
-        "lateMs": 8.8
+        "earlyMs": -13.1,
+        "lateMs": 13.1
       },
       "starWindow": {
-        "earlyMs": -10.6,
-        "lateMs": 10.6
+        "earlyMs": -15.9,
+        "lateMs": 15.9
       },
       "windowDriftPct": null
     },
@@ -1072,19 +1072,19 @@
         360,
         360
       ],
-      "tolDegActual": 13.9,
-      "tolPxActual": 20.9,
+      "tolDegActual": 29,
+      "tolPxActual": 44,
       "hitWindow": {
-        "earlyMs": -39,
-        "lateMs": 38
+        "earlyMs": -82.7,
+        "lateMs": 79.4
       },
       "godWindow": {
-        "earlyMs": -4.3,
-        "lateMs": 4.3
+        "earlyMs": -9.1,
+        "lateMs": 9.1
       },
       "starWindow": {
-        "earlyMs": -5.3,
-        "lateMs": 5.3
+        "earlyMs": -11.1,
+        "lateMs": 11.1
       },
       "windowDriftPct": null
     },
@@ -1096,7 +1096,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 1950,
+      "cycleMs": 1860,
       "turns": 2,
       "jitter": 0.05,
       "toleranceDeg": 5,
@@ -1119,26 +1119,26 @@
       "inertiaHz": 1.1,
       "inertiaPhase": 0,
       "linSpeed": [
-        509.5,
-        598.2
+        533.6,
+        626.4
       ],
       "angSpeed": [
-        369.2,
-        369.2
+        387.1,
+        387.1
       ],
-      "tolDegActual": 31.3,
-      "tolPxActual": 47.6,
+      "tolDegActual": 30.2,
+      "tolPxActual": 44.8,
       "hitWindow": {
-        "earlyMs": -92.8,
-        "lateMs": 83.5
+        "earlyMs": -89,
+        "lateMs": 76.9
       },
       "godWindow": {
-        "earlyMs": -8.4,
-        "lateMs": 8.4
+        "earlyMs": -8.9,
+        "lateMs": 8.9
       },
       "starWindow": {
-        "earlyMs": -10.3,
-        "lateMs": 10.3
+        "earlyMs": -10.7,
+        "lateMs": 10.7
       },
       "windowDriftPct": null
     },
@@ -1180,19 +1180,19 @@
         369.2,
         369.2
       ],
-      "tolDegActual": 30.4,
-      "tolPxActual": 46.5,
+      "tolDegActual": 23.7,
+      "tolPxActual": 35.3,
       "hitWindow": {
-        "earlyMs": -88.2,
-        "lateMs": 81.1
+        "earlyMs": -65.2,
+        "lateMs": 63.3
       },
       "godWindow": {
-        "earlyMs": -6.6,
-        "lateMs": 6.6
+        "earlyMs": -5.6,
+        "lateMs": 5.6
       },
       "starWindow": {
-        "earlyMs": -8,
-        "lateMs": 8
+        "earlyMs": -7,
+        "lateMs": 7
       },
       "windowDriftPct": null
     },
@@ -1234,19 +1234,19 @@
         389.2,
         389.2
       ],
-      "tolDegActual": 29.9,
-      "tolPxActual": 44.7,
+      "tolDegActual": 41.4,
+      "tolPxActual": 62.8,
       "hitWindow": {
-        "earlyMs": -78.7,
-        "lateMs": 75.6
+        "earlyMs": -112.1,
+        "lateMs": 105
       },
       "godWindow": {
-        "earlyMs": -4.9,
-        "lateMs": 4.9
+        "earlyMs": -6.7,
+        "lateMs": 6.7
       },
       "starWindow": {
-        "earlyMs": -6.2,
-        "lateMs": 6.2
+        "earlyMs": -8,
+        "lateMs": 8
       },
       "windowDriftPct": null
     },
@@ -1288,15 +1288,15 @@
         400,
         400
       ],
-      "tolDegActual": 29.3,
-      "tolPxActual": 33,
+      "tolDegActual": 31.4,
+      "tolPxActual": 35.3,
       "hitWindow": {
-        "earlyMs": -72.3,
-        "lateMs": 82.2
+        "earlyMs": -77.5,
+        "lateMs": 105.2
       },
       "godWindow": {
-        "earlyMs": -7.4,
-        "lateMs": 7.4
+        "earlyMs": -7.8,
+        "lateMs": 7.8
       },
       "starWindow": {
         "earlyMs": -9.1,
@@ -1312,7 +1312,7 @@
       "variant": "dual",
       "motion": "旋转",
       "path": "h_line",
-      "cycleMs": 1800,
+      "cycleMs": 2318,
       "turns": 2,
       "jitter": 0.05,
       "toleranceDeg": 5,
@@ -1336,26 +1336,26 @@
       "inertiaHz": 0.7,
       "inertiaPhase": 0,
       "linSpeed": [
-        528,
-        672
+        404.3,
+        514.6
       ],
       "angSpeed": [
-        400,
-        400
+        310.6,
+        310.6
       ],
-      "tolDegActual": 18.3,
-      "tolPxActual": 27.1,
+      "tolDegActual": 18.5,
+      "tolPxActual": 30.5,
       "hitWindow": {
-        "earlyMs": -45.9,
-        "lateMs": 45
+        "earlyMs": -61,
+        "lateMs": 58.8
       },
       "godWindow": {
-        "earlyMs": -6.1,
-        "lateMs": 6.1
+        "earlyMs": -8.1,
+        "lateMs": 8.1
       },
       "starWindow": {
-        "earlyMs": -7.4,
-        "lateMs": 7.8
+        "earlyMs": -9.8,
+        "lateMs": 9.8
       },
       "windowDriftPct": null
     },
@@ -1367,7 +1367,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "diag_dl",
-      "cycleMs": 1700,
+      "cycleMs": 1285,
       "turns": 2,
       "jitter": 0.05,
       "toleranceDeg": 5,
@@ -1390,26 +1390,26 @@
       "inertiaHz": 0.9,
       "inertiaPhase": 0,
       "linSpeed": [
-        436.8,
-        555.9
+        563.6,
+        717.4
       ],
       "angSpeed": [
-        423.5,
-        423.5
+        560.3,
+        560.3
       ],
-      "tolDegActual": 29.5,
-      "tolPxActual": 35.3,
+      "tolDegActual": 38.6,
+      "tolPxActual": 39.2,
       "hitWindow": {
-        "earlyMs": -73.6,
-        "lateMs": 68.7
+        "earlyMs": -71.4,
+        "lateMs": 68
       },
       "godWindow": {
-        "earlyMs": -8.2,
-        "lateMs": 8.2
+        "earlyMs": -7.7,
+        "lateMs": 7.7
       },
       "starWindow": {
-        "earlyMs": -9.8,
-        "lateMs": 9.8
+        "earlyMs": -9.3,
+        "lateMs": 9.3
       },
       "windowDriftPct": null
     },
@@ -1451,19 +1451,19 @@
         436.4,
         436.4
       ],
-      "tolDegActual": 26.2,
-      "tolPxActual": 31.2,
+      "tolDegActual": 48.5,
+      "tolPxActual": 58.9,
       "hitWindow": {
-        "earlyMs": -65.9,
-        "lateMs": 59.1
+        "earlyMs": -140.1,
+        "lateMs": 109.5
       },
       "godWindow": {
-        "earlyMs": -6,
-        "lateMs": 6
+        "earlyMs": -9.9,
+        "lateMs": 10.3
       },
       "starWindow": {
-        "earlyMs": -7.1,
-        "lateMs": 7.1
+        "earlyMs": -12.3,
+        "lateMs": 12.7
       },
       "windowDriftPct": null
     },
@@ -1505,19 +1505,19 @@
         436.4,
         436.4
       ],
-      "tolDegActual": 26,
-      "tolPxActual": 30.7,
+      "tolDegActual": 24.2,
+      "tolPxActual": 28.8,
       "hitWindow": {
-        "earlyMs": -61.5,
-        "lateMs": 58.7
+        "earlyMs": -62.3,
+        "lateMs": 54.8
       },
       "godWindow": {
-        "earlyMs": -6.7,
-        "lateMs": 6.7
+        "earlyMs": -4.8,
+        "lateMs": 4.8
       },
       "starWindow": {
-        "earlyMs": -8.3,
-        "lateMs": 8.3
+        "earlyMs": -6,
+        "lateMs": 6
       },
       "windowDriftPct": null
     },
@@ -1529,7 +1529,7 @@
       "variant": "single",
       "motion": "旋转",
       "path": "diag_dl",
-      "cycleMs": 1550,
+      "cycleMs": 1121,
       "turns": 2,
       "jitter": 0.05,
       "toleranceDeg": 5,
@@ -1552,26 +1552,26 @@
       "inertiaHz": 0.9,
       "inertiaPhase": 0,
       "linSpeed": [
-        479.1,
-        609.7
+        645.8,
+        822
       ],
       "angSpeed": [
-        464.5,
-        464.5
+        642.3,
+        642.3
       ],
-      "tolDegActual": 22.5,
-      "tolPxActual": 25.5,
+      "tolDegActual": 31.3,
+      "tolPxActual": 31.6,
       "hitWindow": {
-        "earlyMs": -47.7,
-        "lateMs": 51.1
+        "earlyMs": -50.4,
+        "lateMs": 48
       },
       "godWindow": {
-        "earlyMs": -5.6,
-        "lateMs": 5.6
+        "earlyMs": -5.7,
+        "lateMs": 5.7
       },
       "starWindow": {
-        "earlyMs": -6.7,
-        "lateMs": 6.7
+        "earlyMs": -7,
+        "lateMs": 7
       },
       "windowDriftPct": null
     },
@@ -1615,9 +1615,9 @@
         480
       ],
       "tolDegActual": 13.5,
-      "tolPxActual": 20.3,
+      "tolPxActual": 20.5,
       "hitWindow": {
-        "earlyMs": -29.6,
+        "earlyMs": -28.9,
         "lateMs": 27.8
       },
       "godWindow": {
@@ -1668,19 +1668,19 @@
         378.9,
         378.9
       ],
-      "tolDegActual": 40.6,
-      "tolPxActual": 62.5,
+      "tolDegActual": 44.8,
+      "tolPxActual": 68.7,
       "hitWindow": {
-        "earlyMs": -109.2,
-        "lateMs": 104.6
+        "earlyMs": -120,
+        "lateMs": 115.5
       },
       "godWindow": {
-        "earlyMs": -11.3,
-        "lateMs": 11.3
+        "earlyMs": -12.2,
+        "lateMs": 12.2
       },
       "starWindow": {
-        "earlyMs": -13.6,
-        "lateMs": 13.6
+        "earlyMs": -14.9,
+        "lateMs": 14.9
       },
       "windowDriftPct": null
     },
@@ -1722,19 +1722,19 @@
         386.9,
         386.9
       ],
-      "tolDegActual": 30.2,
-      "tolPxActual": 46.4,
+      "tolDegActual": 36.2,
+      "tolPxActual": 54.9,
       "hitWindow": {
-        "earlyMs": -82.1,
-        "lateMs": 76.3
+        "earlyMs": -93.2,
+        "lateMs": 91.4
       },
       "godWindow": {
-        "earlyMs": -9.3,
-        "lateMs": 9.3
-      },
-      "starWindow": {
         "earlyMs": -11.1,
         "lateMs": 11.1
+      },
+      "starWindow": {
+        "earlyMs": -13.8,
+        "lateMs": 13.8
       },
       "windowDriftPct": null
     },
@@ -1776,19 +1776,19 @@
         395.4,
         395.4
       ],
-      "tolDegActual": 18.4,
-      "tolPxActual": 28.3,
+      "tolDegActual": 45.5,
+      "tolPxActual": 70.5,
       "hitWindow": {
-        "earlyMs": -46.4,
-        "lateMs": 45.6
+        "earlyMs": -119.8,
+        "lateMs": 112.4
       },
       "godWindow": {
-        "earlyMs": -4.3,
-        "lateMs": 4.3
+        "earlyMs": -15.2,
+        "lateMs": 15.6
       },
       "starWindow": {
-        "earlyMs": -5.2,
-        "lateMs": 5.2
+        "earlyMs": -18.7,
+        "lateMs": 18.7
       },
       "windowDriftPct": null
     },
@@ -1830,19 +1830,19 @@
         395.4,
         395.4
       ],
-      "tolDegActual": 30.4,
-      "tolPxActual": 44.3,
+      "tolDegActual": 40.7,
+      "tolPxActual": 60.9,
       "hitWindow": {
-        "earlyMs": -76,
-        "lateMs": 75.1
+        "earlyMs": -105.5,
+        "lateMs": 100.7
       },
       "godWindow": {
-        "earlyMs": -7.4,
-        "lateMs": 7.4
+        "earlyMs": -11.3,
+        "lateMs": 11.3
       },
       "starWindow": {
-        "earlyMs": -9.1,
-        "lateMs": 9.1
+        "earlyMs": -13.9,
+        "lateMs": 13.5
       },
       "windowDriftPct": null
     },
@@ -1885,19 +1885,19 @@
         413.1,
         413.1
       ],
-      "tolDegActual": 12.6,
-      "tolPxActual": 18.7,
+      "tolDegActual": 25.8,
+      "tolPxActual": 39,
       "hitWindow": {
-        "earlyMs": -30.3,
-        "lateMs": 29.9
+        "earlyMs": -64,
+        "lateMs": 61.1
       },
       "godWindow": {
-        "earlyMs": -3.7,
-        "lateMs": 3.7
+        "earlyMs": -7.9,
+        "lateMs": 7.9
       },
       "starWindow": {
-        "earlyMs": -4.6,
-        "lateMs": 4.6
+        "earlyMs": -9.6,
+        "lateMs": 9.6
       },
       "windowDriftPct": null
     },
@@ -1909,7 +1909,7 @@
       "variant": "single",
       "motion": "组合",
       "path": "diag_dl",
-      "cycleMs": 1704,
+      "cycleMs": 1330,
       "turns": 2,
       "jitter": 0.08,
       "toleranceDeg": 5,
@@ -1932,26 +1932,26 @@
       "inertiaHz": 1.1,
       "inertiaPhase": 0.25,
       "linSpeed": [
-        445.7,
-        544.7
+        560,
+        684.4
       ],
       "angSpeed": [
-        422.5,
-        422.5
+        541.4,
+        541.4
       ],
-      "tolDegActual": 26.9,
-      "tolPxActual": 31,
+      "tolDegActual": 26.7,
+      "tolPxActual": 27.6,
       "hitWindow": {
-        "earlyMs": -62.2,
-        "lateMs": 74.3
+        "earlyMs": -48.2,
+        "lateMs": 56.4
       },
       "godWindow": {
-        "earlyMs": -7.3,
-        "lateMs": 7.3
+        "earlyMs": -6.3,
+        "lateMs": 6.3
       },
       "starWindow": {
-        "earlyMs": -8.9,
-        "lateMs": 8.9
+        "earlyMs": -7.6,
+        "lateMs": 7.9
       },
       "windowDriftPct": null
     },
@@ -1993,11 +1993,11 @@
         422.5,
         422.5
       ],
-      "tolDegActual": 28.6,
-      "tolPxActual": 33.4,
+      "tolDegActual": 23.5,
+      "tolPxActual": 28.4,
       "hitWindow": {
-        "earlyMs": -66.2,
-        "lateMs": 71.9
+        "earlyMs": -56.1,
+        "lateMs": 54.4
       },
       "godWindow": {
         "earlyMs": -5.7,
@@ -2047,19 +2047,19 @@
         443.1,
         443.1
       ],
-      "tolDegActual": 24.1,
-      "tolPxActual": 28.4,
+      "tolDegActual": 37.6,
+      "tolPxActual": 43.8,
       "hitWindow": {
-        "earlyMs": -53.1,
-        "lateMs": 61.2
+        "earlyMs": -82.9,
+        "lateMs": 103.4
       },
       "godWindow": {
-        "earlyMs": -4.6,
-        "lateMs": 4.6
+        "earlyMs": -7,
+        "lateMs": 7
       },
       "starWindow": {
-        "earlyMs": -5.8,
-        "lateMs": 5.8
+        "earlyMs": -8.5,
+        "lateMs": 8.1
       },
       "windowDriftPct": null
     },
@@ -2101,19 +2101,19 @@
         454,
         454
       ],
-      "tolDegActual": 24.4,
-      "tolPxActual": 29,
+      "tolDegActual": 24.9,
+      "tolPxActual": 29.6,
       "hitWindow": {
-        "earlyMs": -52.6,
-        "lateMs": 59
+        "earlyMs": -53.7,
+        "lateMs": 62.4
       },
       "godWindow": {
         "earlyMs": -6.4,
         "lateMs": 6.4
       },
       "starWindow": {
-        "earlyMs": -7.6,
-        "lateMs": 7.6
+        "earlyMs": -7.9,
+        "lateMs": 7.9
       },
       "windowDriftPct": null
     },
@@ -2156,19 +2156,19 @@
         454,
         454
       ],
-      "tolDegActual": 11.9,
-      "tolPxActual": 18,
+      "tolDegActual": 20.7,
+      "tolPxActual": 32.1,
       "hitWindow": {
-        "earlyMs": -25.7,
-        "lateMs": 31.4
+        "earlyMs": -46.5,
+        "lateMs": 44.6
       },
       "godWindow": {
-        "earlyMs": -3.4,
-        "lateMs": 3.4
+        "earlyMs": -5.7,
+        "lateMs": 5.7
       },
       "starWindow": {
-        "earlyMs": -4.2,
-        "lateMs": 4.2
+        "earlyMs": -6.8,
+        "lateMs": 6.8
       },
       "windowDriftPct": null
     },
@@ -2180,7 +2180,7 @@
       "variant": "single",
       "motion": "组合",
       "path": "arc_up",
-      "cycleMs": 1507,
+      "cycleMs": 1032,
       "turns": 2,
       "jitter": 0.08,
       "toleranceDeg": 5,
@@ -2203,26 +2203,26 @@
       "inertiaHz": 0.9,
       "inertiaPhase": 0,
       "linSpeed": [
-        685.7,
-        838.1
+        982.2,
+        1200.5
       ],
       "angSpeed": [
-        477.8,
-        477.8
+        697.7,
+        697.7
       ],
-      "tolDegActual": 21.1,
-      "tolPxActual": 34.6,
+      "tolDegActual": 27,
+      "tolPxActual": 39.7,
       "hitWindow": {
-        "earlyMs": -44.5,
-        "lateMs": 43.1
+        "earlyMs": -37.9,
+        "lateMs": 38.4
       },
       "godWindow": {
-        "earlyMs": -5.7,
-        "lateMs": 5.7
+        "earlyMs": -4.9,
+        "lateMs": 4.9
       },
       "starWindow": {
-        "earlyMs": -7.2,
-        "lateMs": 7.2
+        "earlyMs": -5.9,
+        "lateMs": 5.9
       },
       "windowDriftPct": null
     },
@@ -2264,19 +2264,19 @@
         490.5,
         490.5
       ],
-      "tolDegActual": 19,
-      "tolPxActual": 31,
+      "tolDegActual": 32.7,
+      "tolPxActual": 53.8,
       "hitWindow": {
-        "earlyMs": -38.5,
-        "lateMs": 37.8
+        "earlyMs": -68.2,
+        "lateMs": 65.1
       },
       "godWindow": {
-        "earlyMs": -4.5,
-        "lateMs": 4.5
+        "earlyMs": -7.7,
+        "lateMs": 7.7
       },
       "starWindow": {
-        "earlyMs": -5.2,
-        "lateMs": 5.2
+        "earlyMs": -9.8,
+        "lateMs": 9.4
       },
       "windowDriftPct": null
     },
@@ -2318,19 +2318,19 @@
         490.5,
         490.5
       ],
-      "tolDegActual": 20,
-      "tolPxActual": 31.2,
+      "tolDegActual": 16.2,
+      "tolPxActual": 25.8,
       "hitWindow": {
-        "earlyMs": -40.9,
-        "lateMs": 39.9
+        "earlyMs": -33.6,
+        "lateMs": 32.2
       },
       "godWindow": {
-        "earlyMs": -5.6,
-        "lateMs": 5.6
+        "earlyMs": -3.5,
+        "lateMs": 3.5
       },
       "starWindow": {
-        "earlyMs": -6.6,
-        "lateMs": 6.6
+        "earlyMs": -4.2,
+        "lateMs": 4.2
       },
       "windowDriftPct": null
     },
@@ -2372,19 +2372,19 @@
         518.4,
         518.4
       ],
-      "tolDegActual": 16.7,
-      "tolPxActual": 26.5,
+      "tolDegActual": 29.5,
+      "tolPxActual": 44.5,
       "hitWindow": {
-        "earlyMs": -32.8,
-        "lateMs": 31.5
+        "earlyMs": -56.3,
+        "lateMs": 55.6
       },
       "godWindow": {
-        "earlyMs": -3.6,
-        "lateMs": 3.6
+        "earlyMs": -3,
+        "lateMs": 3
       },
       "starWindow": {
-        "earlyMs": -4.3,
-        "lateMs": 4.3
+        "earlyMs": -3.6,
+        "lateMs": 3.6
       },
       "windowDriftPct": null
     },
@@ -2396,7 +2396,7 @@
       "variant": "dual",
       "motion": "组合",
       "path": "h_line",
-      "cycleMs": 1350,
+      "cycleMs": 1680,
       "turns": 2,
       "jitter": 0.08,
       "toleranceDeg": 5,
@@ -2420,26 +2420,26 @@
       "inertiaHz": 1.1,
       "inertiaPhase": 0.25,
       "linSpeed": [
-        704,
-        896
+        557.2,
+        709.1
       ],
       "angSpeed": [
-        533.3,
-        533.3
+        428.6,
+        428.6
       ],
-      "tolDegActual": 12.6,
-      "tolPxActual": 18.9,
+      "tolDegActual": 11.1,
+      "tolPxActual": 18.6,
       "hitWindow": {
-        "earlyMs": -23.8,
-        "lateMs": 23.2
+        "earlyMs": -26,
+        "lateMs": 25.2
       },
       "godWindow": {
-        "earlyMs": -3.2,
-        "lateMs": 3.2
+        "earlyMs": -3.6,
+        "lateMs": 3.6
       },
       "starWindow": {
-        "earlyMs": -3.9,
-        "lateMs": 3.9
+        "earlyMs": -4.4,
+        "lateMs": 4.4
       },
       "windowDriftPct": null
     },
@@ -2481,19 +2481,19 @@
         635.3,
         635.3
       ],
-      "tolDegActual": 44.8,
-      "tolPxActual": 46.3,
+      "tolDegActual": 52.4,
+      "tolPxActual": 54.2,
       "hitWindow": {
-        "earlyMs": -72.1,
-        "lateMs": 68.5
+        "earlyMs": -84.6,
+        "lateMs": 80.2
       },
       "godWindow": {
-        "earlyMs": -7.7,
-        "lateMs": 7.7
+        "earlyMs": -8.5,
+        "lateMs": 8.5
       },
       "starWindow": {
-        "earlyMs": -9.3,
-        "lateMs": 9.3
+        "earlyMs": -10.5,
+        "lateMs": 10.5
       },
       "windowDriftPct": null
     },
@@ -2535,19 +2535,19 @@
         649,
         649
       ],
-      "tolDegActual": 30.3,
-      "tolPxActual": 31.3,
+      "tolDegActual": 37.4,
+      "tolPxActual": 38,
       "hitWindow": {
-        "earlyMs": -48.1,
-        "lateMs": 45.4
+        "earlyMs": -57.2,
+        "lateMs": 56
       },
       "godWindow": {
-        "earlyMs": -6.7,
-        "lateMs": 6.7
-      },
-      "starWindow": {
         "earlyMs": -7.9,
         "lateMs": 7.9
+      },
+      "starWindow": {
+        "earlyMs": -9.5,
+        "lateMs": 9.5
       },
       "windowDriftPct": null
     },
@@ -2589,19 +2589,19 @@
         663,
         663
       ],
-      "tolDegActual": 17.6,
-      "tolPxActual": 18.1,
+      "tolDegActual": 56.9,
+      "tolPxActual": 59.4,
       "hitWindow": {
-        "earlyMs": -26.3,
-        "lateMs": 25.9
+        "earlyMs": -88,
+        "lateMs": 83.4
       },
       "godWindow": {
-        "earlyMs": -3.1,
-        "lateMs": 3.1
+        "earlyMs": -12,
+        "lateMs": 12
       },
       "starWindow": {
-        "earlyMs": -3.9,
-        "lateMs": 3.9
+        "earlyMs": -14.3,
+        "lateMs": 14.3
       },
       "windowDriftPct": null
     },
@@ -2643,19 +2643,19 @@
         663,
         663
       ],
-      "tolDegActual": 29.8,
-      "tolPxActual": 29,
+      "tolDegActual": 45.6,
+      "tolPxActual": 45.6,
       "hitWindow": {
-        "earlyMs": -43.6,
-        "lateMs": 44.8
+        "earlyMs": -69.5,
+        "lateMs": 66.8
       },
       "godWindow": {
-        "earlyMs": -5,
-        "lateMs": 5
+        "earlyMs": -8.1,
+        "lateMs": 8.1
       },
       "starWindow": {
-        "earlyMs": -6.2,
-        "lateMs": 6.2
+        "earlyMs": -9.7,
+        "lateMs": 9.7
       },
       "windowDriftPct": null
     },
@@ -2698,26 +2698,26 @@
         693.6,
         693.6
       ],
-      "tolDegActual": 16.9,
-      "tolPxActual": 23.9,
+      "tolDegActual": 34.8,
+      "tolPxActual": 39.4,
       "hitWindowByMover": [
         {
-          "earlyMs": -36.2,
-          "lateMs": 32.8
+          "earlyMs": -62,
+          "lateMs": 53.5
         },
         {
-          "earlyMs": -24,
-          "lateMs": 23.6
+          "earlyMs": -52,
+          "lateMs": 48.7
         }
       ],
       "godWindowByMover": [
         {
-          "earlyMs": -5.2,
-          "lateMs": 4.8
+          "earlyMs": -8.1,
+          "lateMs": 7.7
         },
         {
-          "earlyMs": -2.2,
-          "lateMs": 2.2
+          "earlyMs": -4.8,
+          "lateMs": 4.8
         }
       ],
       "perfectMsByMover": [
@@ -2725,16 +2725,16 @@
         1331.8
       ],
       "hitWindow": {
-        "earlyMs": -24,
-        "lateMs": 23.6
+        "earlyMs": -52,
+        "lateMs": 48.7
       },
       "godWindow": {
-        "earlyMs": -2.2,
-        "lateMs": 2.2
+        "earlyMs": -4.8,
+        "lateMs": 4.8
       },
       "starWindow": {
-        "earlyMs": -2.6,
-        "lateMs": 2.6
+        "earlyMs": -6.3,
+        "lateMs": 6.3
       },
       "windowDriftPct": null
     },
@@ -2746,7 +2746,7 @@
       "variant": "single",
       "motion": "组合",
       "path": "diag_dl",
-      "cycleMs": 1521,
+      "cycleMs": 1196,
       "turns": 3,
       "jitter": 0.1,
       "toleranceDeg": 5,
@@ -2769,26 +2769,26 @@
       "inertiaHz": 1.1,
       "inertiaPhase": 0.125,
       "linSpeed": [
-        477.1,
-        632.4
+        590.8,
+        783.2
       ],
       "angSpeed": [
-        710.1,
-        710.1
+        903,
+        903
       ],
-      "tolDegActual": 25.8,
-      "tolPxActual": 20.4,
+      "tolDegActual": 25.6,
+      "tolPxActual": 17.1,
       "hitWindow": {
-        "earlyMs": -35.3,
-        "lateMs": 38.2
+        "earlyMs": -27.5,
+        "lateMs": 29.2
       },
       "godWindow": {
-        "earlyMs": -4.7,
-        "lateMs": 5
+        "earlyMs": -4,
+        "lateMs": 4
       },
       "starWindow": {
-        "earlyMs": -5.8,
-        "lateMs": 5.8
+        "earlyMs": -4.8,
+        "lateMs": 5.1
       },
       "windowDriftPct": null
     },
@@ -2830,11 +2830,11 @@
         710.1,
         710.1
       ],
-      "tolDegActual": 30,
-      "tolPxActual": 23.3,
+      "tolDegActual": 22.7,
+      "tolPxActual": 17.6,
       "hitWindow": {
-        "earlyMs": -41.1,
-        "lateMs": 41.5
+        "earlyMs": -31,
+        "lateMs": 31
       },
       "godWindow": {
         "earlyMs": -4,
@@ -2884,19 +2884,19 @@
         744.8,
         744.8
       ],
-      "tolDegActual": 26.1,
-      "tolPxActual": 20.4,
+      "tolDegActual": 41.4,
+      "tolPxActual": 32,
       "hitWindow": {
-        "earlyMs": -34,
-        "lateMs": 37.5
+        "earlyMs": -54,
+        "lateMs": 74.2
       },
       "godWindow": {
-        "earlyMs": -3.1,
-        "lateMs": 3.1
+        "earlyMs": -4.8,
+        "lateMs": 4.8
       },
       "starWindow": {
-        "earlyMs": -3.8,
-        "lateMs": 3.8
+        "earlyMs": -5.8,
+        "lateMs": 5.8
       },
       "windowDriftPct": null
     },
@@ -2938,19 +2938,19 @@
         763.8,
         763.8
       ],
-      "tolDegActual": 23.2,
-      "tolPxActual": 25,
+      "tolDegActual": 24,
+      "tolPxActual": 25.5,
       "hitWindow": {
-        "earlyMs": -29.8,
-        "lateMs": 29.5
+        "earlyMs": -30.5,
+        "lateMs": 30.8
       },
       "godWindow": {
-        "earlyMs": -3.7,
-        "lateMs": 3.7
+        "earlyMs": -4,
+        "lateMs": 4
       },
       "starWindow": {
-        "earlyMs": -4.7,
-        "lateMs": 4.7
+        "earlyMs": -5,
+        "lateMs": 5
       },
       "windowDriftPct": null
     },
@@ -2993,19 +2993,19 @@
         763.8,
         763.8
       ],
-      "tolDegActual": 11.3,
-      "tolPxActual": 12.4,
+      "tolDegActual": 25.6,
+      "tolPxActual": 28.4,
       "hitWindow": {
-        "earlyMs": -14.4,
-        "lateMs": 15.1
+        "earlyMs": -33.5,
+        "lateMs": 32.5
       },
       "godWindow": {
-        "earlyMs": -2.3,
-        "lateMs": 2.3
+        "earlyMs": -4.4,
+        "lateMs": 4.4
       },
       "starWindow": {
-        "earlyMs": -3,
-        "lateMs": 3
+        "earlyMs": -5.4,
+        "lateMs": 5.4
       },
       "windowDriftPct": null
     },
@@ -3017,7 +3017,7 @@
       "variant": "single",
       "motion": "组合",
       "path": "arc_up",
-      "cycleMs": 1343,
+      "cycleMs": 855,
       "turns": 3,
       "jitter": 0.1,
       "toleranceDeg": 5,
@@ -3040,26 +3040,26 @@
       "inertiaHz": 0.9,
       "inertiaPhase": 0.25,
       "linSpeed": [
-        728.6,
-        965.8
+        1121.8,
+        1487
       ],
       "angSpeed": [
-        804.2,
-        804.2
+        1263.2,
+        1263.2
       ],
-      "tolDegActual": 24,
-      "tolPxActual": 27.1,
+      "tolDegActual": 31.6,
+      "tolPxActual": 28.2,
       "hitWindow": {
-        "earlyMs": -29.6,
-        "lateMs": 29
+        "earlyMs": -24.3,
+        "lateMs": 24.7
       },
       "godWindow": {
-        "earlyMs": -4.5,
-        "lateMs": 4.5
+        "earlyMs": -3.6,
+        "lateMs": 3.6
       },
       "starWindow": {
-        "earlyMs": -5.4,
-        "lateMs": 5.4
+        "earlyMs": -4.1,
+        "lateMs": 4.1
       },
       "windowDriftPct": null
     },
@@ -3101,19 +3101,19 @@
         826.3,
         826.3
       ],
-      "tolDegActual": 20,
-      "tolPxActual": 22.1,
+      "tolDegActual": 39.8,
+      "tolPxActual": 45.2,
       "hitWindow": {
-        "earlyMs": -23.9,
-        "lateMs": 23.5
+        "earlyMs": -50.5,
+        "lateMs": 46.8
       },
       "godWindow": {
-        "earlyMs": -3.1,
-        "lateMs": 3.1
+        "earlyMs": -5.6,
+        "lateMs": 5.6
       },
       "starWindow": {
-        "earlyMs": -4,
-        "lateMs": 3.7
+        "earlyMs": -6.8,
+        "lateMs": 6.8
       },
       "windowDriftPct": null
     },
@@ -3155,19 +3155,19 @@
         826.3,
         826.3
       ],
-      "tolDegActual": 14,
-      "tolPxActual": 29,
+      "tolDegActual": 15.5,
+      "tolPxActual": 32.7,
       "hitWindow": {
-        "earlyMs": -16.7,
-        "lateMs": 16.4
+        "earlyMs": -18.3,
+        "lateMs": 20.4
       },
       "godWindow": {
         "earlyMs": -2.5,
         "lateMs": 2.5
       },
       "starWindow": {
-        "earlyMs": -2.8,
-        "lateMs": 2.8
+        "earlyMs": -3.1,
+        "lateMs": 3.1
       },
       "windowDriftPct": null
     },
@@ -3209,19 +3209,19 @@
         873.8,
         873.8
       ],
-      "tolDegActual": 11.3,
-      "tolPxActual": 24.2,
+      "tolDegActual": 13.7,
+      "tolPxActual": 29.1,
       "hitWindow": {
-        "earlyMs": -12.6,
-        "lateMs": 12.9
+        "earlyMs": -15.8,
+        "lateMs": 15.2
       },
       "godWindow": {
-        "earlyMs": -1.8,
-        "lateMs": 1.8
+        "earlyMs": -1.2,
+        "lateMs": 1.2
       },
       "starWindow": {
-        "earlyMs": -2.1,
-        "lateMs": 2.1
+        "earlyMs": -1.5,
+        "lateMs": 1.5
       },
       "windowDriftPct": null
     },
@@ -3233,7 +3233,7 @@
       "variant": "dual",
       "motion": "组合",
       "path": "h_line",
-      "cycleMs": 1200,
+      "cycleMs": 1144,
       "turns": 3,
       "jitter": 0.1,
       "toleranceDeg": 5,
@@ -3257,50 +3257,50 @@
       "inertiaHz": 1.1,
       "inertiaPhase": 0.5,
       "linSpeed": [
-        774,
-        1026
+        810.3,
+        1074.1
       ],
       "angSpeed": [
-        900,
-        900
+        944.1,
+        944.1
       ],
-      "tolDegActual": 12.9,
-      "tolPxActual": 15.4,
+      "tolDegActual": 15.8,
+      "tolPxActual": 19,
       "hitWindowByMover": [
         {
-          "earlyMs": -18.5,
-          "lateMs": 17.6
+          "earlyMs": -22.2,
+          "lateMs": 21.7
         },
         {
-          "earlyMs": -14.2,
-          "lateMs": 13.9
+          "earlyMs": -16.8,
+          "lateMs": 16.3
         }
       ],
       "godWindowByMover": [
         {
-          "earlyMs": -2.6,
-          "lateMs": 2.6
+          "earlyMs": -3.5,
+          "lateMs": 3.5
         },
         {
-          "earlyMs": -2.3,
-          "lateMs": 2.3
+          "earlyMs": -2.4,
+          "lateMs": 2.4
         }
       ],
       "perfectMsByMover": [
-        583.3,
-        1049.7
+        557.2,
+        1001.9
       ],
       "hitWindow": {
-        "earlyMs": -14.2,
-        "lateMs": 13.9
+        "earlyMs": -16.8,
+        "lateMs": 16.3
       },
       "godWindow": {
-        "earlyMs": -2.3,
-        "lateMs": 2.3
+        "earlyMs": -2.4,
+        "lateMs": 2.4
       },
       "starWindow": {
-        "earlyMs": -2.6,
-        "lateMs": 2.6
+        "earlyMs": -3,
+        "lateMs": 3
       },
       "windowDriftPct": null
     }

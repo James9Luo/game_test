@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>《定格瞬间》· 道具扩充与质感升级提案</title>
+<style>
+  :root{
+    --bg:#0E1626; --bg2:#0B1220; --panel:#14203A; --panel2:#182742;
+    --line:#22314E; --text:#E8F1FF; --dim:#8FA3C0; --mint:#2BFFB0;
+    --gold:#FFD24D; --red:#FF5A5A; --steel:#4A5568;
+    --ink:#0A1220;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:"PingFang SC","Microsoft YaHei","msyh.ttc",system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  a{color:var(--mint)}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px 96px}
+
+  /* ---------- 顶栏 ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .hwrap{max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;
+    align-items:center;gap:18px;flex-wrap:wrap}
+  h1{font-size:19px;margin:0;font-weight:800;letter-spacing:.3px}
+  h1 .tag{font-size:11px;font-weight:700;color:var(--bg);background:var(--mint);
+    border-radius:4px;padding:2px 7px;margin-left:8px;vertical-align:2px}
+  nav{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+  nav a{font-size:13px;color:var(--dim);text-decoration:none;padding:5px 10px;
+    border:1px solid var(--line);border-radius:999px;white-space:nowrap}
+  nav a:hover{color:var(--text);border-color:var(--steel)}
+
+  /* ---------- 通用 ---------- */
+  section{margin:44px 0 0}
+  h2{font-size:22px;font-weight:800;margin:0 0 6px;display:flex;align-items:baseline;gap:10px}
+  h2 .no{font:800 12px/1 ui-monospace,Consolas,monospace;color:var(--mint);
+    border:1px solid rgba(43,255,176,.45);border-radius:4px;padding:4px 6px}
+  h3{font-size:16px;font-weight:800;margin:26px 0 10px;color:var(--text)}
+  .lead{color:var(--dim);font-size:14px;line-height:1.75;margin:0 0 18px;max-width:980px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g4{grid-template-columns:repeat(4,1fr)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 18px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .kpi b{display:block;font:800 26px/1.2 ui-monospace,Consolas,monospace;color:var(--mint)}
+  .kpi span{font-size:12px;color:var(--dim)}
+  .kpi.warn b{color:var(--gold)}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0 4px}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{color:var(--dim);font-weight:700;font-size:12px;letter-spacing:.4px;
+    background:var(--panel2);position:sticky;top:58px}
+  td.num,th.num{font-family:ui-monospace,Consolas,monospace;font-size:12px}
+  .scroll{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+  .scroll table{margin:0}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;
+    border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+  .pill.p1{color:#0B2A1E;background:var(--mint);border-color:transparent}
+  .pill.p2{color:var(--bg);background:#7FD9FF;border-color:transparent}
+  .pill.p3{color:var(--dim)}
+  .pill.tier{color:var(--gold);border-color:rgba(255,210,77,.4)}
+  .pill.ip{color:var(--red);border-color:rgba(255,90,90,.45)}
+  .note{font-size:12.5px;color:var(--dim);line-height:1.8}
+  .note b{color:var(--text)}
+  .note .mint{color:var(--mint)}
+  .note .gold{color:var(--gold)}
+  ul{margin:6px 0 6px 18px;padding:0;font-size:13.5px;line-height:1.85;color:var(--dim)}
+  ul b{color:var(--text)}
+  code{font-family:ui-monospace,Consolas,monospace;font-size:12px;background:var(--bg2);
+    border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:#9FE8FF}
+  .rule{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .rule div{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--mint);
+    border-radius:8px;padding:9px 12px;font-size:12.5px;color:var(--dim);line-height:1.7}
+  .rule div b{color:var(--text)}
+
+  /* ---------- 画布网格 ---------- */
+  .toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:14px}
+  .toolbar label{font-size:12.5px;color:var(--dim)}
+  input[type=range]{accent-color:var(--mint);width:190px}
+  .sw{width:15px;height:15px;border-radius:4px;display:inline-block;vertical-align:-3px;margin-right:6px}
+  .props{display:flex;flex-wrap:wrap;gap:12px}
+  .prop{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;min-width:0;flex:1 1 250px}
+  .prop canvas{width:100%;height:auto;display:block;border-radius:8px;background:var(--bg2)}
+  .prop .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:8px}
+  .prop .nm{font-size:13px;font-weight:700}
+  .prop .id{font:11px ui-monospace,Consolas,monospace;color:var(--dim)}
+  .prop .mt{font-size:11px;color:var(--dim);margin-top:3px}
+  .zoom{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .zoom .prop canvas{background:var(--bg2)}
+
+  /* ---------- 新道具卡 ---------- */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .tabs button{font:700 13px/1 inherit;color:var(--dim);background:var(--panel);
+    border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer}
+  .tabs button.on{color:var(--bg);background:var(--mint);border-color:transparent}
+  .plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+  .pcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+    display:flex;flex-direction:column;gap:8px}
+  .pcard .top{display:flex;align-items:center;gap:8px}
+  .pcard .top b{font-size:15px}
+  .pcard .top .id{font:11px ui-monospace,Consolas,monospace;color:var(--dim);margin-left:auto}
+  .pcard .desc{font-size:12.5px;color:var(--dim);line-height:1.7}
+  .pcard .desc em{color:var(--gold);font-style:normal}
+  .bars{display:grid;gap:5px;margin-top:2px}
+  .bar{display:grid;grid-template-columns:74px 1fr 52px;align-items:center;gap:8px;font-size:11px;color:var(--dim)}
+  .bar .t{background:var(--bg2);border-radius:3px;height:7px;overflow:hidden;position:relative}
+  .bar .t i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#2BFFB0,#7FD9FF);border-radius:3px}
+  .bar .t i.w{background:linear-gradient(90deg,#FFD24D,#FF9F43)}
+  .bar .v{font-family:ui-monospace,Consolas,monospace;text-align:right}
+  .kv{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:980px){
+    .kpis,.g2,.g3,.g4,.rule,.two,.zoom{grid-template-columns:1fr}
+  }
+  .foot{margin-top:60px;padding-top:18px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--dim);line-height:1.8}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1>《定格瞬间》· 道具扩充与质感升级 <span class="tag">提案 v0.10</span></h1>
+    <nav>
+      <a href="#diag">① 现状诊断</a>
+      <a href="#model">② 质感方案</a>
+      <a href="#demo">③ Before / After</a>
+      <a href="#newprops">④ 新道具清单</a>
+      <a href="#ship">⑤ 落地与验收</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="diag" style="margin-top:28px">
+    <h2><span class="no">01</span>现状诊断：道具为什么"看着平"</h2>
+    <p class="lead">
+      数据源：<code>assets/config/shapes.json</code>（36 个判定轮廓，判定与绘制共用同一份 <code>pts</code>）。
+      渲染管线：<code>原型/_src/game.js → drawObject()</code>。下面每一个数字都是从真数据里量出来的，不是印象。
+    </p>
+
+    <div class="kpis">
+      <div class="kpi"><b>36</b><span>现有道具（主线池 21 + 稀有池 15）</span></div>
+      <div class="kpi warn"><b>2.8</b><span>平均装饰条数 / 件（0 条～4 条）</span></div>
+      <div class="kpi warn"><b>0</b><span>渐变 / 阴影 / 高光层</span></div>
+      <div class="kpi"><b>4</b><span>渲染层数：墨边 → 平涂 → 描边 → 装饰</span></div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <h3 style="margin-top:0">绘制顺序（真代码）</h3>
+        <ul>
+          <li><b>① 深墨外描边</b> 4px → 只负责"从背景里抠出来"</li>
+          <li><b>② 主体平涂</b> <code>shape.fill</code> → 一块纯色，无任何明暗</li>
+          <li><b>③ 主描边</b> 2px <code>shape.stroke</code> → 压暗两档的同色系</li>
+          <li><b>④ 装饰 details</b> 0–4 条 line / circle / poly → 只画不判</li>
+        </ul>
+        <p class="note" style="margin-bottom:0">
+          <b>结论：</b>一个道具 = 一块平涂 + 一圈描边 + 2.8 条线。所有"体积感"信息量为零，
+          所以 36 个道具看起来是同一套<b>贴纸</b>，不是 36 件东西。这不是画得不好，是<b>渲染管线里没有"光"</b>。
+        </p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">为什么不能直接加"阴影"</h3>
+        <ul>
+          <li><b>绿框是唯一锚点</b>（风格圣经 §3）：绿框描边 L=80%，任何比它更亮的元素都会抢焦点</li>
+          <li><b>场景有 18pp 亮度预算</b>（§7.2）：物体自身明暗不占场景预算，但局部提亮仍受 §6.1 约束</li>
+          <li><b>物体在飞，不落地</b>：局内加接地阴影 = 给一个空中物体造地面，读作 bug</li>
+          <li><b>热力图叠在物体上</b>：重/偏/空三区 α 叠加在物体上，物体自身明暗太碎会吃掉判定信息</li>
+        </ul>
+        <p class="note" style="margin-bottom:0">
+          <b>结论：</b>质感的落点必须是"物体自身内部"——<b>顶光体积 + 边缘光 + 材质纹理</b>，
+          而不是加投影、加光晕、加描边特效。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="model">
+    <h2><span class="no">02</span>质感方案：四层模型（物体自身内部）</h2>
+    <p class="lead">
+      每一层都必须满足三条硬约束：<b>不改 pts</b>（判定零影响）· <b>不出现在绿框外侧</b> · <b>局部 L 增幅 ≤ 8pp</b>。
+      数据层复用现有 <code>details</code> 的 <code>poly / line / circle</code>，只用 <code>#RRGGBBAA</code> 追加 alpha，
+      <b>零引擎契约改动</b>；渲染层只在两处（原型 canvas / Cocos Graphics）各加一段。
+    </p>
+
+    <div class="g4">
+      <div class="card">
+        <h3 style="margin-top:0;color:var(--mint)">L1 · 体积</h3>
+        <p class="note">
+          <b>顶光渐变</b>：物体上缘 +18% 白，下缘 −26% 黑（source-over，<b>不许 additive</b>）。<br/>
+          <b>内阴影</b>：右下轮廓内侧一圈 2–4px 暗带，α ≤ 0.38。<br/>
+          <b>作用：</b>一块平涂变成一个"体"。
+        </p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;color:var(--mint)">L2 · 边缘光</h3>
+        <p class="note">
+          左上 1/3 弧段一条亮线（w 2–3px，α ≤ 0.5，色 = fill 提亮 45%）。<br/>
+          <b>作用：</b>在 <code>noon_window</code> 亮底（背景 L 94.6%）上把剪影从底色里"抠"出来——
+          绿框在亮底只有 1.75:1，边缘光是对冲。
+        </p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;color:var(--mint)">L3 · 材质纹理</h3>
+        <p class="note">
+          按材质给 2–6 条专属特征：金属反光带 / 陶瓷高光斑 / 玻璃内层 / 木纹 / 叶脉 / 缝线 / 斑点 / 页边线。<br/>
+          <b>作用：</b>一眼看出"这是金属不是塑料"。<b>这是道具库从"器物"变成"物品"的关键一层。</b>
+        </p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0;color:var(--mint)">L4 · 接地</h3>
+        <p class="note">
+          接触阴影 + 环境反射，<b>只用在图鉴页 / 结算面板 / 首页静物</b>，局内不加。<br/>
+          <b>作用：</b>图鉴里 36 格从"图标"变成"陈列品"，也让未解锁的灰剪影有实体感。
+        </p>
+      </div>
+    </div>
+
+    <h3>材质配方表（每个道具挑 1 个主材质 + 0–1 个副材质）</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>材质</th><th>识别色</th><th>L3 配方（画什么）</th><th>数量</th><th>禁</th></tr></thead>
+        <tbody>
+          <tr><td><b>金属</b></td><td>#C9D4E3 银 / #A8B4C8 钢</td><td>1 条竖向反光带（提亮 55%，α .22）+ 1 条横向暗带（α .18）+ 2 颗铆钉点</td><td>3–4</td><td>不许用纯白高光</td></tr>
+          <tr><td><b>陶瓷</b></td><td>#F2F2F7 瓷白</td><td>左上高光椭圆（α .30，扁 3:1）+ 底部暗弧 1 条</td><td>2</td><td>高光不许成圆点（会读成眼睛）</td></tr>
+          <tr><td><b>玻璃</b></td><td>#A8C8E8 冰蓝</td><td>内层半透明面（α .22）+ 1 条竖高光 + 1 条底缘亮线</td><td>3</td><td>不许整件透明（会掉可读性）</td></tr>
+          <tr><td><b>木</b></td><td>#C8B49A 米</td><td>2–3 条弯纹（α .28，深同色系）+ 1 个端面深块</td><td>3–4</td><td>纹路不许超 4 条（会脏）</td></tr>
+          <tr><td><b>织物 / 皮</b></td><td>#FF9FB2 品红 / #C3B1E1 紫</td><td>2–4 条短褶皱线（两端短、居中最长）+ 1 条缝线</td><td>3–5</td><td>不许平行等距（机械感）</td></tr>
+          <tr><td><b>植物</b></td><td>#9C9BE8 紫 / #8FD3F5 冰蓝</td><td>主脉 1 条 + 侧脉 4 条 + 边缘刺点 3–5 颗</td><td>6–8</td><td>叶脉不许出主轮廓</td></tr>
+          <tr><td><b>食物</b></td><td>#F5C062 琥珀 / #FFE066</td><td>表面斑点 4–8 颗 + 顶部高光 1 块 + 层次分界线</td><td>6–9</td><td>斑点不许等距</td></tr>
+          <tr><td><b>纸</b></td><td>#C3B1E1 紫</td><td>页边平行线 3–5 条 + 封面 1 条分割线</td><td>4–6</td><td>线条不许超 1.5px</td></tr>
+          <tr><td><b>金属漆 / 塑料</b></td><td>#8FD3F5 / #9C9BE8</td><td>1 条弧形高光带（沿最长边）+ 1 条分模线</td><td>2</td><td>高光带不许过轮廓中线</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>质感规范 12 条（美术交稿自检，程序落地对照）</h3>
+    <div class="rule">
+      <div><b>① 判定零影响</b>：任何质感层只能进 <code>details</code>，<code>pts</code> 一个字节都不许动。</div>
+      <div><b>② 描边不被吃掉</b>：细节须内缩 ≥ 1px，主描边 2px 永远压在最上层。</div>
+      <div><b>③ 线宽下限</b>：装饰线 ≥ 2px @1x（低于 2px 在 720 宽屏上会消失）。</div>
+      <div><b>④ 明度上限</b>：高光叠加后局部 L ≤ fill 原 L + 8pp，且 ≤ 92%。</div>
+      <div><b>⑤ 锚点不被抢</b>：物体任何像素不得比绿框描边（L 80%）更亮；琥珀亮档 #FFE066 例外值已记档。</div>
+      <div><b>⑥ 绿框独占</b>：任何新增色不得进入 mint 色相 ±20° 区间（否则读成"这也是目标"）。</div>
+      <div><b>⑦ 细节密度</b>：6–10 条 / 件（现状 2.8 条）；装饰总面积 ≤ 剪影 12%。</div>
+      <div><b>⑧ 剪影优先</b>：缩到 96px 宽转灰度后仍能认出是什么（可辨识门槛）。</div>
+      <div><b>⑨ 热力图可读</b>：物体自身明暗对比 ≤ 内部 30% 相对差，三区叠加后仍分得开。</div>
+      <div><b>⑩ 材质唯一</b>：一件道具 1 主材质 + ≤1 副材质，禁止混搭出"金属木纹"。</div>
+      <div><b>⑪ 亮底可读</b>：noon 场景下物体与背景对比 ≥ 1.7:1（靠暗描边 + 边缘光）。</div>
+      <div><b>⑫ 落地形态</b>：纹理必须能用 poly / line / circle 画出来——不许依赖渐变贴图、不许引外部资源。</div>
+    </div>
+  </section>
+
+  <section id="demo">
+    <h2><span class="no">03</span>Before / After：36 个现有道具</h2>
+    <p class="lead">
+      左 = 现状（平涂 + 描边 + 2.8 条装饰），右 = 按 §02 方案升级后。全部用真 <code>shapes.json</code> 数据渲染，
+      拖滑块可连续看质感强度 0 → 100%。<b>判定轮廓（<code>pts</code>）在两侧完全一致</b>，绿框重合判定不受任何影响。
+    </p>
+    <div class="toolbar">
+      <label>质感强度 <input type="range" id="q" min="0" max="100" value="100" /></label>
+      <label><input type="checkbox" id="solo" /> 只看升级后（放大单件）</label>
+      <label><span class="sw" style="background:#8FD3F5"></span>fill</label>
+      <label><span class="sw" style="background:#3E5A7A"></span>stroke</label>
+      <label><span class="sw" style="background:#0A1220"></span>墨外边</label>
+      <label><span class="sw" style="background:#2BFFB0"></span>绿框 / 锚点</label>
+    </div>
+    <div class="props" id="props"></div>
+
+    <h3>特写：四种材质的质感配方</h3>
+    <div class="zoom" id="zoom"></div>
+  </section>
+
+  <section id="newprops">
+    <h2><span class="no">04</span>新道具清单：5 类 × 6 = 30 个候选</h2>
+    <p class="lead">
+      口径（沿用现有体系，不新造）：<b>12–48 顶点</b> · <b>长边 = 1</b> · <b>形心 ≈ 原点</b> · <b>size 240–280</b> ·
+      <b>rot30 &lt; 92%</b>（圆/方直接排除）· <b>IP 合规</b>（无可识别 IP 特征，D-039）· <b>5 色族</b>（同屏双物体必须异族）· <b>不删不改旧 id</b>（D-017）。
+      新道具<b>不进关卡表</b>（D-087 换形进关已作废），出口是 <b>图鉴 + 助眠池</b>，所以 k 目标按"手感档"给，不按季。
+    </p>
+    <div class="tabs" id="tabs"></div>
+    <div class="plist" id="plist"></div>
+    <p class="note" style="margin-top:14px">
+      <b>怎么读这张表：</b><span class="pill">P1</span> 首批 12（剪影辨识度最高、材质最丰富，正好当质感升级的试验田）·
+      <span class="pill p2">P2</span> 次批 12（与现有 36 件有撞形风险，或凹形强度需实测校准 k）·
+      <span class="pill p3">P3</span> 备选 6（需要更多验证再定）。<b>目标 k</b>为自算预警值，最终以主策划 tool 实测为准。
+    </p>
+  </section>
+
+  <section id="ship">
+    <h2><span class="no">05</span>落地流程 · 验收 · 待决</h2>
+    <div class="two">
+      <div class="card">
+        <h3 style="margin-top:0">落地流程（沿用现有工具链）</h3>
+        <ul>
+          <li><b>① 补丁文件</b>：<code>02_美术源文件/shapes_src/v05_batch1.json</code>（格式照 <code>v04_fix4.json</code>）</li>
+          <li><b>② 几何自检</b>：<code>python 03_交付素材/check_shapes.py --merge assets/config/shapes.json --add ...</code>
+            （新 id 走 <code>--add</code>；默认 <code>--merge</code> 禁止增删 id）</li>
+          <li><b>③ 接触表</b>：<code>python 03_交付素材/render_preview.py</code> → <code>shapes_preview.png</code></li>
+          <li><b>④ k 实测</b>：主策划 tool 出实测 k，填进 <code>美术_轮廓规格.md</code> 的形状表（36 → 66）</li>
+          <li><b>⑤ 双份同步</b>：<code>assets/config/shapes.json</code> 与 <code>assets/resources/config/shapes.json</code> 逐字节一致</li>
+          <li><b>⑥ 图鉴登记</b>：<code>collection.json</code> 的 <code>items</code> 增 30 条（name/k/band/source/rareIndex/levelIds/firstLevel/hint）</li>
+          <li><b>⑦ 阈值重标</b>：稀有池 15 → 45，<code>thresholds</code> 需重跑 <code>sim.mjs</code> 标定（需 node）</li>
+        </ul>
+        <p class="note" style="margin-bottom:0"><b>注意：</b>⑥⑦ 会动到已定稿的收集系统数据，是本轮唯一的连带影响，必须主策划点头。</p>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">质感升级 · 验收清单</h3>
+        <ul>
+          <li><b>V1 判定回归</b>：同一 <code>pressMs</code>，升级前后 <code>pct</code> 逐位相等（改的是 details，不是 pts）</li>
+          <li><b>V2 绿框回归</b>：绿框 6px / <code>#2BFFB0</code> / 位置 / 旋转一个字节不变</li>
+          <li><b>V3 亮度</b>：逐像素扫道具区域，局部 L 增幅 ≤ 8pp，且无像素比绿框更亮（琥珀亮档除外）</li>
+          <li><b>V4 缩略可辨</b>：道具缩到 96px 宽转灰度，5 人盲测 ≥4 人认得出</li>
+          <li><b>V5 描边完整</b>：100% 素材目视，细节未压住 2px 主描边</li>
+          <li><b>V6 热力图</b>：判定帧三区（重合/偏差/空缺）在有质感的物体上仍可分辨</li>
+          <li><b>V7 三场景</b>：night / noon / minimal 下均不糊、不抢焦点（noon 额外查对比 ≥1.7:1）</li>
+          <li><b>V8 低画质</b>：质感强度降到 0 时仍可玩（低画质只留 L1 顶光 + 主描边）</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>需要拍板的三件事</h3>
+    <div class="rule">
+      <div><b>Q1 · 质感强度默认档</b>：轻（只 L1）/ 中（L1+L2）/ 重（L1+L2+L3）。建议默认"中"，图鉴页用"重"。</div>
+      <div><b>Q2 · 新道具出口</b>：只进图鉴 + 助眠池（推荐），还是同时开第 5 季进关卡表？后者要重解 60 关窗口阶梯。</div>
+      <div><b>Q3 · 稀有池扩容</b>：稀有池 15 → 45 后 <code>thresholds</code> 必须重标（需 node + sim），是否排进本迭代。</div>
+    </div>
+  </section>
+
+  <div class="foot">
+    数据源：<code>assets/config/shapes.json</code>（36 个）· <code>assets/resources/config/collection.json</code> ·
+    规格依据：<code>02_美术源文件/风格圣经.md</code>（§2 色板 / §3 绿框 / §6 relax 调性 / §7 场景预算）·
+    <code>04_项目管理/美术_轮廓规格.md</code>（形状表 / k 分层 / tier 门禁）。<br/>
+    本页为<b>提案</b>：不含任何对 <code>assets/</code> 的改动，轮廓数据仍以 <code>shapes.json</code> 为准。
+  </div>
+</div>
+
+<script>
+/* ===================== 真数据（由 shapes.json 抽取后注入） ===================== */
+const SHAPES = [{"id":"cup_tumbler","name":"保温杯","size":250,"fill":"#A8C8E8","stroke":"#3E5A7A","pts":[{"x":-0.2058,"y":-0.4505},{"x":-0.1758,"y":-0.4805},{"x":0.1742,"y":-0.4805},{"x":0.2042,"y":-0.4505},{"x":0.2172,"y":-0.4325},{"x":0.2172,"y":-0.3925},{"x":0.2512,"y":-0.3855},{"x":0.2512,"y":-0.3525},{"x":0.2172,"y":-0.3425},{"x":0.2042,"y":-0.3155},{"x":0.1952,"y":0.3545},{"x":0.1832,"y":0.4495},{"x":0.1282,"y":0.5035},{"x":-0.0008,"y":0.5195},{"x":-0.1298,"y":0.5035},{"x":-0.1848,"y":0.4495},{"x":-0.1968,"y":0.3545},{"x":-0.2058,"y":-0.3155},{"x":-0.2188,"y":-0.3425},{"x":-0.2188,"y":-0.3925},{"x":-0.2188,"y":-0.4325}],"details":[{"k":"line","pts":[{"x":-0.2008,"y":-0.3805},{"x":0.1992,"y":-0.3805}],"color":"#39536F","w":4},{"k":"line","pts":[{"x":-0.1008,"y":-0.2305},{"x":-0.1008,"y":0.3195}],"color":"#D6E6F5","w":6}]},{"id":"car_hatch","name":"小汽车","size":272,"fill":"#8FD3F5","stroke":"#1E5474","pts":[{"x":-0.4382,"y":0.0433},{"x":-0.4504,"y":0.1095},{"x":-0.4077,"y":0.1502},{"x":-0.2905,"y":0.1502},{"x":-0.2773,"y":0.1991},{"x":-0.2427,"y":0.2337},{"x":-0.1938,"y":0.247},{"x":-0.1449,"y":0.2337},{"x":-0.1103,"y":0.1991},{"x":-0.0971,"y":0.1502},{"x":0.2593,"y":0.1502},{"x":0.2726,"y":0.1991},{"x":0.3072,"y":0.2337},{"x":0.3561,"y":0.247},{"x":0.405,"y":0.2337},{"x":0.4396,"y":0.1991},{"x":0.4528,"y":0.1502},{"x":0.5139,"y":0.1401},{"x":0.5465,"y":0.0942},{"x":0.5496,"y":0.0077},{"x":0.4987,"y":-0.0331},{"x":0.3561,"y":-0.0738},{"x":0.2135,"y":-0.1145},{"x":0.071,"y":-0.2367},{"x":-0.1531,"y":-0.252},{"x":-0.316,"y":-0.1756},{"x":-0.3669,"y":-0.2316},{"x":-0.428,"y":-0.196},{"x":-0.4504,"y":-0.0585}],"details":[{"k":"poly","pts":[{"x":0.0913,"y":-0.1298},{"x":0.2339,"y":-0.1298},{"x":0.3357,"y":-0.0789},{"x":0.0913,"y":-0.0789}],"color":"#2A5F80","w":null},{"k":"line","pts":[{"x":0.071,"y":-0.0738},{"x":0.071,"y":0.1401}],"color":"#2A5F80","w":3},{"k":"circle","c":{"x":0.4905,"y":0.0382},"r":0.0305,"color":"#FFE9A8","filled":true,"w":null},{"k":"circle","c":{"x":-0.4077,"y":0.0484},"r":0.0265,"color":"#FF9A9A","filled":true,"w":null}]},{"id":"slipper","name":"拖鞋","size":268,"fill":"#FF9FB2","stroke":"#7A2E45","pts":[{"x":-0.5187,"y":0.0305},{"x":-0.4907,"y":0.1005},{"x":-0.3987,"y":0.1285},{"x":-0.1187,"y":0.1365},{"x":0.1613,"y":0.1405},{"x":0.3413,"y":0.1285},{"x":0.4413,"y":0.1005},{"x":0.4813,"y":0.0305},{"x":0.4513,"y":-0.0395},{"x":0.3813,"y":-0.0895},{"x":0.2813,"y":-0.1075},{"x":0.2493,"y":-0.1395},{"x":0.2163,"y":-0.2045},{"x":0.1313,"y":-0.2345},{"x":0.0513,"y":-0.2045},{"x":0.0213,"y":-0.1395},{"x":-0.0387,"y":-0.1095},{"x":-0.1787,"y":-0.1015},{"x":-0.3487,"y":-0.0895},{"x":-0.4737,"y":-0.0595}],"details":[{"k":"line","pts":[{"x":0.0413,"y":-0.1645},{"x":0.1313,"y":-0.2045},{"x":0.2263,"y":-0.1695}],"color":"#FFD7E0","w":4},{"k":"circle","c":{"x":0.1413,"y":-0.1395},"r":0.022,"color":"#7A2E45","filled":true,"w":null}]},{"id":"banana","name":"香蕉","size":266,"fill":"#FFE066","stroke":"#7A5A12","pts":[{"x":-0.4869,"y":-0.1519},{"x":-0.4122,"y":-0.016},{"x":-0.3003,"y":0.0912},{"x":-0.1615,"y":0.1601},{"x":-0.0084,"y":0.1831},{"x":0.1447,"y":0.1601},{"x":0.2835,"y":0.0912},{"x":0.3954,"y":-0.016},{"x":0.4701,"y":-0.1519},{"x":0.5131,"y":-0.1854},{"x":0.4815,"y":-0.2188},{"x":0.4413,"y":-0.171},{"x":0.36,"y":-0.1327},{"x":0.2385,"y":-0.1165},{"x":0.1112,"y":-0.1069},{"x":-0.0084,"y":-0.104},{"x":-0.128,"y":-0.1069},{"x":-0.2553,"y":-0.1165},{"x":-0.3768,"y":-0.1327}],"details":[{"k":"line","pts":[{"x":-0.3912,"y":-0.0849},{"x":-0.1998,"y":-0.0179},{"x":-0.0084,"y":0.0032},{"x":0.183,"y":-0.0179},{"x":0.3744,"y":-0.0849}],"color":"#FFF2B0","w":4},{"k":"circle","c":{"x":0.4844,"y":-0.1949},"r":0.0153,"color":"#7A5A12","filled":true,"w":null}]},{"id":"wrench","name":"扳手","size":280,"fill":"#C9D4E3","stroke":"#4A5568","pts":[{"x":-0.3206,"y":-0.102},{"x":-0.4206,"y":-0.157},{"x":-0.4986,"y":-0.165},{"x":-0.5206,"y":-0.109},{"x":-0.4586,"y":-0.072},{"x":-0.3806,"y":-0.027},{"x":-0.4586,"y":0.033},{"x":-0.5206,"y":0.073},{"x":-0.4986,"y":0.125},{"x":-0.4206,"y":0.133},{"x":-0.3206,"y":0.103},{"x":0.2694,"y":0.099},{"x":0.3354,"y":0.143},{"x":0.4134,"y":0.153},{"x":0.4644,"y":0.103},{"x":0.4794,"y":0.003},{"x":0.4644,"y":-0.097},{"x":0.4134,"y":-0.147},{"x":0.3354,"y":-0.137},{"x":0.2694,"y":-0.093}],"details":[{"k":"circle","c":{"x":0.4194,"y":0.003},"r":0.052,"color":"#4A5568","filled":true,"w":null},{"k":"line","pts":[{"x":-0.2906,"y":0.003},{"x":0.2294,"y":-0.002}],"color":"#8FA0B4","w":5}]},{"id":"guitar","name":"吉他","size":276,"fill":"#F2A65A","stroke":"#7A4A18","pts":[{"x":-0.0002,"y":0.4106},{"x":0.0898,"y":0.3806},{"x":0.1548,"y":0.3056},{"x":0.1718,"y":0.2206},{"x":0.1598,"y":0.1406},{"x":0.1278,"y":0.0806},{"x":0.1398,"y":0.0206},{"x":0.1598,"y":-0.0494},{"x":0.1498,"y":-0.0994},{"x":0.1048,"y":-0.1494},{"x":0.0778,"y":-0.2094},{"x":0.0548,"y":-0.2694},{"x":0.0448,"y":-0.4194},{"x":0.0798,"y":-0.4494},{"x":0.0818,"y":-0.5194},{"x":0.0548,"y":-0.5794},{"x":-0.0602,"y":-0.5894},{"x":-0.0522,"y":-0.5194},{"x":-0.0452,"y":-0.4294},{"x":-0.0452,"y":-0.2694},{"x":-0.0982,"y":-0.1894},{"x":-0.1502,"y":-0.0894},{"x":-0.1582,"y":-0.0094},{"x":-0.1402,"y":0.0606},{"x":-0.1602,"y":0.1506},{"x":-0.1722,"y":0.2306},{"x":-0.1502,"y":0.3106},{"x":-0.0882,"y":0.3806}],"details":[{"k":"circle","c":{"x":-0.0002,"y":0.0806},"r":0.048,"color":"#3A2410","filled":true,"w":null},{"k":"poly","pts":[{"x":-0.0702,"y":0.2106},{"x":0.0698,"y":0.2106},{"x":0.0598,"y":0.2606},{"x":-0.0602,"y":0.2606}],"color":"#3A2410","w":null},{"k":"line","pts":[{"x":-0.0002,"y":0.0406},{"x":-0.0002,"y":-0.4194}],"color":"#FFE7B0","w":3},{"k":"line","pts":[{"x":-0.0402,"y":-0.3094},{"x":0.0398,"y":-0.3094}],"color":"#7A4A18","w":3}]},{"id":"duck","name":"鸭子","size":250,"fill":"#FFCB3D","stroke":"#7A5A10","pts":[{"x":-0.397,"y":-0.1703},{"x":-0.227,"y":-0.2303},{"x":-0.047,"y":-0.2503},{"x":0.123,"y":-0.2103},{"x":0.163,"y":-0.3203},{"x":0.253,"y":-0.3603},{"x":0.333,"y":-0.3203},{"x":0.433,"y":-0.2503},{"x":0.603,"y":-0.1903},{"x":0.463,"y":-0.1403},{"x":0.343,"y":-0.1103},{"x":0.253,"y":0.0297},{"x":0.163,"y":0.2597},{"x":0.103,"y":0.3697},{"x":-0.047,"y":0.3797},{"x":-0.217,"y":0.3197},{"x":-0.327,"y":0.2197},{"x":-0.367,"y":0.0797},{"x":-0.397,"y":-0.0403}],"details":[{"k":"circle","c":{"x":0.303,"y":-0.2753},"r":0.024,"color":"#2A2000","filled":true,"w":null},{"k":"line","pts":[{"x":-0.157,"y":0.0197},{"x":-0.017,"y":0.1397},{"x":-0.137,"y":0.2497}],"color":"#7A5A10","w":4}]},{"id":"cat","name":"猫咪","size":252,"fill":"#B79CF5","stroke":"#46307A","pts":[{"x":-0.4513,"y":-0.1929},{"x":-0.5066,"y":-0.0971},{"x":-0.5258,"y":0.0199},{"x":-0.5066,"y":0.1369},{"x":-0.462,"y":0.2273},{"x":-0.3769,"y":0.2135},{"x":-0.2811,"y":0.2433},{"x":-0.1535,"y":0.2731},{"x":-0.0152,"y":0.2805},{"x":0.1125,"y":0.2699},{"x":0.2295,"y":0.2837},{"x":0.3146,"y":0.2561},{"x":0.3487,"y":0.1582},{"x":0.3253,"y":0.0412},{"x":0.3912,"y":-0.012},{"x":0.4742,"y":-0.0546},{"x":0.4444,"y":-0.1344},{"x":0.3912,"y":-0.1982},{"x":0.4157,"y":-0.2939},{"x":0.3487,"y":-0.3737},{"x":0.2827,"y":-0.2886},{"x":0.2029,"y":-0.395},{"x":0.1019,"y":-0.2833},{"x":0.0061,"y":-0.2407},{"x":-0.1003,"y":-0.2141},{"x":-0.2066,"y":-0.1716},{"x":-0.2971,"y":-0.1024},{"x":-0.3556,"y":-0.0014},{"x":-0.4109,"y":-0.0737},{"x":-0.446,"y":-0.1418}],"details":[{"k":"circle","c":{"x":0.3253,"y":-0.2195},"r":0.0255,"color":"#2A1A44","filled":true,"w":null},{"k":"circle","c":{"x":0.4423,"y":-0.0812},"r":0.0191,"color":"#2A1A44","filled":true,"w":null},{"k":"line","pts":[{"x":0.2934,"y":0.0412},{"x":0.3146,"y":0.1369}],"color":"#46307A","w":3}]},{"id":"octopus","name":"章鱼","size":244,"fill":"#E85D9B","stroke":"#6E2144","pts":[{"x":-0.4981,"y":0.0153},{"x":-0.4589,"y":-0.1024},{"x":-0.3412,"y":-0.1808},{"x":-0.1745,"y":-0.2249},{"x":0.0019,"y":-0.2347},{"x":0.149,"y":-0.22},{"x":0.2862,"y":-0.1661},{"x":0.3843,"y":-0.0828},{"x":0.4333,"y":0.0055},{"x":0.4627,"y":0.1035},{"x":0.5019,"y":0.2212},{"x":0.4725,"y":0.2996},{"x":0.4039,"y":0.1917},{"x":0.3745,"y":0.0545},{"x":0.3255,"y":0.2114},{"x":0.2862,"y":0.3094},{"x":0.2274,"y":0.1721},{"x":0.198,"y":0.0447},{"x":0.1392,"y":0.1917},{"x":0.0902,"y":0.2898},{"x":0.0411,"y":0.1427},{"x":0.0215,"y":0.0349},{"x":-0.0373,"y":0.1819},{"x":-0.1059,"y":0.28},{"x":-0.1549,"y":0.1329},{"x":-0.1745,"y":0.0251},{"x":-0.2628,"y":0.1623},{"x":-0.3412,"y":0.2604},{"x":-0.4,"y":0.1231},{"x":-0.4295,"y":0.0153}],"details":[{"k":"circle","c":{"x":-0.1255,"y":-0.122},"r":0.0333,"color":"#3A0F22","filled":true,"w":null},{"k":"circle","c":{"x":0.1196,"y":-0.1318},"r":0.0333,"color":"#3A0F22","filled":true,"w":null},{"k":"line","pts":[{"x":-0.0667,"y":-0.0239},{"x":0.0215,"y":0.0055},{"x":0.1,"y":-0.0386}],"color":"#6E2144","w":4}]},{"id":"rocket","name":"火箭","size":274,"fill":"#F9705E","stroke":"#7A2A22","pts":[{"x":0.0015,"y":-0.5687},{"x":0.0715,"y":-0.4487},{"x":0.0995,"y":-0.3287},{"x":0.1015,"y":-0.1887},{"x":0.0995,"y":-0.0487},{"x":0.1015,"y":0.1113},{"x":0.1815,"y":0.2113},{"x":0.1935,"y":0.3313},{"x":0.1015,"y":0.3113},{"x":0.0715,"y":0.4013},{"x":0.0015,"y":0.4313},{"x":-0.0685,"y":0.4013},{"x":-0.0985,"y":0.3113},{"x":-0.1905,"y":0.3713},{"x":-0.1965,"y":0.2613},{"x":-0.0985,"y":0.1313},{"x":-0.0965,"y":-0.0487},{"x":-0.0985,"y":-0.2087},{"x":-0.1185,"y":-0.2587},{"x":-0.0965,"y":-0.3287},{"x":-0.0685,"y":-0.4487}],"details":[{"k":"circle","c":{"x":0.0015,"y":-0.1587},"r":0.05,"color":"#FFE9A8","filled":true,"w":null},{"k":"circle","c":{"x":0.0015,"y":-0.1587},"r":0.026,"color":"#7A2A22","filled":true,"w":null},{"k":"line","pts":[{"x":-0.0585,"y":0.1813},{"x":0.0615,"y":0.1813}],"color":"#7A2A22","w":4}]},{"id":"burger","name":"汉堡","size":244,"fill":"#F5C062","stroke":"#7A5314","pts":[{"x":-0.4579,"y":0.1166},{"x":-0.3857,"y":0.1785},{"x":-0.2105,"y":0.2042},{"x":-0.0043,"y":0.2094},{"x":0.2019,"y":0.2022},{"x":0.3565,"y":0.1733},{"x":0.4493,"y":0.1166},{"x":0.4802,"y":0.0444},{"x":0.5112,"y":0.0032},{"x":0.4802,"y":-0.0277},{"x":0.3359,"y":-0.0586},{"x":0.2019,"y":-0.0896},{"x":0.3359,"y":-0.1257},{"x":0.4802,"y":-0.1514},{"x":0.3978,"y":-0.1875},{"x":0.2637,"y":-0.2133},{"x":0.1091,"y":-0.2288},{"x":-0.0765,"y":-0.2236},{"x":-0.2311,"y":-0.1978},{"x":-0.3548,"y":-0.1411},{"x":-0.4476,"y":-0.0741},{"x":-0.4888,"y":-0.0123},{"x":-0.4167,"y":0.0187},{"x":-0.4785,"y":0.0548},{"x":-0.4373,"y":0.096}],"details":[{"k":"circle","c":{"x":-0.1074,"y":-0.1617},"r":0.0144,"color":"#B98A32","filled":true,"w":null},{"k":"circle","c":{"x":0.0782,"y":-0.1772},"r":0.0144,"color":"#B98A32","filled":true,"w":null},{"k":"line","pts":[{"x":-0.4167,"y":-0.0123},{"x":0.1297,"y":-0.0195}],"color":"#7A5314","w":5}]},{"id":"tv","name":"电视机","size":262,"fill":"#C8B49A","stroke":"#5A4A38","pts":[{"x":-0.4835,"y":0.1016},{"x":-0.4531,"y":0.041},{"x":-0.4632,"y":-0.1106},{"x":-0.4228,"y":-0.1712},{"x":-0.1804,"y":-0.1914},{"x":0.0822,"y":-0.1914},{"x":0.2438,"y":-0.1762},{"x":0.3246,"y":-0.1207},{"x":0.4256,"y":-0.1005},{"x":0.4963,"y":-0.0499},{"x":0.5165,"y":0.0208},{"x":0.4963,"y":0.1016},{"x":0.4054,"y":0.142},{"x":0.3751,"y":0.2127},{"x":0.2842,"y":0.2127},{"x":0.2741,"y":0.142},{"x":0.1226,"y":0.1622},{"x":-0.0289,"y":0.1521},{"x":-0.1299,"y":0.1622},{"x":-0.14,"y":0.2228},{"x":-0.2713,"y":0.2228},{"x":-0.2814,"y":0.1521},{"x":-0.4127,"y":0.1319}],"details":[{"k":"poly","pts":[{"x":-0.3622,"y":-0.1308},{"x":0.1428,"y":-0.1409},{"x":0.1731,"y":0.1117},{"x":-0.3319,"y":0.1218}],"color":"#2F3A4A","w":null},{"k":"circle","c":{"x":0.3347,"y":0.0309},"r":0.0303,"color":"#5A4A38","filled":true,"w":null},{"k":"circle","c":{"x":0.3347,"y":-0.0398},"r":0.0242,"color":"#5A4A38","filled":true,"w":null},{"k":"line","pts":[{"x":0.2539,"y":-0.06},{"x":0.2539,"y":0.1016}],"color":"#5A4A38","w":6}]},{"id":"toilet","name":"马桶","size":260,"fill":"#F2F2F7","stroke":"#5A5A6E","pts":[{"x":0.4201,"y":-0.44},{"x":0.4401,"y":-0.36},{"x":0.4351,"y":-0.18},{"x":0.4101,"y":-0.06},{"x":0.3201,"y":0.0},{"x":0.2701,"y":0.14},{"x":0.2001,"y":0.27},{"x":0.0801,"y":0.34},{"x":-0.1199,"y":0.34},{"x":-0.2199,"y":0.27},{"x":-0.2899,"y":0.16},{"x":-0.3899,"y":0.12},{"x":-0.4799,"y":0.06},{"x":-0.5399,"y":-0.03},{"x":-0.5599,"y":-0.1},{"x":-0.4999,"y":-0.13},{"x":-0.3599,"y":-0.15},{"x":-0.2099,"y":-0.16},{"x":-0.0399,"y":-0.15},{"x":0.0901,"y":-0.13},{"x":0.1601,"y":-0.18},{"x":0.2401,"y":-0.2},{"x":0.2701,"y":-0.42},{"x":0.3701,"y":-0.46}],"details":[{"k":"line","pts":[{"x":-0.4199,"y":-0.115},{"x":0.1201,"y":-0.105}],"color":"#9A9AAE","w":4},{"k":"circle","c":{"x":0.3401,"y":-0.41},"r":0.026,"color":"#5A5A6E","filled":true,"w":null}]},{"id":"hammer","name":"锤子","size":246,"fill":"#A8B4C8","stroke":"#3A4454","pts":[{"x":-0.4197,"y":-0.1161},{"x":-0.3897,"y":-0.2061},{"x":-0.2997,"y":-0.2261},{"x":-0.1697,"y":-0.1811},{"x":-0.0697,"y":-0.1461},{"x":-0.0097,"y":-0.1261},{"x":0.0203,"y":-0.0561},{"x":0.2003,"y":-0.0361},{"x":0.4103,"y":-0.0161},{"x":0.5503,"y":0.0539},{"x":0.5803,"y":0.1039},{"x":0.5603,"y":0.1639},{"x":0.4403,"y":0.1739},{"x":0.2303,"y":0.1339},{"x":0.0303,"y":0.0839},{"x":-0.0397,"y":0.1139},{"x":-0.1197,"y":0.0839},{"x":-0.2497,"y":0.0989},{"x":-0.3497,"y":0.1039},{"x":-0.4197,"y":0.0639}],"details":[{"k":"line","pts":[{"x":-0.3797,"y":-0.1561},{"x":-0.3797,"y":0.0239}],"color":"#3A4454","w":5},{"k":"poly","pts":[{"x":0.1403,"y":0.0439},{"x":0.2303,"y":0.0289},{"x":0.2303,"y":0.1139},{"x":0.1403,"y":0.1139}],"color":"#7A879B","w":null}]},{"id":"can_cola","name":"可乐罐","size":244,"fill":"#E84850","stroke":"#6E1A1E","pts":[{"x":-0.1717,"y":-0.498},{"x":0.1791,"y":-0.498},{"x":0.2893,"y":-0.49},{"x":0.2943,"y":-0.4549},{"x":0.2372,"y":-0.4499},{"x":0.2492,"y":-0.4298},{"x":0.2492,"y":-0.3597},{"x":0.2372,"y":-0.3296},{"x":0.2512,"y":0.3417},{"x":0.2372,"y":0.3738},{"x":0.2512,"y":0.4098},{"x":0.2392,"y":0.47},{"x":0.1941,"y":0.497},{"x":-0.0013,"y":0.502},{"x":-0.1967,"y":0.497},{"x":-0.2418,"y":0.47},{"x":-0.2538,"y":0.4098},{"x":-0.2398,"y":0.3738},{"x":-0.2538,"y":0.3417},{"x":-0.2398,"y":-0.3296},{"x":-0.2518,"y":-0.3597},{"x":-0.2518,"y":-0.4298},{"x":-0.2498,"y":-0.4699}],"details":[{"k":"line","pts":[{"x":-0.0013,"y":-0.2996},{"x":-0.0013,"y":0.3016}],"color":"#FFF2F2","w":12},{"k":"line","pts":[{"x":-0.2418,"y":-0.3397},{"x":0.2392,"y":-0.3397}],"color":"#6E1A1E","w":4},{"k":"circle","c":{"x":0.2592,"y":-0.4679},"r":0.018,"color":"#6E1A1E","filled":true,"w":null}]},{"id":"book","name":"书本","size":272,"fill":"#C3B1E1","stroke":"#5A4480","pts":[{"x":-0.4927,"y":0.2736},{"x":-0.4627,"y":0.3186},{"x":-0.1927,"y":0.3236},{"x":0.2073,"y":0.3236},{"x":0.4573,"y":0.3186},{"x":0.5023,"y":0.2736},{"x":0.5073,"y":0.1236},{"x":0.4773,"y":0.0936},{"x":0.4773,"y":-0.2564},{"x":0.5023,"y":-0.2864},{"x":0.4573,"y":-0.3264},{"x":0.3473,"y":-0.3314},{"x":0.3373,"y":-0.3664},{"x":0.2773,"y":-0.3264},{"x":0.2073,"y":-0.3214},{"x":-0.1927,"y":-0.3264},{"x":-0.4427,"y":-0.3164},{"x":-0.4877,"y":-0.2764},{"x":-0.4927,"y":-0.0264}],"details":[{"k":"line","pts":[{"x":-0.4127,"y":-0.2064},{"x":0.4073,"y":-0.2064}],"color":"#8E7AB8","w":4},{"k":"line","pts":[{"x":0.4373,"y":0.1236},{"x":0.4373,"y":-0.2564}],"color":"#5A4480","w":5},{"k":"poly","pts":[{"x":-0.4627,"y":0.2336},{"x":0.4373,"y":0.2386},{"x":0.4373,"y":0.2836},{"x":-0.4627,"y":0.2786}],"color":"#F2F2F7","w":null}]},{"id":"mug","name":"马克杯","size":258,"fill":"#F0C9A8","stroke":"#7A5A40","pts":[{"x":-0.34,"y":-0.4426},{"x":-0.2895,"y":-0.4931},{"x":-0.037,"y":-0.4931},{"x":0.1852,"y":-0.4931},{"x":0.2256,"y":-0.4426},{"x":0.2155,"y":-0.3719},{"x":0.1852,"y":-0.3214},{"x":0.2963,"y":-0.2507},{"x":0.3367,"y":-0.0891},{"x":0.3317,"y":0.1129},{"x":0.2761,"y":0.2443},{"x":0.2054,"y":0.315},{"x":0.1953,"y":0.3453},{"x":0.2256,"y":0.416},{"x":0.1953,"y":0.4766},{"x":0.1145,"y":0.5069},{"x":-0.1885,"y":0.5069},{"x":-0.2693,"y":0.4766},{"x":-0.2996,"y":0.416},{"x":-0.2693,"y":0.3453},{"x":-0.2592,"y":-0.3214},{"x":-0.2895,"y":-0.3719}],"details":[{"k":"line","pts":[{"x":-0.2491,"y":-0.3214},{"x":0.1751,"y":-0.3214}],"color":"#B98A60","w":4},{"k":"line","pts":[{"x":-0.1784,"y":0.1129},{"x":-0.1784,"y":0.3958}],"color":"#FFF0E0","w":6}]},{"id":"skateboard","name":"滑板","size":280,"fill":"#8FA8C8","stroke":"#3A4A66","pts":[{"x":-0.5,"y":-0.0602},{"x":-0.43,"y":-0.1602},{"x":-0.33,"y":-0.1052},{"x":-0.2,"y":-0.0752},{"x":0.2,"y":-0.0752},{"x":0.33,"y":-0.1052},{"x":0.43,"y":-0.1602},{"x":0.5,"y":-0.0602},{"x":0.48,"y":0.0198},{"x":0.4,"y":0.0598},{"x":0.32,"y":0.0748},{"x":0.3,"y":0.1298},{"x":0.23,"y":0.1698},{"x":0.16,"y":0.1298},{"x":0.14,"y":0.0748},{"x":-0.14,"y":0.0748},{"x":-0.16,"y":0.1298},{"x":-0.23,"y":0.1698},{"x":-0.3,"y":0.1298},{"x":-0.32,"y":0.0748},{"x":-0.4,"y":0.0598},{"x":-0.48,"y":0.0198}],"details":[{"k":"line","pts":[{"x":-0.3,"y":-0.0202},{"x":0.3,"y":-0.0202}],"color":"#2A3A52","w":3},{"k":"circle","c":{"x":0.23,"y":0.1198},"r":0.026,"color":"#2A3A52","filled":true,"w":null},{"k":"circle","c":{"x":-0.23,"y":0.1198},"r":0.026,"color":"#2A3A52","filled":true,"w":null}]},{"id":"camera","name":"复古相机","size":262,"fill":"#C9D4E3","stroke":"#4A5568","pts":[{"x":-0.5339,"y":-0.057},{"x":-0.4127,"y":-0.1176},{"x":-0.3622,"y":-0.1681},{"x":-0.3319,"y":-0.2691},{"x":-0.1501,"y":-0.3145},{"x":-0.0996,"y":-0.1681},{"x":0.0519,"y":-0.1782},{"x":0.0923,"y":-0.259},{"x":0.2539,"y":-0.259},{"x":0.2741,"y":-0.1782},{"x":0.3348,"y":-0.2388},{"x":0.4358,"y":-0.2186},{"x":0.4661,"y":-0.1479},{"x":0.4661,"y":0.1754},{"x":0.3752,"y":0.2461},{"x":0.1226,"y":0.2461},{"x":-0.1804,"y":0.241},{"x":-0.3319,"y":0.2158},{"x":-0.3622,"y":0.1451},{"x":-0.4531,"y":0.135},{"x":-0.5339,"y":0.1148}],"details":[{"k":"circle","c":{"x":0.062,"y":0.034},"r":0.101,"color":"#2F3A4A","filled":true,"w":null},{"k":"circle","c":{"x":0.062,"y":0.034},"r":0.0505,"color":"#8FD3F5","filled":true,"w":null},{"k":"circle","c":{"x":-0.443,"y":0.0289},"r":0.0455,"color":"#3A4454","filled":true,"w":null},{"k":"line","pts":[{"x":0.355,"y":-0.1277},{"x":0.355,"y":0.1249}],"color":"#4A5568","w":4}]},{"id":"handheld","name":"掌机","size":270,"fill":"#9C9BE8","stroke":"#3A3873","pts":[{"x":-0.5035,"y":-0.0383},{"x":-0.4581,"y":-0.1383},{"x":-0.3945,"y":-0.1838},{"x":-0.3126,"y":-0.1929},{"x":-0.2308,"y":-0.2656},{"x":-0.0763,"y":-0.2656},{"x":-0.0217,"y":-0.1929},{"x":0.1328,"y":-0.202},{"x":0.2692,"y":-0.2292},{"x":0.3783,"y":-0.2292},{"x":0.4237,"y":-0.1656},{"x":0.4692,"y":-0.0838},{"x":0.4965,"y":0.0162},{"x":0.4601,"y":0.1344},{"x":0.3874,"y":0.2071},{"x":0.251,"y":0.2389},{"x":0.1237,"y":0.2162},{"x":0.0146,"y":0.2617},{"x":-0.0672,"y":0.2071},{"x":-0.1854,"y":0.2298},{"x":-0.3308,"y":0.2162},{"x":-0.4308,"y":0.1617},{"x":-0.4763,"y":0.0798}],"details":[{"k":"poly","pts":[{"x":-0.1854,"y":-0.1292},{"x":0.2055,"y":-0.1383},{"x":0.2237,"y":0.1071},{"x":-0.1672,"y":0.098}],"color":"#2A2A52","w":null},{"k":"poly","pts":[{"x":-0.449,"y":-0.0474},{"x":-0.3672,"y":-0.0474},{"x":-0.3672,"y":0.0344},{"x":-0.449,"y":0.0344}],"color":"#2A2A52","w":null},{"k":"circle","c":{"x":0.3692,"y":0.0253},"r":0.0291,"color":"#2A2A52","filled":true,"w":null},{"k":"circle","c":{"x":0.3328,"y":0.1162},"r":0.0291,"color":"#2A2A52","filled":true,"w":null}]},{"id":"dessert","name":"甜筒","size":264,"fill":"#FF9FB2","stroke":"#7A2E45","pts":[{"x":-0.0019,"y":0.5769},{"x":0.0945,"y":0.3721},{"x":0.1427,"y":0.1914},{"x":0.1716,"y":0.0468},{"x":0.2101,"y":-0.0135},{"x":0.2391,"y":-0.1219},{"x":0.2198,"y":-0.2424},{"x":0.1427,"y":-0.3147},{"x":0.0559,"y":-0.2785},{"x":-0.0019,"y":-0.387},{"x":-0.079,"y":-0.4231},{"x":-0.1658,"y":-0.3629},{"x":-0.214,"y":-0.2424},{"x":-0.2043,"y":-0.0978},{"x":-0.1754,"y":0.0227},{"x":-0.1368,"y":0.1914},{"x":-0.0887,"y":0.3721}],"details":[{"k":"line","pts":[{"x":-0.1465,"y":0.095},{"x":0.1427,"y":0.095}],"color":"#B06070","w":4},{"k":"line","pts":[{"x":-0.1224,"y":-0.0978},{"x":0.1186,"y":-0.0978}],"color":"#B06070","w":4},{"k":"circle","c":{"x":-0.0621,"y":-0.2906},"r":0.0265,"color":"#E84850","filled":true,"w":null}]},{"id":"crab","name":"卡通螃蟹","size":266,"fill":"#F9705E","stroke":"#7A2A22","pts":[{"x":-0.4442,"y":-0.0348},{"x":-0.3591,"y":-0.1625},{"x":-0.2634,"y":-0.1306},{"x":-0.1889,"y":-0.1944},{"x":0.0026,"y":-0.2263},{"x":0.1622,"y":-0.205},{"x":0.2686,"y":-0.1518},{"x":0.4069,"y":-0.2369},{"x":0.5345,"y":-0.3008},{"x":0.46,"y":-0.1306},{"x":0.3856,"y":-0.0455},{"x":0.3217,"y":0.0609},{"x":0.2792,"y":0.1886},{"x":0.1941,"y":0.1354},{"x":0.1303,"y":0.2631},{"x":0.0452,"y":0.1992},{"x":-0.008,"y":0.3162},{"x":-0.1038,"y":0.2311},{"x":-0.157,"y":0.2843},{"x":-0.2421,"y":0.1992},{"x":-0.2953,"y":0.2311},{"x":-0.3591,"y":0.1354},{"x":-0.3804,"y":0.0609},{"x":-0.4655,"y":0.0184}],"details":[{"k":"circle","c":{"x":-0.0931,"y":-0.0986},"r":0.034,"color":"#3A0F0F","filled":true,"w":null},{"k":"circle","c":{"x":0.1303,"y":-0.0986},"r":0.034,"color":"#3A0F0F","filled":true,"w":null},{"k":"line","pts":[{"x":-0.0612,"y":-0.0029},{"x":0.0132,"y":0.0396},{"x":0.0877,"y":-0.0029}],"color":"#7A2A22","w":4}]},{"id":"mecha_doll","name":"小机甲玩偶","size":258,"fill":"#C9A7F0","stroke":"#5A3A80","pts":[{"x":0.0,"y":-0.5055},{"x":0.03,"y":-0.4355},{"x":0.06,"y":-0.4055},{"x":0.14,"y":-0.3355},{"x":0.23,"y":-0.2955},{"x":0.24,"y":-0.1855},{"x":0.18,"y":-0.1455},{"x":0.17,"y":-0.0055},{"x":0.2,"y":0.0545},{"x":0.23,"y":0.1345},{"x":0.18,"y":0.1645},{"x":0.15,"y":0.1145},{"x":0.16,"y":0.3245},{"x":0.13,"y":0.4745},{"x":0.06,"y":0.4945},{"x":0.04,"y":0.3545},{"x":-0.04,"y":0.3545},{"x":-0.06,"y":0.4945},{"x":-0.13,"y":0.4745},{"x":-0.16,"y":0.3245},{"x":-0.15,"y":0.1145},{"x":-0.18,"y":0.1645},{"x":-0.23,"y":0.1345},{"x":-0.2,"y":0.0545},{"x":-0.17,"y":-0.0055},{"x":-0.18,"y":-0.1455},{"x":-0.24,"y":-0.1855},{"x":-0.23,"y":-0.2955},{"x":-0.14,"y":-0.3355},{"x":-0.06,"y":-0.4055},{"x":-0.03,"y":-0.4355}],"details":[{"k":"poly","pts":[{"x":-0.11,"y":-0.2955},{"x":0.11,"y":-0.2955},{"x":0.1,"y":-0.2155},{"x":-0.1,"y":-0.2155}],"color":"#3A2050","w":null},{"k":"circle","c":{"x":0.0,"y":0.0145},"r":0.04,"color":"#8FD3F5","filled":true,"w":null},{"k":"line","pts":[{"x":-0.14,"y":0.2345},{"x":0.14,"y":0.2345}],"color":"#5A3A80","w":4}]},{"id":"toaster","name":"面包机","size":268,"fill":"#C9D4E3","stroke":"#4A5568","pts":[{"x":-0.4228,"y":0.1252},{"x":-0.3928,"y":0.1952},{"x":-0.2228,"y":0.2252},{"x":0.0772,"y":0.2282},{"x":0.3172,"y":0.2202},{"x":0.3972,"y":0.1852},{"x":0.4172,"y":0.0852},{"x":0.5772,"y":0.0752},{"x":0.5772,"y":0.0302},{"x":0.4172,"y":0.0352},{"x":0.3772,"y":-0.0848},{"x":0.3172,"y":-0.2748},{"x":0.2272,"y":-0.2898},{"x":0.2272,"y":-0.0948},{"x":0.0972,"y":-0.0948},{"x":0.0972,"y":-0.2898},{"x":-0.1028,"y":-0.2898},{"x":-0.1028,"y":-0.0948},{"x":-0.2228,"y":-0.0948},{"x":-0.2228,"y":-0.2898},{"x":-0.3028,"y":-0.2798},{"x":-0.3628,"y":-0.2248},{"x":-0.4128,"y":-0.1248}],"details":[{"k":"line","pts":[{"x":-0.3528,"y":0.2052},{"x":0.3272,"y":0.2102}],"color":"#4A5568","w":4},{"k":"circle","c":{"x":-0.2928,"y":0.0352},"r":0.038,"color":"#3A4454","filled":true,"w":null},{"k":"line","pts":[{"x":-0.2628,"y":0.1252},{"x":0.3572,"y":0.1302}],"color":"#8FA0B4","w":3}]},{"id":"teapot","name":"茶壶","size":264,"fill":"#F2F2F7","stroke":"#5A5A6E","pts":[{"x":-0.5529,"y":-0.3143},{"x":-0.384,"y":-0.0476},{"x":-0.2862,"y":-0.1187},{"x":-0.1707,"y":-0.1987},{"x":-0.0818,"y":-0.2254},{"x":0.0071,"y":-0.2743},{"x":0.0782,"y":-0.212},{"x":0.1404,"y":-0.1632},{"x":0.1938,"y":-0.0832},{"x":0.336,"y":-0.0743},{"x":0.4471,"y":0.0235},{"x":0.3982,"y":0.148},{"x":0.2649,"y":0.1924},{"x":0.1982,"y":0.1613},{"x":0.1138,"y":0.1968},{"x":-0.064,"y":0.2031},{"x":-0.224,"y":0.1835},{"x":-0.2951,"y":0.1302},{"x":-0.2684,"y":0.068},{"x":-0.4373,"y":-0.0298}],"details":[{"k":"line","pts":[{"x":-0.224,"y":-0.1543},{"x":0.1138,"y":-0.1454}],"color":"#9A9AAE","w":4},{"k":"line","pts":[{"x":-0.2596,"y":0.0235},{"x":0.1938,"y":0.0146}],"color":"#9A9AAE","w":4},{"k":"circle","c":{"x":0.0071,"y":-0.2965},"r":0.016,"color":"#5A5A6E","filled":true,"w":null}]},{"id":"headphone","name":"耳机","size":256,"fill":"#A8B4C8","stroke":"#3A4454","pts":[{"x":-0.4255,"y":0.3717},{"x":-0.4787,"y":0.1802},{"x":-0.5,"y":-0.0325},{"x":-0.4468,"y":-0.224},{"x":-0.2979,"y":-0.3517},{"x":-0.1064,"y":-0.4102},{"x":0.1064,"y":-0.4102},{"x":0.2979,"y":-0.3517},{"x":0.4468,"y":-0.224},{"x":0.5,"y":-0.0325},{"x":0.4787,"y":0.1802},{"x":0.4255,"y":0.3717},{"x":0.3511,"y":0.4568},{"x":0.2128,"y":0.4462},{"x":0.2021,"y":0.276},{"x":0.2447,"y":0.0738},{"x":0.2766,"y":-0.0857},{"x":0.2021,"y":-0.2028},{"x":0.0745,"y":-0.2666},{"x":-0.0745,"y":-0.2666},{"x":-0.2021,"y":-0.2028},{"x":-0.2766,"y":-0.0857},{"x":-0.2447,"y":0.0738},{"x":-0.2021,"y":0.276},{"x":-0.2128,"y":0.4462},{"x":-0.3511,"y":0.4568}],"details":[{"k":"circle","c":{"x":-0.3085,"y":0.2015},"r":0.0798,"color":"#2A3444","filled":true,"w":null},{"k":"circle","c":{"x":0.3085,"y":0.2015},"r":0.0798,"color":"#2A3444","filled":true,"w":null},{"k":"circle","c":{"x":0.0,"y":-0.3411},"r":0.0277,"color":"#2A3444","filled":true,"w":null}]},{"id":"sneaker","name":"球鞋","size":272,"fill":"#FF9FB2","stroke":"#7A2E45","pts":[{"x":-0.4782,"y":0.0009},{"x":-0.4482,"y":0.1509},{"x":-0.3182,"y":0.1759},{"x":-0.2782,"y":0.1109},{"x":-0.1782,"y":0.1759},{"x":0.1218,"y":0.1809},{"x":0.2618,"y":0.1709},{"x":0.3018,"y":0.1109},{"x":0.3718,"y":0.1609},{"x":0.4918,"y":0.1009},{"x":0.5218,"y":0.0209},{"x":0.4918,"y":-0.0591},{"x":0.4018,"y":-0.1191},{"x":0.3218,"y":-0.0791},{"x":0.2618,"y":-0.2391},{"x":0.1718,"y":-0.0991},{"x":0.0818,"y":-0.1591},{"x":-0.0382,"y":-0.2291},{"x":-0.1582,"y":-0.1991},{"x":-0.2782,"y":-0.1591},{"x":-0.3982,"y":-0.1391},{"x":-0.4582,"y":-0.0791}],"details":[{"k":"line","pts":[{"x":-0.4482,"y":0.1109},{"x":0.4518,"y":0.0809}],"color":"#B06070","w":4},{"k":"line","pts":[{"x":0.1418,"y":-0.0891},{"x":0.2518,"y":-0.1991}],"color":"#B06070","w":4},{"k":"line","pts":[{"x":0.0618,"y":-0.1491},{"x":0.1818,"y":-0.0691}],"color":"#B06070","w":4}]},{"id":"icecream","name":"冰淇淋","size":252,"fill":"#F0C9A8","stroke":"#7A5A40","pts":[{"x":-0.2407,"y":-0.3211},{"x":-0.1789,"y":-0.3727},{"x":0.1304,"y":-0.3727},{"x":0.2129,"y":-0.3108},{"x":0.1923,"y":-0.2386},{"x":0.2541,"y":-0.1768},{"x":0.2644,"y":0.0294},{"x":0.2129,"y":0.1531},{"x":0.0789,"y":0.1943},{"x":0.0685,"y":0.6273},{"x":-0.0552,"y":0.6273},{"x":-0.0655,"y":0.1943},{"x":-0.1995,"y":0.1531},{"x":-0.251,"y":0.0294}],"details":[{"k":"line","pts":[{"x":-0.2304,"y":-0.0221},{"x":0.2438,"y":-0.0221}],"color":"#B98A60","w":4},{"k":"line","pts":[{"x":-0.0449,"y":0.215},{"x":-0.0449,"y":0.6067}],"color":"#B98A60","w":3},{"k":"poly","pts":[{"x":0.1304,"y":-0.3727},{"x":0.2129,"y":-0.3108},{"x":0.1923,"y":-0.2386},{"x":0.2541,"y":-0.1768},{"x":0.2644,"y":0.0294},{"x":0.1613,"y":-0.0943}],"color":"#7A5A40","w":null}]},{"id":"saxophone","name":"萨克斯","size":262,"fill":"#F2A65A","stroke":"#7A4A18","pts":[{"x":-0.0672,"y":-0.5441},{"x":0.0392,"y":-0.5122},{"x":0.0604,"y":-0.4058},{"x":0.1562,"y":-0.3207},{"x":0.22,"y":-0.193},{"x":0.2413,"y":-0.0334},{"x":0.2307,"y":0.1368},{"x":0.1987,"y":0.2538},{"x":0.0817,"y":0.3389},{"x":-0.0885,"y":0.4027},{"x":-0.3225,"y":0.4559},{"x":-0.397,"y":0.3708},{"x":-0.3225,"y":0.2751},{"x":-0.1736,"y":0.2432},{"x":-0.0672,"y":0.158},{"x":-0.0247,"y":0.0304},{"x":-0.014,"y":-0.1292},{"x":-0.0566,"y":-0.2462},{"x":-0.1098,"y":-0.3207},{"x":-0.1736,"y":-0.4271},{"x":-0.1949,"y":-0.5015},{"x":-0.131,"y":-0.5441}],"details":[{"k":"circle","c":{"x":-0.0566,"y":-0.0441},"r":0.0277,"color":"#7A4A18","filled":true,"w":null},{"k":"circle","c":{"x":-0.0566,"y":0.0623},"r":0.0277,"color":"#7A4A18","filled":true,"w":null},{"k":"line","pts":[{"x":-0.3225,"y":0.3389},{"x":-0.1523,"y":0.307}],"color":"#7A4A18","w":4}]},{"id":"lobster","name":"龙虾","size":268,"fill":"#F9705E","stroke":"#7A2A22","pts":[{"x":-0.493,"y":-0.1357},{"x":-0.373,"y":-0.2157},{"x":-0.273,"y":-0.1357},{"x":-0.193,"y":-0.1957},{"x":-0.113,"y":-0.1157},{"x":0.007,"y":-0.1757},{"x":0.157,"y":-0.2057},{"x":0.267,"y":-0.1357},{"x":0.337,"y":-0.2157},{"x":0.477,"y":-0.2557},{"x":0.507,"y":-0.1557},{"x":0.427,"y":-0.0957},{"x":0.347,"y":-0.0557},{"x":0.287,"y":0.0843},{"x":0.227,"y":0.2043},{"x":0.147,"y":0.1443},{"x":0.127,"y":0.2843},{"x":0.047,"y":0.2143},{"x":0.017,"y":0.3243},{"x":-0.063,"y":0.2343},{"x":-0.113,"y":0.3043},{"x":-0.213,"y":0.2043},{"x":-0.293,"y":0.1243},{"x":-0.353,"y":0.0243},{"x":-0.413,"y":-0.0557}],"details":[{"k":"circle","c":{"x":-0.053,"y":-0.0557},"r":0.022,"color":"#3A0F0F","filled":true,"w":null},{"k":"circle","c":{"x":0.067,"y":-0.0657},"r":0.022,"color":"#3A0F0F","filled":true,"w":null},{"k":"line","pts":[{"x":0.187,"y":0.0043},{"x":0.267,"y":0.1043},{"x":0.187,"y":0.1643}],"color":"#7A2A22","w":3}]},{"id":"cactus","name":"仙人掌","size":258,"fill":"#9C9BE8","stroke":"#3A3873","pts":[{"x":-0.0819,"y":-0.4942},{"x":0.0981,"y":-0.4942},{"x":0.1181,"y":-0.4142},{"x":0.1081,"y":-0.1942},{"x":0.1881,"y":-0.2342},{"x":0.2481,"y":-0.1742},{"x":0.2381,"y":-0.0542},{"x":0.1581,"y":-0.0242},{"x":0.1081,"y":0.1058},{"x":0.1381,"y":0.3058},{"x":0.1681,"y":0.3858},{"x":0.1481,"y":0.4758},{"x":0.0081,"y":0.5058},{"x":-0.1319,"y":0.4758},{"x":-0.1519,"y":0.3858},{"x":-0.1219,"y":0.3058},{"x":-0.0919,"y":0.0658},{"x":-0.1719,"y":-0.0142},{"x":-0.2419,"y":-0.0842},{"x":-0.2619,"y":-0.2242},{"x":-0.1919,"y":-0.2942},{"x":-0.1419,"y":-0.2242},{"x":-0.0919,"y":-0.2942}],"details":[{"k":"line","pts":[{"x":-0.0319,"y":-0.3942},{"x":-0.0319,"y":0.3458}],"color":"#6A68B8","w":4},{"k":"line","pts":[{"x":-0.1319,"y":0.3658},{"x":0.1481,"y":0.3658}],"color":"#3A3873","w":4}]},{"id":"dino","name":"小恐龙","size":272,"fill":"#8FD3F5","stroke":"#1E5474","pts":[{"x":-0.576,"y":-0.0329},{"x":-0.4812,"y":-0.0855},{"x":-0.4075,"y":-0.0013},{"x":-0.3233,"y":-0.1065},{"x":-0.2286,"y":-0.0223},{"x":-0.1654,"y":-0.2539},{"x":-0.0917,"y":-0.075},{"x":-0.0181,"y":-0.275},{"x":0.0556,"y":-0.096},{"x":0.1609,"y":-0.2329},{"x":0.3083,"y":-0.2013},{"x":0.424,"y":-0.0855},{"x":0.403,"y":0.0303},{"x":0.2977,"y":0.0514},{"x":0.2346,"y":0.1566},{"x":0.1504,"y":0.2619},{"x":0.0661,"y":0.2514},{"x":0.0767,"y":0.104},{"x":-0.0286,"y":0.1461},{"x":-0.0917,"y":0.2619},{"x":-0.176,"y":0.2566},{"x":-0.1654,"y":0.0935},{"x":-0.3023,"y":0.125},{"x":-0.4286,"y":0.0724}],"details":[{"k":"circle","c":{"x":0.3293,"y":-0.1065},"r":0.0253,"color":"#1E5474","filled":true,"w":null},{"k":"line","pts":[{"x":0.0451,"y":-0.1486},{"x":0.1293,"y":-0.0855}],"color":"#1E5474","w":3}]},{"id":"windmill","name":"风车","size":264,"fill":"#C8B49A","stroke":"#5A4A38","pts":[{"x":-0.5443,"y":-0.5762},{"x":-0.4267,"y":-0.4586},{"x":-0.162,"y":-0.2723},{"x":0.0243,"y":-0.3508},{"x":0.2596,"y":-0.5272},{"x":0.191,"y":-0.39},{"x":0.1322,"y":-0.2429},{"x":0.1714,"y":0.0316},{"x":0.2008,"y":0.3257},{"x":0.24,"y":0.3747},{"x":0.1125,"y":0.4238},{"x":-0.0835,"y":0.4189},{"x":-0.162,"y":0.3747},{"x":-0.1228,"y":0.2277},{"x":-0.1228,"y":0.0316},{"x":-0.2208,"y":-0.2037}],"details":[{"k":"poly","pts":[{"x":-0.0247,"y":-0.0468},{"x":0.0439,"y":-0.0468},{"x":0.0537,"y":0.0904},{"x":-0.0443,"y":0.0904}],"color":"#5A4A38","w":null},{"k":"line","pts":[{"x":-0.1031,"y":0.2571},{"x":0.1322,"y":0.2571}],"color":"#5A4A38","w":4}]},{"id":"satellite","name":"卫星","size":270,"fill":"#A8B4C8","stroke":"#3A4454","pts":[{"x":-0.4593,"y":-0.1471},{"x":-0.1848,"y":-0.1471},{"x":-0.1456,"y":-0.1079},{"x":-0.0867,"y":-0.1863},{"x":0.0113,"y":-0.2451},{"x":0.0701,"y":-0.1667},{"x":0.1289,"y":-0.1079},{"x":0.1682,"y":-0.0883},{"x":0.5015,"y":-0.1079},{"x":0.5211,"y":0.0294},{"x":0.5015,"y":0.147},{"x":0.1682,"y":0.1274},{"x":0.1289,"y":0.0686},{"x":0.0701,"y":0.147},{"x":0.0113,"y":0.2058},{"x":-0.0671,"y":0.1666},{"x":-0.1456,"y":0.1274},{"x":-0.1848,"y":0.147},{"x":-0.4593,"y":0.1274},{"x":-0.4789,"y":0.0294}],"details":[{"k":"line","pts":[{"x":-0.4201,"y":-0.0294},{"x":-0.224,"y":-0.0294}],"color":"#2A3444","w":3},{"k":"line","pts":[{"x":-0.4201,"y":0.0686},{"x":-0.224,"y":0.0686}],"color":"#2A3444","w":3},{"k":"line","pts":[{"x":0.227,"y":-0.0294},{"x":0.4623,"y":-0.0294}],"color":"#2A3444","w":3},{"k":"circle","c":{"x":0.0015,"y":-0.0098},"r":0.0373,"color":"#8FD3F5","filled":true,"w":null}]},{"id":"anchor","name":"船锚","size":256,"fill":"#C9D4E3","stroke":"#4A5568","pts":[{"x":-0.1256,"y":-0.486},{"x":0.1244,"y":-0.486},{"x":0.1358,"y":-0.3724},{"x":0.1244,"y":-0.2587},{"x":0.2835,"y":-0.2815},{"x":0.2949,"y":-0.1905},{"x":0.1244,"y":-0.1792},{"x":0.1244,"y":0.2867},{"x":0.2267,"y":0.4231},{"x":0.1699,"y":0.514},{"x":0.0676,"y":0.4345},{"x":-0.0006,"y":0.4685},{"x":-0.0688,"y":0.4345},{"x":-0.171,"y":0.514},{"x":-0.2278,"y":0.4231},{"x":-0.1256,"y":0.2867},{"x":-0.1256,"y":-0.1792},{"x":-0.296,"y":-0.1905},{"x":-0.2847,"y":-0.2815},{"x":-0.1256,"y":-0.2587}],"details":[{"k":"circle","c":{"x":-0.0006,"y":-0.3951},"r":0.0455,"color":"#4A5568","filled":true,"w":null},{"k":"line","pts":[{"x":-0.0006,"y":-0.1678},{"x":-0.0006,"y":0.4004}],"color":"#6A7688","w":4}]},{"id":"dragon","name":"小飞龙","size":274,"fill":"#C3B1E1","stroke":"#5A4480","pts":[{"x":-0.5369,"y":0.0528},{"x":-0.4297,"y":-0.0097},{"x":-0.3583,"y":0.0528},{"x":-0.2869,"y":-0.0275},{"x":-0.394,"y":-0.0722},{"x":-0.2333,"y":-0.0811},{"x":-0.1797,"y":-0.1525},{"x":-0.1262,"y":-0.09},{"x":-0.019,"y":-0.1257},{"x":0.0703,"y":-0.2954},{"x":0.1596,"y":-0.1168},{"x":0.3024,"y":-0.1793},{"x":0.2578,"y":-0.0364},{"x":0.356,"y":-0.0007},{"x":0.4274,"y":-0.0543},{"x":0.4631,"y":0.035},{"x":0.3649,"y":0.0618},{"x":0.2935,"y":0.1064},{"x":0.2578,"y":0.1957},{"x":0.1863,"y":0.1868},{"x":0.1953,"y":0.0707},{"x":0.0881,"y":0.1153},{"x":0.0524,"y":0.2046},{"x":-0.019,"y":0.1957},{"x":-0.0012,"y":0.0796},{"x":-0.1262,"y":0.1243},{"x":-0.2333,"y":0.1064},{"x":-0.4119,"y":0.1243}],"details":[{"k":"circle","c":{"x":0.3738,"y":0.0082},"r":0.0196,"color":"#3A2050","filled":true,"w":null},{"k":"line","pts":[{"x":0.0881,"y":0.0618},{"x":0.1774,"y":0.0975}],"color":"#5A4480","w":3}]}];
+
+/* ===================== 材质原型（对应 §02 材质配方表） ===================== */
+const MAT = {
+  metal:   {n:'金属', f:(c,cx,cy,s,q,sh)=>{
+    c.save();
+    const g=c.createLinearGradient(cx-s*.30,0,cx+s*.30,0);
+    g.addColorStop(0,'rgba(255,255,255,0)'); g.addColorStop(.42,'rgba(255,255,255,'+(0.26*q)+')');
+    g.addColorStop(.56,'rgba(255,255,255,'+(0.10*q)+')'); g.addColorStop(1,'rgba(255,255,255,0)');
+    c.fillStyle=g; c.fillRect(cx-s,cy-s,s*2,s*2);
+    c.globalAlpha=.14*q; c.strokeStyle='#0A1220'; c.lineWidth=Math.max(1,s*.008);
+    c.beginPath(); c.moveTo(cx-s*.40,cy+s*.18); c.lineTo(cx+s*.40,cy+s*.18); c.stroke();
+    c.globalAlpha=.55*q; c.fillStyle='#FFFFFF';
+    [[-.26,-.30],[.24,.24]].forEach(p=>{c.beginPath();c.ellipse(cx+p[0]*s,cy+p[1]*s,Math.max(1.2,s*.014),Math.max(1.2,s*.014),0,0,6.284);c.fill();});
+    c.restore();
+  }},
+  ceramic: {n:'陶瓷', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.32*q; c.fillStyle='#FFFFFF';
+    c.beginPath(); c.ellipse(cx-s*.20,cy-s*.26,Math.max(1.4,s*.085),Math.max(1,s*.026),-0.5,0,6.284); c.fill();
+    c.globalAlpha=.22*q; c.strokeStyle='#0A1220'; c.lineWidth=Math.max(1.2,s*.014);
+    c.beginPath(); c.arc(cx,cy+s*.12,s*.36,0.35,2.79); c.stroke(); c.restore();
+  }},
+  glass:  {n:'玻璃', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.20*q; c.fillStyle='#DCEBFF';
+    c.beginPath(); c.ellipse(cx,cy,s*.30,s*.34,0,0,6.284); c.fill();
+    c.globalAlpha=.34*q; c.fillStyle='#FFFFFF';
+    c.beginPath(); c.ellipse(cx-s*.18,cy-s*.22,Math.max(1.2,s*.022),Math.max(1.4,s*.10),-0.18,0,6.284); c.fill();
+    c.globalAlpha=.26*q; c.strokeStyle='#FFFFFF'; c.lineWidth=Math.max(1.2,s*.012);
+    c.beginPath(); c.moveTo(cx-s*.30,cy+s*.30); c.lineTo(cx+s*.30,cy+s*.30); c.stroke(); c.restore();
+  }},
+  wood:   {n:'木', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.30*q; c.strokeStyle='#6E4E22'; c.lineWidth=Math.max(1.1,s*.011);
+    for(let i=0;i<3;i++){ const y=cy-s*.22+i*s*.20; c.beginPath();
+      c.moveTo(cx-s*.34,y); c.bezierCurveTo(cx-s*.1,y-s*.05, cx+s*.08,y+s*.06, cx+s*.34,y-s*.02); c.stroke(); }
+    c.globalAlpha=.26*q; c.fillStyle='#5A3E1C';
+    c.beginPath(); c.ellipse(cx-s*.30,cy+s*.30,Math.max(1.4,s*.045),Math.max(1,s*.055),0,0,6.284); c.fill();
+    c.restore();
+  }},
+  fabric: {n:'织物/皮', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.30*q; c.strokeStyle='#7A2E45'; c.lineWidth=Math.max(1.1,s*.011); c.lineCap='round';
+    const folds=[[-.24,-.16,.13],[.02,-.06,.17],[.22,.12,.12],[-.06,.24,.15]];
+    folds.forEach(f=>{c.beginPath();c.moveTo(cx+f[0]*s-s*f[2]*s,cy+f[1]*s);
+      c.quadraticCurveTo(cx+f[0]*s,cy+f[1]*s+s*.04,cx+f[0]*s+s*f[2]*s,cy+f[1]*s);c.stroke();});
+    c.globalAlpha=.22*q; c.setLineDash([s*.022,s*.022]); c.strokeStyle='#FFFFFF'; c.lineWidth=Math.max(1,s*.009);
+    c.beginPath(); c.moveTo(cx-s*.30,cy+s*.10); c.lineTo(cx+s*.10,cy+s*.16); c.stroke();
+    c.beginPath(); c.moveTo(cx-s*.24,cy+s*.26); c.lineTo(cx+s*.06,cy+s*.30); c.stroke(); c.setLineDash([]); c.restore();
+  }},
+  plant:  {n:'植物', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.42*q; c.strokeStyle='#4A7A46'; c.lineWidth=Math.max(1.1,s*.012); c.lineCap='round';
+    c.beginPath(); c.moveTo(cx,cy+s*.34); c.lineTo(cx,cy-s*.30); c.stroke();
+    for(let i=0;i<4;i++){ const y=cy+s*.22-i*s*.13; const dir=(i%2?1:-1);
+      c.beginPath(); c.moveTo(cx,y); c.quadraticCurveTo(cx+dir*s*.12,y-s*.04,cx+dir*s*.22,y-s*.10); c.stroke(); }
+    c.globalAlpha=.40*q; c.fillStyle='#6E9A62';
+    for(let i=0;i<5;i++){ const a=i*1.27; c.beginPath();
+      c.ellipse(cx+Math.cos(a)*s*.30,cy+Math.sin(a)*s*.30,Math.max(1,s*.012),Math.max(1,s*.012),0,0,6.284); c.fill(); }
+    c.restore();
+  }},
+  food:   {n:'食物', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.34*q; c.fillStyle='#FFFFFF';
+    const sp=[[-.16,-.20],[.12,-.26],[.20,-.02],[-.06,.02],[-.20,.12],[.06,.20],[.24,.14],[-.02,-.08]];
+    sp.forEach(p=>{c.beginPath();c.ellipse(cx+p[0]*s,cy+p[1]*s,Math.max(1,s*.016),Math.max(1,s*.012),0.3,0,6.284);c.fill();});
+    c.globalAlpha=.24*q; c.fillStyle='#FFFFFF';
+    c.beginPath(); c.ellipse(cx-s*.16,cy-s*.28,Math.max(1.4,s*.08),Math.max(1,s*.028),-0.4,0,6.284); c.fill();
+    c.globalAlpha=.26*q; c.strokeStyle='#8A5A1C'; c.lineWidth=Math.max(1.1,s*.012);
+    c.beginPath(); c.moveTo(cx-s*.40,cy+s*.04); c.quadraticCurveTo(cx,cy+s*.10,cx+s*.40,cy+s*.02); c.stroke();
+    c.restore();
+  }},
+  paper:  {n:'纸', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.32*q; c.strokeStyle='#FFFFFF'; c.lineWidth=Math.max(1,s*.010);
+    for(let i=0;i<4;i++){ const y=cy+s*.16+i*s*.06; c.beginPath(); c.moveTo(cx+s*.16,y); c.lineTo(cx+s*.34,y); c.stroke(); }
+    c.globalAlpha=.24*q; c.strokeStyle='#5A4A78'; c.lineWidth=Math.max(1.2,s*.012);
+    c.beginPath(); c.moveTo(cx-s*.34,cy-s*.04); c.lineTo(cx+s*.30,cy-s*.04); c.stroke(); c.restore();
+  }},
+  paint:  {n:'金属漆/塑料', f:(c,cx,cy,s,q,sh)=>{
+    c.save(); c.globalAlpha=.30*q; c.fillStyle='#FFFFFF';
+    c.beginPath(); c.ellipse(cx-s*.14,cy-s*.16,Math.max(1.4,s*.14),Math.max(1,s*.038),-0.42,0,6.284); c.fill();
+    c.globalAlpha=.20*q; c.strokeStyle='#0A1220'; c.lineWidth=Math.max(1.1,s*.011);
+    c.beginPath(); c.moveTo(cx-s*.26,cy+s*.16); c.quadraticCurveTo(cx,cy+s*.26,cx+s*.30,cy+s*.12); c.stroke();
+    c.restore();
+  }}
+};
+/* 36 件的材质归属（原型用；正式版写进 shapes.json 的 material 字段或分档配置） */
+const MATMAP = {
+  cup_tumbler:'metal', car_hatch:'paint', slipper:'fabric', banana:'food', wrench:'metal',
+  guitar:'wood', duck:'paint', cat:'fabric', octopus:'paint', rocket:'paint', burger:'food',
+  tv:'glass', toilet:'ceramic', hammer:'wood', can_cola:'metal', book:'paper', mug:'ceramic',
+  skateboard:'paint', camera:'metal', handheld:'paint', dessert:'food', crab:'paint',
+  mecha_doll:'paint', toaster:'metal', teapot:'ceramic', headphone:'paint', sneaker:'fabric',
+  icecream:'food', saxophone:'metal', lobster:'paint', cactus:'plant', dino:'paint',
+  windmill:'fabric', satellite:'metal', anchor:'metal', dragon:'paint'
+};
+
+/* ===================== 渲染 ===================== */
+const INK='#0A1220';
+function hex2rgb(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function mix(a,b,t){const A=hex2rgb(a),B=hex2rgb(b);return `rgb(${Math.round(A[0]+(B[0]-A[0])*t)},${Math.round(A[1]+(B[1]-A[1])*t)},${Math.round(A[2]+(B[2]-A[2])*t)})`;}
+function lighten(h,t){return mix(h,'#FFFFFF',t);} function darken(h,t){return mix(h,'#08111C',t);}
+
+function drawProp(c, sh, cx, cy, size, q){
+  const pts = sh.pts.map(p=>({x:cx+p.x*size, y:cy+p.y*size}));
+  const trace=()=>{ c.beginPath(); c.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length;i++) c.lineTo(pts[i].x,pts[i].y); c.closePath(); };
+
+  /* ① 墨外边（和原型一致：先画粗边，再被填充盖掉内半） */
+  c.lineJoin='round'; c.lineCap='round';
+  trace(); c.lineWidth=Math.max(2,size*0.016); c.strokeStyle=INK; c.stroke();
+  /* ② 主体平涂 */
+  trace(); c.fillStyle=sh.fill; c.fill();
+
+  /* ③ 质感层（全部 clip 在轮廓内） */
+  if(q>0.01){
+    c.save(); trace(); c.clip();
+    /* L1 体积：顶亮底暗 */
+    const g=c.createLinearGradient(cx,cy-size*0.5,cx,cy+size*0.5);
+    g.addColorStop(0,'rgba(255,255,255,'+(0.20*q)+')');
+    g.addColorStop(0.44,'rgba(255,255,255,0)');
+    g.addColorStop(1,'rgba(0,0,0,'+(0.26*q)+')');
+    c.fillStyle=g; c.fillRect(cx-size,cy-size,size*2,size*2);
+    /* L1 内阴影（右下） */
+    c.save(); c.translate(size*0.016,size*0.016);
+    c.lineWidth=Math.max(2,size*0.030); c.strokeStyle='rgba(10,18,32,'+(0.38*q)+')'; trace(); c.stroke(); c.restore();
+    /* L2 边缘光（左上） */
+    c.save(); c.translate(-size*0.013,-size*0.013);
+    c.lineWidth=Math.max(1.6,size*0.022); c.strokeStyle=lighten(sh.fill,0.45);
+    c.globalAlpha=0.85*q; trace(); c.stroke(); c.restore();
+    /* L3 材质纹理 */
+    const m=MAT[MATMAP[sh.id]];
+    if(m) m.f(c,cx,cy,size,q,sh);
+    c.restore();
+  }
+  /* ④ 主描边 */
+  trace(); c.lineWidth=Math.max(1.4,size*0.008); c.strokeStyle=sh.stroke; c.stroke();
+  /* ⑤ 装饰 details（和原型同序：压在最上层） */
+  (sh.details||[]).forEach(d=>{
+    c.save();
+    if(d.k==='circle'){ c.beginPath(); c.arc(cx+d.c.x*size,cy+d.c.y*size,(d.r||0.05)*size,0,6.284);
+      if(d.filled){ c.fillStyle=d.color||'#08111C'; c.fill(); }
+      else { c.lineWidth=Math.max(1,size*0.009); c.strokeStyle=d.color||'#08111C'; c.stroke(); } }
+    else { const p=(d.pts||[]).map(v=>({x:cx+v.x*size,y:cy+v.y*size}));
+      if(!p.length) { c.restore(); return; }
+      c.beginPath(); c.moveTo(p[0].x,p[0].y); for(let i=1;i<p.length;i++) c.lineTo(p[i].x,p[i].y);
+      if(d.k==='poly'){ c.closePath(); c.fillStyle=d.color||'#08111C'; c.fill(); }
+      else { c.lineWidth=Math.max(1,size*0.009); c.strokeStyle=d.color||'#08111C'; c.lineCap='round'; c.stroke(); } }
+    c.restore();
+  });
+}
+
+function paintPair(cv, sh, q, solo){
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  const card=cv.parentElement;
+  const w=Math.max(120, card.clientWidth-20);   /* 卡片内宽（扣 padding），不让 canvas 固有宽度把栅格撑开 */
+  const h=solo?Math.round(w*0.78):Math.round(w*0.44);
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  cv.style.height=h+'px';
+  const c=cv.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0);
+  c.clearRect(0,0,w,h);
+  const pad=12;
+  if(solo){
+    const size=Math.min(w-pad*2,h-pad*2);
+    drawProp(c,sh,w/2,h/2,size,q);
+  }else{
+    const size=Math.min((w-pad*3)/2,h-pad*2-10);
+    drawProp(c,sh,w*0.27,h/2-4,size,0);
+    drawProp(c,sh,w*0.73,h/2-4,size,q);
+    c.strokeStyle='#22314E'; c.lineWidth=1;
+    c.beginPath(); c.moveTo(w/2,8); c.lineTo(w/2,h-8); c.stroke();
+    c.font='600 10px ui-monospace,Consolas,monospace'; c.fillStyle='#8FA3C0';
+    c.textAlign='center';
+    c.fillText('现状', w*0.27, h-6); c.fillText('升级后', w*0.73, h-6);
+  }
+}
+
+function buildGrid(){
+  const host=document.getElementById('props'); host.innerHTML='';
+  SHAPES.forEach(sh=>{
+    const d=document.createElement('div'); d.className='prop';
+    d.innerHTML=`<canvas></canvas><div class="meta"><div><div class="nm">${sh.name}</div><div class="id">${sh.id}</div></div>
+      <div class="mt">${MAT[MATMAP[sh.id]]?MAT[MATMAP[sh.id]].n:'—'} · ${(sh.details||[]).length} 装饰</div></div>`;
+    host.appendChild(d);
+    d._sh=sh; d._cv=d.querySelector('canvas');
+  });
+  const zoom=document.getElementById('zoom'); zoom.innerHTML='';
+  ['guitar','can_cola','mug','cactus'].forEach(id=>{
+    const sh=SHAPES.find(s=>s.id===id); if(!sh) return;
+    const d=document.createElement('div'); d.className='prop';
+    d.innerHTML=`<canvas></canvas><div class="meta"><div><div class="nm">${sh.name}</div><div class="id">${id}</div></div>
+      <div class="mt">${MAT[MATMAP[id]].n}</div></div>`;
+    zoom.appendChild(d); d._sh=sh; d._cv=d.querySelector('canvas'); d._zoom=true;
+  });
+}
+let soloMode=false;
+function repaint(){
+  const q=document.getElementById('q').value/100;
+  document.querySelectorAll('#props .prop').forEach(d=>paintPair(d._cv,d._sh,q,soloMode));
+  document.querySelectorAll('#zoom .prop').forEach(d=>paintPair(d._cv,d._sh,q,false));
+}
+window.addEventListener('resize',()=>{clearTimeout(window.__rt);window.__rt=setTimeout(repaint,120);});
+if(window.ResizeObserver){
+  const ro=new ResizeObserver(()=>{requestAnimationFrame(repaint);});
+  ro.observe(document.getElementById('props')); ro.observe(document.getElementById('zoom'));
+}
+document.getElementById('q').addEventListener('input',repaint);
+document.getElementById('solo').addEventListener('change',e=>{soloMode=e.target.checked;repaint();});
+
+/* ===================== 新道具清单 ===================== */
+const CATS=[
+ {k:'animal',n:'动物类',d:'已有 鸭子 / 猫 / 章鱼 / 螃蟹 / 龙虾 / 恐龙 / 小飞龙 —— 这批补的是"日常能见到的小动物"。'},
+ {k:'daily', n:'日常用品',d:'已有 杯子 / 罐 / 书本 / 面包机 / 茶壶 / 相机 —— 这批补的是"家里和书包里能翻到的"。'},
+ {k:'build', n:'经典建筑',d:'已有 风车 —— 这批补的是"一眼认得出、剪影有识别度"的地标类。'},
+ {k:'plant', n:'植物',d:'已有 仙人掌 —— 这批补的是"有叶片/花瓣细节"的，用来验证 L3 材质层。'},
+ {k:'sport', n:'运动物品',d:'已有 滑板 —— 这批补的是"器材"，强凹形一批，是 k 的压力测试。'}
+];
+const NEW=[
+ /* 动物 */
+ ['penguin','企鹅','animal','均衡','0.030–0.036',1.35,0.62,26,'直立对称 + 双翅贴身 + 橙喙前伸 + 圆头顶','离心（喙+双翅）','冰蓝','paint','与 duck(扁嘴前伸) 区分：企鹅直立对称、嘴是尖锥','P2'],
+ ['bunny','兔子','animal','均衡','0.028–0.034',1.25,0.58,30,'两只长竖耳一高一低 + 圆头 + 短尾球','细长（耳）+ 离心','紫','fabric','与 cat 区分：兔耳长直、猫耳尖三角且有尾钩','P2'],
+ ['fox','狐狸','animal','挑战','0.020–0.026',1.85,0.52,28,'尖吻前伸 + 大三角耳 + 大蓬尾后翘','细长 + 离心（吻/尾）','橙红','paint','与 dino/dragon 区分：无背脊、无翼','P2'],
+ ['hedgehog','刺猬','animal','均衡','0.030–0.038',1.45,0.60,34,'球身 + 一圈长短不一的尖刺朝外放射','离轴凸起（刺）','琥珀','fabric','辨识度最高的一个：剪影自带锯齿边','P1'],
+ ['snail','蜗牛','animal','挑战','0.022–0.028',1.90,0.45,30,'螺旋壳 1.75 圈 + 前伸触角','凹形（螺旋）','品红','paint','与 octopus 区分：壳是硬旋不是触手','P2'],
+ ['whale','鲸鱼','animal','均衡','0.028–0.034',2.25,0.55,24,'大椭圆身 + 下摆尾鳍 + 背部喷水孔','细长 + 离心（尾）','冰蓝','paint','与 dino 区分：无腿、无背脊','P2'],
+ /* 日常 */
+ ['alarm_clock','闹钟','daily','入门','0.038–0.046',1.25,0.58,26,'圆盘表身 + 顶部双铃 + 两只短脚','凹形（铃与身之间）','中性银','metal','与 camera 区分：圆盘 + 双铃，不是方块 + 镜筒','P1'],
+ ['umbrella','雨伞','daily','均衡','0.028–0.034',1.55,0.50,26,'扇形伞面 + 中脊 + 弯钩伞柄','离心（弯钩） + 细长（柄）','品红','fabric','与 windmill 区分：伞面是扇形不是四叶','P1'],
+ ['key','钥匙','daily','挑战','0.020–0.026',2.90,0.45,22,'大圆头 + 细杆 + 右侧两个直角齿','细长 + 凹形（齿）','琥珀','metal','与 wrench/anchor 区分：齿是直角缺口不是圆口','P2'],
+ ['scissors','剪刀','daily','挑战','0.018–0.024',2.35,0.38,28,'两片交叉刃 + 中枢铆钉 + 双指环','凹形（X 交叉）极强','中性银','metal','凹形利器：k 预计会低到区间下沿，需实测','P1'],
+ ['stapler','订书机','daily','均衡','0.030–0.038',2.10,0.55,24,'前端斜切压嘴 + 后端铰链凸起','凹形（压嘴缝）','冰蓝','paint','与 toaster 区分：细长闭合形不是胖方块','P2'],
+ ['broom','扫把','daily','挑战','0.020–0.026',2.80,0.42,20,'细长柄 + 下端梯形毛束外张','细长 + 离心（毛束）','中性米','wood','毛束外张是唯一不对称点','P3'],
+ /* 建筑 */
+ ['eiffel_tower','埃菲尔铁塔','build','挑战','0.018–0.024',2.50,0.34,32,'四足外张 + 上细下粗 + 顶部尖塔','细长 + 极强凹形（腿间镂空）','中性米','metal','镂空只能做成"底边浅凹"，否则自交且 k 崩','P1'],
+ ['lighthouse','灯塔','build','均衡','0.028–0.036',1.95,0.50,24,'锥形塔身 + 外挑灯室 + 围栏平台','细长（锥） + 离心（灯室外挑）','橙红','paint','外挑灯室是唯一不对称点','P1'],
+ ['pagoda','宝塔','build','均衡','0.026–0.034',1.45,0.52,30,'三层屋檐外挑 + 顶部塔刹','离心（檐角）','品红','wood','与 windmill 区分：层叠对称、不旋转','P2'],
+ ['house','小屋','build','入门','0.038–0.046',1.30,0.62,24,'双坡屋顶 + 右侧烟囱 + 一扇门','离心（烟囱）','琥珀','wood','与 teapot 区分：屋顶是尖顶不是圆肚','P2'],
+ ['arch_gate','拱门','build','挑战','0.022–0.030',1.40,0.42,28,'两柱 + 顶部半圆拱 + 拱心石','强凹形（门洞）','中性瓷白','ceramic','凹形利器；门洞深度需实测 k','P3'],
+ ['castle_keep','城堡主楼','build','均衡','0.026–0.034',1.35,0.58,28,'方形塔身 + 顶部三垛口 + 侧翼','凹形（垛口）','冰蓝','paint','与 tv/toaster 区分：垛口只在上缘','P3'],
+ /* 植物 */
+ ['potted_plant','盆栽','plant','均衡','0.026–0.034',1.35,0.55,30,'梯形花盆 + 5 片外张叶 + 露出土面','离轴凸起（叶片）','冰蓝','plant','与 cactus 区分：叶片外张、仙人掌是竖柱','P1'],
+ ['tulip','郁金香','plant','入门','0.036–0.044',1.65,0.55,26,'三瓣杯形花冠 + 两叶抱茎','细长（茎）','品红','plant','L3 叶脉与花瓣分色的试验件','P1'],
+ ['sunflower','向日葵','plant','均衡','0.028–0.036',1.25,0.52,40,'圆花心 + 12 枚放射花瓣','离心（花瓣）','琥珀','plant','顶点 40，逼近 48 上限，花瓣数最多只能到 12','P2'],
+ ['mushroom','蘑菇','plant','均衡','0.030–0.038',1.25,0.55,24,'半圆伞盖 + 粗柄 + 盖面斑点','凹形（盖柄接缝）','橙红','food','与 icecream/dessert 区分：伞盖是平顶不是圆顶','P1'],
+ ['bonsai','盆景','plant','挑战','0.020–0.028',1.55,0.50,28,'S 形弯干 + 两团错位树冠 + 浅盆','凹形（弯干）强','中性米','wood','与 cactus 区分：有横向延展','P2'],
+ ['bamboo','竹子','plant','挑战','0.018–0.024',2.90,0.45,22,'三节细杆 + 节间凹口 + 顶部两叶','细长 + 凹形（节）','冰蓝','plant','节间凹口是 k 的主要来源','P3'],
+ /* 运动 */
+ ['tennis_racket','网球拍','sport','挑战','0.020–0.028',2.40,0.40,30,'椭圆拍框（中间空）+ 喉部 + 缠柄','强凹形（拍框空腔）','冰蓝','metal','空腔深度必须浅，否则 k 直接掉出区间','P1'],
+ ['shuttlecock','羽毛球','sport','均衡','0.028–0.036',1.60,0.48,26,'圆胶头 + 放射羽毛扇 + 裙边外张','离心（羽毛尖）','中性白','fabric','羽毛尖是唯一不对称来源','P2'],
+ ['trophy','奖杯','sport','入门','0.036–0.046',1.30,0.52,26,'宽口杯身 + 双耳 + 束腰 + 底座','凹形（双耳）','琥珀','metal','金属材质最佳试验件','P1'],
+ ['bicycle','自行车','sport','挑战','0.020–0.028',2.00,0.38,34,'两个等大轮 + 菱形车架 + 车把','极强凹形（轮间镂空）','品红','metal','凹形利器，k 预计低；需实测后才定档','P1'],
+ ['dumbbell','哑铃','sport','挑战','0.020–0.026',2.85,0.48,22,'两端大配重 + 细握把（左右不等高）','细长（对称形凹形弱，靠不对称细节救）','中性银','metal','纯对称形会太宽容，必须破对称','P3'],
+ ['baseball_glove','棒球手套','sport','均衡','0.028–0.036',1.50,0.55,28,'五指张开轮廓 + 拇指分叉 + 掌心缝线','离心（指尖）','中性米','fabric','指尖形状就是"离心质量"教材','P2']
+];
+const TIERCLS={'入门':'pill tier','均衡':'pill','挑战':'pill tier'};
+const PRI={'P1':'pill p1','P2':'pill p2','P3':'pill p3'};
+
+function renderList(cat){
+  const host=document.getElementById('plist'); host.innerHTML='';
+  NEW.filter(n=>n[2]===cat).forEach(n=>{
+    const [id,name,c,tier,k,ar,fill,verts,key,lever,col,mat,note,pri]=n;
+    const el=document.createElement('div'); el.className='pcard';
+    el.innerHTML=`
+      <div class="top"><b>${name}</b><span class="${TIERCLS[tier]}">${tier}档</span><span class="${PRI[pri]}">${pri}</span><span class="id">${id}</span></div>
+      <div class="desc">辨识点：<em>${key}</em></div>
+      <div class="bars">
+        <div class="bar"><span>目标 k</span><div class="t"><i class="${tier==='挑战'?'w':''}" style="width:${Math.min(100,(parseFloat(k)-0.018)/0.03*100)}%"></i></div><span class="v">${k}</span></div>
+        <div class="bar"><span>长宽比</span><div class="t"><i class="${ar>2.2?'w':''}" style="width:${Math.min(100,ar/3*100)}%"></i></div><span class="v">${ar.toFixed(2)}:1</span></div>
+        <div class="bar"><span>填充率</span><div class="t"><i class="${fill<0.45?'w':''}" style="width:${Math.min(100,fill/0.95*100)}%"></i></div><span class="v">${fill.toFixed(2)}</span></div>
+        <div class="bar"><span>顶点预算</span><div class="t"><i class="${verts>32?'w':''}" style="width:${Math.min(100,(verts-12)/36*100)}%"></i></div><span class="v">${verts}</span></div>
+      </div>
+      <div class="desc"><b>难度杠杆</b>：${lever}</div>
+      <div class="kv"><span class="pill">${col}</span><span class="pill">${MAT[mat].n}材质</span><span class="pill">${verts} 顶点</span></div>
+      <div class="desc" style="font-size:12px">${note}</div>`;
+    host.appendChild(el);
+  });
+}
+function buildTabs(){
+  const t=document.getElementById('tabs'); t.innerHTML='';
+  CATS.forEach((c,i)=>{
+    const b=document.createElement('button'); b.textContent=c.n; if(i===0) b.className='on';
+    b.onclick=()=>{ t.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); renderList(c.k);
+      document.getElementById('catdesc').textContent=c.d; };
+    t.appendChild(b);
+  });
+  const d=document.createElement('div'); d.id='catdesc'; d.className='note'; d.style.margin='0 0 12px';
+  d.textContent=CATS[0].d; t.after(d);
+}
+
+/* ===================== 启动 ===================== */
+buildTabs(); renderList('animal');
+buildGrid(); repaint();
+</script>
+</body>
+</html>

@@ -15,7 +15,7 @@
  *  4) 判定闭环：完美时机 pct≈100/角偏 0/位移 0；早/晚都掉分；双物体同帧都满；同 seed 逐帧一致
  *  5) 路径参数化：7 条模板的 uStar 处必须过 C（≤0.05px）
  *  5b) 热力图条带：overlapStrips / missStrips / heatBands（曾经恒空过，锁死）
- *  6) 性能：judge ≤0.5ms（48 顶点×2 物体）、每帧判定相关开销 ≤0.1ms（决策记录 D-014）
+ *  6) 性能：judge ≤0.5ms（80 顶点×2 物体）、每帧判定相关开销 ≤0.1ms（决策记录 D-014）
  *  S8) 季 1 回归：sine_amp=0 & inertia=0 的三窗口与 v0.3 基线逐位相同（基线见 tools/_win_baseline_v03.mjs）
  *  S9) 正弦/惯性：同 seed 逐帧一致、完美时机仍 pct≥99.9（惯性在 tStar 归零）、±400ms 单调且无双峰
  *  S9b) 相位对照：同一关 phase 0 vs 0.5，窗口宽度可不同，但都必须「完美时机唯一 + 无双峰 + 同 seed 一致」
@@ -1213,7 +1213,7 @@ if (!NO_PERF) {
     const rtReal = buildLevel(def, shapes, 0); // seed 固定 0：可复现
     // b) 48 顶点 × 2 物体 dual 压力用例（上限规格：12–48 顶点）
     const benchPts = [];
-    const VN = 48;
+    const VN = 80;   // D-119：顶点上限 48→80
     for (let i = 0; i < VN; i++) {
         const t = 0.37 + (i / VN) * Math.PI * 2;
         const r = 1 + 0.16 * Math.cos(3 * t + 0.2) + 0.08 * Math.cos(5 * t + 1.1);

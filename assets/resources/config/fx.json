@@ -1,52 +1,172 @@
 {
-  "schema": "dista.fx/1",
-  "note": "特效参数唯一来源（规格 20261018_v0.4 §4）。改这里不用重编译，build 只把它内联进产物；Layout.RATING_FX 降级为兜底。季主题色只作用于特效与文字（不改物体颜色、不改绿框色）。",
-  "rating": {
-    "god": {
-      "rings": 3, "motes": 24, "breath": true,
-      "glowMs": [140, 260], "bgWarmDeg": 8, "fxDurationScale": 2.5,
-      "ring": { "alpha": 0.55, "gapMs": 180, "durMs": 900, "w0": 3.5, "spread": 1.75 },
-      "moteStyle": { "durMs": 1200, "alpha": 0.5 },
-      "energy": 138
-    },
-    "perfect": {
-      "rings": 1, "motes": 12, "breath": false,
-      "glowMs": [140, 260],
-      "ring": { "alpha": 0.45, "gapMs": 0, "durMs": 700, "w0": 3.0, "spread": 1.55 },
-      "moteStyle": { "durMs": 900, "alpha": 0.4 },
-      "energy": 48
-    },
-    "good": {
-      "rings": 0, "motes": 0, "breath": true,
-      "glowMs": [120, 200],
-      "ring": { "alpha": 0.30, "gapMs": 0, "durMs": 600, "w0": 2.5, "spread": 1.35 },
-      "moteStyle": { "durMs": 600, "alpha": 0.3 },
-      "energy": 18
-    },
-    "ok": {
-      "rings": 1, "motes": 0, "breath": false,
-      "glowMs": [120, 200], "ringAlpha": 0.12,
-      "ring": { "alpha": 0.12, "gapMs": 0, "durMs": 620, "w0": 2.0, "spread": 1.3 },
-      "moteStyle": { "durMs": 500, "alpha": 0.2 },
-      "energy": 10
-    },
-    "fail": {
-      "rings": 0, "motes": 0, "breath": false,
-      "glowMs": [0, 0], "objectAlpha": 0.35, "shake": false,
-      "ring": { "alpha": 0, "gapMs": 0, "durMs": 1, "w0": 0, "spread": 1 },
-      "moteStyle": { "durMs": 1, "alpha": 0 },
-      "energy": 0
-    }
+ "schema": "dista.fx/1",
+ "note": "特效参数唯一来源（规格 20261018_v0.4 §4）。改这里不用重编译，build 只把它内联进产物；Layout.RATING_FX 降级为兜底。季主题色只作用于特效与文字（不改物体颜色、不改绿框色）。",
+ "rating": {
+  "god": {
+   "rings": 3,
+   "motes": 24,
+   "breath": true,
+   "glowMs": [
+    140,
+    260
+   ],
+   "bgWarmDeg": 8,
+   "fxDurationScale": 2.5,
+   "ring": {
+    "alpha": 0.55,
+    "gapMs": 180,
+    "durMs": 900,
+    "w0": 3.5,
+    "spread": 1.75
+   },
+   "moteStyle": {
+    "durMs": 1200,
+    "alpha": 0.5
+   },
+   "energy": 138
   },
-  "seasonTint": [
-    { "season": 1, "accent": "#2BFFB0", "ring2": "#8FE9B0", "ring3": "#FFD24D", "label": "第一季 · 初见" },
-    { "season": 2, "accent": "#7FE8C4", "ring2": "#B9F0D8", "ring3": "#FFC44D", "label": "第二季 · 起风" },
-    { "season": 3, "accent": "#9FD8FF", "ring2": "#C6E8FF", "ring3": "#FFB86B", "label": "第三季 · 失重" },
-    { "season": 4, "accent": "#FFD24D", "ring2": "#FFE9A8", "ring3": "#FF8FA3", "label": "第四季 · 定格" }
-  ],
-  "levelIntro": { "titleMs": 400, "ease": "easeOutCubic", "yShift": 10, "alpha": [0.25, 1] },
-  "seasonIntro": { "labelMs": 600, "holdMs": 900, "ease": "easeOutCubic" },
-  "seasonEnd": { "breathSpeed": 1.5 },
-  "breath": { "alphaMin": 0.35, "alphaMax": 0.55, "periodMs": 4000 },
-  "relaxStageHint": { "everyN": 15, "fadeMs": 2000 }
+  "perfect": {
+   "rings": 1,
+   "motes": 12,
+   "breath": false,
+   "glowMs": [
+    140,
+    260
+   ],
+   "ring": {
+    "alpha": 0.45,
+    "gapMs": 0,
+    "durMs": 700,
+    "w0": 3.0,
+    "spread": 1.55
+   },
+   "moteStyle": {
+    "durMs": 900,
+    "alpha": 0.4
+   },
+   "energy": 48
+  },
+  "good": {
+   "rings": 0,
+   "motes": 0,
+   "breath": true,
+   "glowMs": [
+    120,
+    200
+   ],
+   "ring": {
+    "alpha": 0.3,
+    "gapMs": 0,
+    "durMs": 600,
+    "w0": 2.5,
+    "spread": 1.35
+   },
+   "moteStyle": {
+    "durMs": 600,
+    "alpha": 0.3
+   },
+   "energy": 18
+  },
+  "ok": {
+   "rings": 1,
+   "motes": 0,
+   "breath": false,
+   "glowMs": [
+    120,
+    200
+   ],
+   "ringAlpha": 0.12,
+   "ring": {
+    "alpha": 0.12,
+    "gapMs": 0,
+    "durMs": 620,
+    "w0": 2.0,
+    "spread": 1.3
+   },
+   "moteStyle": {
+    "durMs": 500,
+    "alpha": 0.2
+   },
+   "energy": 10
+  },
+  "fail": {
+   "rings": 0,
+   "motes": 0,
+   "breath": false,
+   "glowMs": [
+    0,
+    0
+   ],
+   "objectAlpha": 0.35,
+   "shake": false,
+   "ring": {
+    "alpha": 0,
+    "gapMs": 0,
+    "durMs": 1,
+    "w0": 0,
+    "spread": 1
+   },
+   "moteStyle": {
+    "durMs": 1,
+    "alpha": 0
+   },
+   "energy": 0
+  }
+ },
+ "seasonTint": [
+  {
+   "season": 1,
+   "accent": "#2BFFB0",
+   "ring2": "#8FE9B0",
+   "ring3": "#FFD24D",
+   "label": "第一季 · 初见"
+  },
+  {
+   "season": 2,
+   "accent": "#7FE8C4",
+   "ring2": "#B9F0D8",
+   "ring3": "#FFC44D",
+   "label": "第二季 · 起风"
+  },
+  {
+   "season": 3,
+   "accent": "#9FD8FF",
+   "ring2": "#C6E8FF",
+   "ring3": "#FFB86B",
+   "label": "第三季 · 失重"
+  },
+  {
+   "season": 4,
+   "accent": "#FFD24D",
+   "ring2": "#FFE9A8",
+   "ring3": "#FF8FA3",
+   "label": "第四季 · 定格"
+  }
+ ],
+ "levelIntro": {
+  "titleMs": 400,
+  "ease": "easeOutCubic",
+  "yShift": 10,
+  "alpha": [
+   0.25,
+   1
+  ]
+ },
+ "seasonIntro": {
+  "labelMs": 420,
+  "holdMs": 520,
+  "ease": "easeOutCubic"
+ },
+ "seasonEnd": {
+  "breathSpeed": 1.5
+ },
+ "breath": {
+  "alphaMin": 0.35,
+  "alphaMax": 0.55,
+  "periodMs": 4000
+ },
+ "relaxStageHint": {
+  "everyN": 15,
+  "fadeMs": 2000
+ }
 }

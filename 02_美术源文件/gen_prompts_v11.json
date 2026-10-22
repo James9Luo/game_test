@@ -1,0 +1,188 @@
+{
+  "meta": {
+    "version": "v1.1",
+    "purpose": "《定格瞬间》道具 look-dev 生成（A 方案：生成 → 我方描成多边形）",
+    "basedOn": "dista_1/03_交付素材/prop_samples_v10/_gen/gen_batch.json（已验证可用）+ 20261021_v1.0 规格 §3.2 色板",
+    "rules": "1:1 画布 / 纯白底 / 单物体居中 / 3–4 档同族平涂 / 无渐变 / 逐色 L≤78% / 描边≈长边 1.5–2%",
+    "outputNaming": "<序号>_<道具id>_v11.png"
+  },
+  "commonPrefix": "Flat vector game prop icon, ONE single centered object, generous margin, front or three-quarter view, slightly stylized (not photoreal). Style rules that MUST be followed exactly: flat color fills only - absolutely NO gradients, NO soft airbrush shading, NO texture, NO gloss, NO specular highlight, NO reflection, NO drop shadow, NO ground plane, NO glow, NO 3D bevel. The object is built from exactly 3 to 4 flat tone steps of ONE color family: a lighter flat shape on the upper-left, the base tone in the middle, a darker flat shape on the lower-right and bottom, single light source from the top-left. Thin darker structural lines in the same hue family separate the parts; inner lines are visibly thinner than the outer outline. ONE dark outline of uniform thickness (about 1.5 to 2 percent of the object long side) in the same hue family wraps the entire silhouette. Muted slightly desaturated palette; EVERY color must stay below 78 percent brightness - no white, no near-white, no neon, no pure black. Background: flat pure white #FFFFFF, completely empty, no checkerboard pattern, no transparency grid, no vignette. The silhouette must be ONE closed shape with no detached pieces, no floating parts, and no razor-thin protrusions (the thinnest part must be at least 6 percent of the object width). No text, no watermark, no logo, no frame, no border, no perspective ground.",
+  "commonSuffix": "Composition: square 1:1 canvas, object centered horizontally, occupying 78 to 86 percent of the canvas height, generous margin. Crisp clean vector edges. Modern minimal game-art readability: the shape must be recognizable as a solid black silhouette at 96 pixels.",
+  "requests": [
+    {
+      "output_file": "01_cup_tumbler_v11.png",
+      "subject": "a stainless steel insulated tumbler / travel mug, upright, slight three-quarter view",
+      "structures": [
+        "a WIDE screw lid, clearly wider than the body, drawn in three tone steps (lid top lighter, lid body mid, lid rim darker)",
+        "one small round press-button nub on the RIGHT side of the lid",
+        "the body tapers slightly toward a flat bottom",
+        "one vertical seam line down the front of the body",
+        "a darker bottom band at the base",
+        "a horizontal seam separating lid and body"
+      ],
+      "palette": ["base ice blue #9BBBD9", "lighter band #AAC9E1", "darker shade #6E8FAE", "outline #51657A"],
+      "targetAspect": "1.9 : 1 (height : width)",
+      "note": "盖子必须比杯身宽，这是「保温杯」和「管子」的唯一区别"
+    },
+    {
+      "output_file": "02_car_hatch_v11.png",
+      "subject": "a small hatchback car in strict side profile, both wheels visible, body raised slightly above the wheels",
+      "structures": [
+        "a side window split by a vertical B-pillar into front and rear glass",
+        "a horizontal waistline running along the doors",
+        "one door seam at the rear door and one at the front door",
+        "two wheels with darker tire rings, lighter hub centers and visible wheel arches",
+        "a headlight block at the front and a taillight block at the rear",
+        "a short line under the car between the wheels showing ground clearance"
+      ],
+      "palette": ["base sky blue #79A5CD", "lighter band #93B9DA", "darker shade #557A9C", "outline #415B74"],
+      "targetAspect": "2.1 : 1 (width : height)",
+      "note": "不要画成 SUV，也不要画成立体透视图；要纯侧视"
+    },
+    {
+      "output_file": "03_duck_v11.png",
+      "subject": "a rubber bath duck, three-quarter side view, sitting",
+      "structures": [
+        "a rounded head with a lighter tone on the upper-left of the head and back",
+        "a bright orange beak in its own flat tone with a thin separating line",
+        "TWO overlapping wing feather layers on the body, each with its own flat tone and a curved separating line",
+        "three or four short radiating feather lines on the wing",
+        "a short pointed tail at the back, upturned",
+        "one small dark eye dot"
+      ],
+      "palette": ["base amber #D8A54C", "lighter band #E4BA6E", "darker shade #A87A2E", "outline #6C5B3A", "beak uses 橙红 family: base #DC5348 lighter #E8766C darker #A83A33"],
+      "targetAspect": "1.25 : 1 (width : height)",
+      "note": "要「洗澡鸭」的圆身，不要飞鸟的瘦长形"
+    },
+    {
+      "output_file": "04_cat_v11.png",
+      "subject": "a sitting cat seen from the front, tail curled up beside its body",
+      "structures": [
+        "two triangular ears with an inner-ear shape in a second tone",
+        "two almond eyes with small dark pupils, a small nose and a short mouth line",
+        "four whisker lines on each side of the muzzle",
+        "an up-curled tail on ONE side drawn as a separate shape with its own tone (C-shaped, thick)",
+        "short stripe lines on the forehead and on the back",
+        "two front legs with a visible seam between them and two front paws"
+      ],
+      "palette": ["base purple #B79CF5", "lighter band #C9B4F8", "darker shade #8A6FC4", "outline #5D5786", "eyes/nose use 中性·瓷 #B6C2D1 with the same outline tone"],
+      "targetAspect": "1.15 : 1 (width : height)",
+      "note": "尾巴必须是**粗的一条 C 形卷尾**，不能是贴身的色块；腿要能看出两条"
+    },
+    {
+      "output_file": "05_can_cola_v11.png",
+      "subject": "a short soda can (cola style), upright, front view",
+      "structures": [
+        "a silver top with a visible rim ellipse and a pull-tab hole",
+        "a silver bottom with a rolled rim",
+        "one wide cream label band across the middle",
+        "a thin darker red stripe just under the label",
+        "one narrow vertical highlight band on the left side",
+        "a horizontal seam above and below the label"
+      ],
+      "palette": ["can body coral #D2483E, lighter #E8766C, darker #A83A33, outline #6E3639", "top/bottom silver #AFBECD, lighter #C4D0DD, darker #8A99A8", "label cream #C6B183, lighter #D8C89F"],
+      "targetAspect": "1.55 : 1 (height : width)",
+      "note": "要短粗的罐形；不要细长的「易拉罐笔」"
+    },
+    {
+      "output_file": "06_tv_v11.png",
+      "subject": "a chunky retro CRT television, front view",
+      "structures": [
+        "a big screen on the left two thirds, with a visibly darker bezel frame around it",
+        "a darker inner screen area with one flat lighter reflection band across the top",
+        "a right control panel with a vertical vent grille of four slits",
+        "two round knobs on the right panel",
+        "two short feet at the bottom, unequal width",
+        "a thin horizontal line separating the body from the feet"
+      ],
+      "palette": ["base cream #C6B183", "lighter band #D8C89F", "darker shade #A08C60", "outline #665739"],
+      "targetAspect": "1.5 : 1 (width : height)",
+      "note": "厚机身；不要画成条形音箱，也不要画显示器"
+    },
+    {
+      "output_file": "07_slipper_v11.png",
+      "subject": "a single flip-flop sandal seen from directly above, toe pointing up",
+      "structures": [
+        "an oval footbed in a lighter flat tone with a darker heel pad shape",
+        "a V-shaped thong strap across the toe area in a mid tone with a darker edge line along each side",
+        "a small round toe-post button joining the two strap ends",
+        "a distinct rim line running all the way around the sole",
+        "a short horizontal seam across the heel area"
+      ],
+      "palette": ["base 品红 #DE7C9C", "lighter band #E99BB4", "darker shade #B05874", "outline #6F485E"],
+      "targetAspect": "2.6 : 1 (height : width)",
+      "note": "必须是俯视人字拖；侧视鞋子会在判定上不成立"
+    },
+    {
+      "output_file": "08_guitar_v11.png",
+      "subject": "an acoustic guitar seen from the front, standing upright, body at the bottom, neck pointing up",
+      "structures": [
+        "a round sound hole in the centre with a concentric lighter ring around it",
+        "a dark bridge bar below the sound hole",
+        "a long neck with a darker fingerboard strip down its middle",
+        "three short horizontal fret lines across the neck",
+        "four small tuning peg blocks along the headstock",
+        "four straight thin string lines running from the headstock down over the bridge"
+      ],
+      "palette": ["body amber #D8A54C, lighter #E4BA6E, darker #A87A2E, outline #6C5B3A", "neck/headstock 中性·米 #C6B183 / #D8C89F / #A08C60 / #665739"],
+      "targetAspect": "2.5 : 1 (height : width)",
+      "note": "琴身要有腰（两个鼓包），不能是直筒"
+    },
+    {
+      "output_file": "09_wrench_v11.png",
+      "subject": "a combination wrench placed horizontally, open jaw at the LEFT end",
+      "structures": [
+        "an open C-shaped jaw at the left with a V notch cut into it",
+        "a closed ring end at the right with a visible round hole",
+        "a thinner straight shaft between the two ends",
+        "one straight centre line running the full length of the shaft",
+        "two short cross lines across the shaft near the middle"
+      ],
+      "palette": ["base 中性·银 #AFBECD", "lighter #C4D0DD", "darker #8A99A8", "outline #5A6674"],
+      "targetAspect": "3.0 : 1 (width : height)",
+      "note": "两端必须比柄粗；否则剪影读成「骨头」"
+    },
+    {
+      "output_file": "10_rocket_v11.png",
+      "subject": "a cartoon rocket standing upright, pointing up",
+      "structures": [
+        "a pointed nose cone in a second colour family",
+        "a round porthole window with a ring around it",
+        "a dark flared nozzle at the bottom with an inner dark shape",
+        "two swept fins on the lower sides, one left one right",
+        "two horizontal ring seams around the body"
+      ],
+      "palette": ["body 橙红 #DC5348 / #E8766C / #A83A33 / #6E3639", "nose cone 中性·米 #C6B183 / #D8C89F / #A08C60 / #665739", "window 天蓝 #79A5CD / #93B9DA / #557A9C / #415B74"],
+      "targetAspect": "2.3 : 1 (height : width)",
+      "note": "尾翼要外张，别贴住机身；这是它 k 值的关键"
+    },
+    {
+      "output_file": "11_toilet_v11.png",
+      "subject": "a toilet seen from the side, three-quarter view",
+      "structures": [
+        "a rectangular water tank at the back with a separate lid block and a small round flush button",
+        "a horizontal seam line between tank and bowl",
+        "an oval seat ring drawn as a flat oval ring",
+        "the bowl opening as a darker flat oval inside the ring",
+        "a rounded pedestal base"
+      ],
+      "palette": ["body 中性·瓷 #B6C2D1 / #CBD5E1 / #94A1B2 / #5E6A78", "tank lid 冰蓝 #9BBBD9 / #AAC9E1 / #6E8FAE / #51657A"],
+      "targetAspect": "1.6 : 1 (width : height)",
+      "note": "水箱要矮一点、碗要大一点；不要画成 L 形椅子"
+    },
+    {
+      "output_file": "12_burger_v11.png",
+      "subject": "a hamburger seen from the side with a big bite taken out of the RIGHT side",
+      "structures": [
+        "a domed top bun with 6 to 7 sesame seeds in a lighter tone",
+        "one wavy lettuce layer with a frilled edge",
+        "a dark meat patty layer",
+        "a bottom bun layer, narrower than the top bun",
+        "the bite: a clean concave arc cut into the right side, going through all layers"
+      ],
+      "palette": ["bun amber #D8A54C / #E4BA6E / #A87A2E / #6C5B3A", "lettuce olive #9FAF62, darker #7F8C4C", "patty brown #8E5A3A, darker #6A4029"],
+      "targetAspect": "1.45 : 1 (width : height)",
+      "note": "咬口是必须的：它同时是「汉堡」的语义和 k 值的来源"
+    }
+  ]
+}
